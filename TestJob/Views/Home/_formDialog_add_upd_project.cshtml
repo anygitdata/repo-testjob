@@ -1,0 +1,108 @@
+﻿@model InsProjectView
+
+
+<div class="container" id="formDialog" role="dialog" style="display: none;"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create project</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+
+                    <div class="dataError text-danger"></div>
+
+                    <form asp-action="InsProject" asp-controller="Home" method="post">
+
+                        <div>
+                            <input type="hidden" asp-for="projectId" id="projectId" />
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="form-group row">
+                                <label asp-for="projectName"
+                                       class="col-sm-3 col-form-label">ProjectName</label>
+                                <div class="col-sm-6">
+                                    <input type="text"
+                                           asp-for="projectName" class="form-control" />
+                                </div>
+
+                                <div class="w-100 mt-1"></div>
+                                <div class="col-12" style="background-color:#cdf6f1">
+                                    <div class="form-group row mt-3">
+
+                                        <label asp-for="createDate"
+                                               class="col-sm-3 col-form-label">
+                                            CreateDate
+                                        </label>
+                                        <div class="col-sm-5">
+                                            <input type="text"
+                                                   asp-for="createDate" class="form-control"
+                                                   readonly />
+                                        </div>
+
+
+                                        <div class="w-100 mt-1"></div>
+                                        <label asp-for="createTime"
+                                               class="col-sm-3 col-form-label">
+                                            CreateTime
+                                        </label>
+                                        <div class="col-sm-5">
+                                            <input type="text"
+                                                   asp-for="createTime"
+                                                   class="form-control px-0"
+                                                   readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="w-100 my-2"></div>
+                                <div class="col-12" style="background-color:#f6f0cd">
+
+                                    <div class="form-group row mt-3">
+                                        <label asp-for="updateDate"
+                                               class="col-sm-3 col-form-label">
+                                            UpdateDate
+                                        </label>
+                                        <div class="col-sm-5">
+                                            <input type="text" asp-for="updateDate"
+                                                   class="form-control"
+                                                   readonly />
+                                        </div>
+
+                                        <div class="w-100 mt-1"></div>
+                                        <label asp-for="updateTime"
+                                               class="col-sm-3 col-form-label">
+                                            UpdateTime
+                                        </label>
+                                        <div class="col-sm-5">
+                                            <input type="text" asp-for="updateTime"
+                                                   class="form-control px-0"
+                                                   readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="w-100 mt-1 bg-dark" style="height:2px"></div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer pt-0">
+                <button type="button" id="closeFormDialog"
+                        class="btn btn-secondary">
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary" id="btn-save-changes">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,99 @@
+﻿@model TaskComment_ModelView
+
+@{
+    var anyData = ViewBag.anyData as AnyData_Comment;
+}
+
+
+<div>
+    <input type="hidden" asp-for="IdComment" />
+    <input type="hidden" asp-for="TaskId" />
+    <input type="hidden" asp-for="TypeOperations" />
+    <input type="hidden" asp-for="Debug" />
+    <input type="hidden" asp-for="@anyData.maxSizeFile" />    
+</div>
+
+<button id="btn-dlg-open" type="button" class="btn btn-primary"
+        data-toggle="modal"
+        data-target="#exampleModal">
+    CreateComment
+</button>
+`
+
+@if (Model.Debug)
+{
+    <div class="btn-group dropright">
+        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Test command selector
+        </button>
+        <div class="dropdown-menu">
+            <button id="btn-drm-getdata" class="dropdown-item">GetData</button>
+            <button id="btn-drm-verfdata" class="dropdown-item">VerfData</button>
+            <button id="btn-drm-save" class="dropdown-item">saveData</button>
+            <button id="btn-drm-base-param" class="dropdown-item">BaseParam</button>
+            <button id="btn-drm-postFile-empty" class="dropdown-item">postFileEmpty</button>
+        </div>
+    </div>
+}
+
+<div class="modal fade" id="exampleModal"
+     tabindex="-1"
+     role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Comment Editor </h5>
+                <button type="button"
+                        class="close btn-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="message-err text-danger" ></div>
+
+                <form class="mt-2">
+
+                    <div class="form-group form-check">
+                        <input class="form-check-input"
+                               asp-for="ContentType" />
+                        <label class="form-check-label lb-cont-type"
+                               asp-for="ContentType">For DBase</label>
+                    </div>
+                    <div class="div-postedFile">
+                        <input asp-for="postedFile" />
+                    </div>
+
+
+                    <div class="form-group div-testarea">
+                        <label for="exampleFormControlTextarea1">Comment</label>
+                        <textarea class="form-control" asp-for="Content" rows="3"></textarea>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button id="btn-dlg-close" type="button"
+                        class="btn btn-secondary btn-close" data-dismiss="modal">
+                    Close
+                </button>
+                <button id="btn-dlg-save" type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+
+
+
+</div>
+
+
+@section Scripts {
+    <script src="~/js/create.taskcomment.js"></script>
+    <script src="~/js/create.taskcomment.test.js"></script>
+}

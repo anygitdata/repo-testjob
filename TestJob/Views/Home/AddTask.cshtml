@@ -1,0 +1,43 @@
+﻿@model ViewModel_TaskAdd
+
+
+@{
+    ViewBag.ParamsLink = new ParamsLink { Disabled = "disabled" };
+}
+
+
+<div class="container">
+    <h2Electronic form of a new task</h2>
+
+        <form class="my-3" method="post">
+
+            <div class="form-group" style="max-width:15rem;">
+                <label asp-for="addTask.CreateDate">CreateDate</label>
+                <input placeholder="Select date" type="text" asp-for="addTask.CreateDate" class="form-control" readonly="@Model.ReadOnly" />
+            </div>
+
+            <div class="form-group" style="max-width:15rem;">
+                <label asp-for="addTask.ProjectName">ProjectName</label>
+                <input class="form-control" asp-for="addTask.ProjectName" readonly="@Model.ReadOnly" />
+                <i class="fas fa-calendar input-prefix"></i>
+            </div>
+
+            <div class="form-group" style="max-width:15rem;">
+                <label asp-for="addTask.Ticket">Ticket</label>
+                <input class="form-control" asp-for="addTask.Ticket" readonly="@Model.ReadOnly" />
+            </div>
+
+            <div class="form-group" style="max-width:15rem;">
+                <label asp-for="addTask.Description">Description</label>
+                <input class="form-control" asp-for="addTask.Description" readonly="@Model.ReadOnly" />
+            </div>
+
+
+
+            <button class="btn btn-@Model.theme @Model.bg" type="submit">Save data</button>
+
+        </form>
+
+</div>
+
+

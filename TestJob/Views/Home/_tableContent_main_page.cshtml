@@ -1,0 +1,52 @@
+﻿
+@{ 
+    int index = 1;
+    var content_TableModel = ViewBag.Content_TableModel as Content_TableTask;
+}
+
+
+<h2 class="u-h2Smaller">Attendance table </h2>
+
+<table class="table mb-3 table-sm">
+
+    <thead class="thead-dark">
+        <tr>
+            <th class="text-center" style="width:5%" scope="col">#</th>
+            <th style="width:7%" scope="col">Times</th>
+            <th scope="col">Ticket</th>
+            <th style="width:20%;" scope="col">Description</th>
+            <th style="width:7%" scope="col">start</th>
+            <th style="width:7%" scope="col">End</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (content_TableModel.LsTaskCont.Count() > 0)
+        {
+            @foreach (ModelTask d in content_TableModel.LsTaskCont)
+            {
+                <tr>
+                    <th class="text-center">@(index++)</th>
+                    <td>@d.Times</td>
+                    <td class="@d.lineThrough">
+                        @d.Ticket
+                    </td>
+                    <td>
+                        <a asp-action="Description"
+                           asp-route-id="@d.id">@d.Description</a>
+                    </td>
+                    <td>@d.Start</td>
+                    <td>@d.End</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <th colspan="6" class="text-center">
+                    There is no data
+                </th>
+            </tr>
+        }
+
+    </tbody>
+</table>

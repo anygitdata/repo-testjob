@@ -1,0 +1,32 @@
+
+.ul-default, .ul-default-fontPT, .ul-circle-fontPT, .ul-check-fontPT{
+    padding:0;
+    list-style: none;
+    line-height: 1.3;
+}
+
+.ul-default-fontPT, .ul-circle-fontPT, .ul-check-fontPT{
+    font-family: 'PT Sans Narrow', sans-serif;
+}
+
+.ul-circle-fontPT, .ul-check-fontPT{
+    padding-right:5px;
+}
+
+.ul-circle-fontPT li:before, .ul-check-fontPT li:before{
+    padding-right:5px;
+    font-weight: bold;
+    color: #666;
+    content: "\2022";
+    transition-duration: 0.5s;
+}
+
+.ul-check-fontPT li:before{content: "\2714"; }
+
+// отступ для списокв, использующих img вместо стандартных check
+.spn_img {margin-right: 0.4em;}
+
+/* убрать маркеры */
+ul.ul_compl_data li {
+    list-style-type: none; /* Убираем маркеры */
+   }

@@ -1,0 +1,3 @@
+// Команда запуска скрипта компиляции
+
+sass --watch TestJob/wwwroot/SASS/root_css.scss:TestJob/wwwroot/css/site.css

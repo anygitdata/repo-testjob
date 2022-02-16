@@ -1,0 +1,136 @@
+
+// ----------------_root_base_var.scss
+// Коэффициенты пропорций шрифтов
+// $ms0: 1;
+// $ms1: $ratio;        // 1.2
+// $ms2: $ratio * $ms1; // 1.44
+// $ms3: $ratio * $ms2; // 1.728
+// $ms4: $ratio * $ms3; // 2.074
+// $ms5: $ratio * $ms4; // 2.488
+// $ms6: $ratio * $ms5; // 2.986
+// $ms7: $ratio * $ms6; // 3.583
+
+
+//*********** Миксины ***********
+
+// $base-em: $base * 1em;
+@mixin  mx_font_sizeSmaller ($val) {
+    font-size: $base-em  * $val / $ms1;
+}
+
+@mixin  mx_font_sizeBigger ($val) {
+    font-size: $base-em  * $val * $ms1;
+}
+
+@mixin  mx_font_sizeEM($val) {
+    font-size: $base-em *  $val
+}
+
+// $base-px: $base * 16px;
+@mixin  mx_font_sizePX($val) {
+    font-size: $base-px * $val
+}
+
+// ************* Конец блока миксимов **************
+
+h1{ @include mx_font_sizeEM($ms4); // font-size: $base-em  * $ms4;
+}
+
+h2{ @include mx_font_sizeEM($ms3);}
+
+h3{ @include mx_font_sizeEM($ms2);}
+
+h4{ @include mx_font_sizeEM($ms1);}
+
+h5, h6{ @include mx_font_sizeEM($ms0);}
+
+
+h3, h2 {line-height: $base  * $ms1;}
+h1 {line-height: $base  * $ms0;}
+
+//--------------- Конец блока основных параметров
+
+// Размер шрифта в абзацах устанавливается
+// для устройств менее 800px
+// расчетом font-size: calc(1vw + 0.6em); в файле _root_base_var.scss
+// а ВСЕ остальные фиксированное значение font-size: 1.125em; см. стр.30
+
+@media (min-width: 768px){
+
+    h3 { @include mx_font_sizeEM($ms3);}
+    h2 { @include mx_font_sizeEM($ms4);}
+    h1 { @include mx_font_sizeEM($ms5);}
+}
+
+@media (min-width: 992px){
+
+    h2 { @include mx_font_sizeEM($ms5);}
+    h1 { @include mx_font_sizeEM($ms6);}
+}
+
+@media (min-width: 1200px){
+    h1 { @include mx_font_sizeEM($ms7);}
+}
+
+
+// Уменьшенные размеры заголовочных шрифтов
+.u-h1Smaller{ @include mx_font_sizeSmaller($ms4)}
+.u-h2Smaller{ @include mx_font_sizeSmaller($ms3)}
+.u-h3Smaller{ @include mx_font_sizeSmaller($ms2)}
+.u-h4Smaller{ @include mx_font_sizeSmaller($ms1)}
+.u-h5Smaller{ @include mx_font_sizeSmaller($ms0)}
+.u-h6Smaller{ @include mx_font_sizeSmaller($ms0)}
+
+
+// Размер шрифта для абзаца
+.u-textSmaller{font-size: 80%; }
+.u-textBigger{font-size: 120%;}
+.u-textExtBigger{font-size: 130%; }
+// Размер перекрывается в _root_base_var.scss через @media
+// .u-textSmaller{font-size: ($base-em / $ms1); }
+// .u-textBigger{@include mx_font_sizeEM($ms1); }
+// .u-textExtBigger{@include mx_font_sizeEM($ms2); }
+
+
+/* Локальные шрифты */
+@font-face {
+    font-family: 'PT Sans Narrow'; /* Гарнитура шрифта */
+    src: url("PT_Sans_Narrow/PTSansNarrow-Regular.ttf");  /* 400 */
+   }
+
+@font-face {
+font-family: 'PT Sans Narrow Bold';
+src: url("PT_Sans_Narrow/PTSansNarrow-Bold.ttf");
+}
+
+/* Подключение шрифта Roboto Condensed */
+/* font-family: 'Roboto Condensed', sans-serif; */
+@font-face {
+font-family: 'Roboto Condensed Light';
+src: url(Roboto_Condensed/RobotoCondensed-Light.ttf);
+}
+
+@font-face {
+font-family: 'Roboto Condensed Regular';
+src: url(Roboto_Condensed/RobotoCondensed-Regular.ttf);
+}
+
+@font-face {
+font-family: 'Roboto Condensed Bold';
+src: url(Roboto_Condensed/RobotoCondensed-Bold.ttf); /*700 */
+}
+
+/* Специальные заголовки в карочках */
+.heading_text {
+    font-family: 'PT Sans Narrow Bold', sans-serif;
+    margin-bottom: 0;
+}
+
+/* Текст параграфа в карточках */
+.paragraph_text {
+    font-family: 'PT Sans Narrow', sans-serif;
+}
+
+.text-dark {
+    color: #919da8 !important;
+}

@@ -1,0 +1,157 @@
+﻿@model TaskCommentView
+@{ 
+    ViewBag.ParamsLink = new ParamsLink { Disabled = "disabled" };
+}
+
+<style>
+
+    .container {
+        width: 50rem;
+    }
+
+    textarea {
+        /*overflow: scroll;*/
+        
+        width: 100%;
+        padding: 10px;
+        border: none;
+        height: 100%;
+        margin: -10px;
+    }
+</style>
+
+
+@*<h1 class="u-h1Smaller">Project: @Model.projectName</h1>
+
+<h2 class="u-h2Smaller">Task: @Model.taskName</h2>
+
+<div>
+    <input type="hidden" asp-for="IdComment" />
+    <input type="hidden" asp-for="taskId" />
+</div>*@
+
+@*<div class="content-for-user mt-3">
+    <h3 class="u-h3Smaller">Task comments </h3>
+
+    <b>DateCreate:</b> @Model.Date @Model.Time
+
+    <br />
+    <b>Description:</b>
+
+
+    <div> <b>@Model.infoSource</b> </div>
+    <div style="max-width:50rem;">
+        Comments: @Model.StrComment
+    </div>
+</div>
+
+
+<div class="accordion mt-2" id="accordionExample" datacomment="@Model.StrComment" style="max-width:50rem;">
+    <div class="card">
+        <div class="card-header py-0" id="headingOne">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left"
+                        type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <span id="title-accordeon"></span>
+                </button>
+            </h2>
+        </div>
+
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+
+                <div id="content-form" class="container border border-dark">
+                    <h3 class="u-h3Smaller">Editior for comment</h3>
+                    <div class="text-danger py-2" id="div-error-message" >
+
+                    </div>
+
+                    <form class="container mt-2">
+                        <div class="form-group">
+                            <textarea rows="3"
+                                      asp-for="modifiedComment"></textarea>
+                        </div>
+
+                        <button id="btn-save" 
+                                class="btn btn-info" type="submit">Save</button>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+
+        $(document).ready(function () {
+
+            let loadInto_textarea = 0;
+            const open = 'Open comment editor';
+            const close = 'Close comment editor';
+
+            $('#title-accordeon').text(open);
+
+
+            $('form').submit(function (e) {
+
+                e.preventDefault();
+
+                if ($('textarea').val().length == 0) {
+                    $('#div-error-message').empty().text('Fill in the textarea');
+                    return;
+                };
+
+
+                $.ajax('/descr',{
+                    data: {
+                        "Data": $('textarea').val(),
+                        "id": $('#taskId').val()
+                    },
+                    type: "PUT",
+                    dataType: "json",
+
+                    success: function (data) {
+
+                        if (data.result != "ok") {
+                            $('#div-error-message').empty()
+                                .text(data.message);
+
+                            return;
+                        }
+
+                        location.reload();
+                    }
+                });
+
+            });
+
+
+            $('#accordionExample').on('show.bs.collapse', function () {
+                if (loadInto_textarea == 0) {
+                    const txt = $('#accordionExample').attr('datacomment'); 
+                    $('textarea').val(txt);
+                    loadInto_textarea = 1;
+                }
+
+                $('.content-for-user').hide();
+                $('#title-accordeon').text(close);
+            });
+
+
+            $('#accordionExample').on('hide.bs.collapse', function () {
+                $('.content-for-user').show();
+                $('#title-accordeon').text(open);
+                });
+
+
+
+        });
+    </script>
+}*@
+
+
+

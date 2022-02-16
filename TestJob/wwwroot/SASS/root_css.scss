@@ -1,0 +1,15 @@
+
+@import 'root_base_var';  // набор базовых коэфффициентов
+
+@import 'fonts';
+
+@import 'list';
+
+@import 'navbar';
+
+.disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+}
+
