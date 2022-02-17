@@ -44,7 +44,7 @@ namespace TestJob.Models.ModelViews
 
         private static BaseModel_view InitResult_fromModel(TaskCommentView model)
         {
-            BaseModel_view res = new BaseModel_view
+            var res = new BaseModel_view
             {
                 Result = model.Result,
                 Message = model.Message
@@ -63,7 +63,7 @@ namespace TestJob.Models.ModelViews
                       .ToList().FirstOrDefault();
 
 
-            TaskCommentView model = new TaskCommentView
+            var model = new TaskCommentView
             {
                 IdComment = "",
                 TaskId = data.Id.ToString(),
@@ -73,7 +73,7 @@ namespace TestJob.Models.ModelViews
 
             };
 
-            Components_date compStart =
+            var compStart =
                 Components_date.convDate_intoObj(data.StartDate);
 
             anyDataOut = new AnyData_Comment

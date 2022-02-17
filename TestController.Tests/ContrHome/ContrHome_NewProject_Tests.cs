@@ -11,17 +11,17 @@ using Xunit;
 
 namespace TestJob.Tests.ControllerTests
 {
-    public class ContrHome__NewProject_Tests: IClassFixture<SharedDatabaseFixture>
+    public class ContrHome_NewProject_Tests : IClassFixture<SharedDatabaseFixture>
     {
         readonly DataContext context;
         readonly HomeController contrHome;
 
-        public ContrHome__NewProject_Tests(SharedDatabaseFixture fixture)
+        public ContrHome_NewProject_Tests(SharedDatabaseFixture fixture)
         {
-            BaseSetting_forTests baseSetting = new BaseSetting_forTests(fixture);
+            BaseSetting_forTests baseSetting = new (fixture);
 
             context = baseSetting.dataContext;
-            contrHome = baseSetting.homeController;
+            contrHome = baseSetting.HomeContr;
 
         }
 
@@ -49,9 +49,12 @@ namespace TestJob.Tests.ControllerTests
         public void Home_NewProject_with_idEMPTY_test()
         {
             // arrange
-            Ajax_product model = new Ajax_product { projectId = Guid.Empty.ToString(), 
-                projectName="Project name for testing",
-                date = "2022-02-03", time = "12:00"
+            Ajax_product model = new ()
+            {
+                projectId = Guid.Empty.ToString(),
+                projectName = "Project name for testing",
+                date = "2022-02-03",
+                time = "12:00"
             };
 
             // act
@@ -72,7 +75,7 @@ namespace TestJob.Tests.ControllerTests
         public void Home_NewProject_with_idEMPTY_and_notData_test()
         {
             // arrange
-            Ajax_product model = new Ajax_product
+            Ajax_product model = new ()
             {
                 projectId = Guid.Empty.ToString(),
                 projectName = "Project name for test",
@@ -98,7 +101,7 @@ namespace TestJob.Tests.ControllerTests
         public void Home_NewProject_insertNew_project_test()
         {
             // arrange
-            Ajax_product model = new Ajax_product
+            Ajax_product model = new ()
             {
                 projectId = Guid.Empty.ToString(),
                 projectName = "New Project for test",
@@ -124,9 +127,9 @@ namespace TestJob.Tests.ControllerTests
         public void Home_UpdProject_with_updateData_test()
         {
             // arrange
-            Project project = context.Set<Project>().FirstOrDefault(p=> p.UpdateDate != null);
+            Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate != null);
 
-            Ajax_product model = new Ajax_product
+            Ajax_product model = new ()
             {
                 projectId = project.Id.ToString(),
                 projectName = project.ProjectName,
@@ -154,7 +157,7 @@ namespace TestJob.Tests.ControllerTests
             // arrange
             Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
 
-            Ajax_product model = new Ajax_product
+            Ajax_product model = new ()
             {
                 projectId = project.Id.ToString(),
                 projectName = project.ProjectName,
@@ -182,7 +185,7 @@ namespace TestJob.Tests.ControllerTests
             // arrange
             Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
 
-            Ajax_product model = new Ajax_product
+            Ajax_product model = new ()
             {
                 projectId = Guid.NewGuid().ToString(),
                 projectName = "empty",
@@ -210,10 +213,10 @@ namespace TestJob.Tests.ControllerTests
             // arrange
             Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
 
-            Ajax_product model = new Ajax_product
+            Ajax_product model = new ()
             {
                 projectId = project.Id.ToString(),
-                projectName = project.ProjectName,                
+                projectName = project.ProjectName,
                 date = "2022-02-03"
             };
 
@@ -236,7 +239,7 @@ namespace TestJob.Tests.ControllerTests
             // arrange
             Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
 
-            Ajax_product model = new Ajax_product
+            Ajax_product model = new ()
             {
                 projectId = project.Id.ToString(),
                 projectName = project.ProjectName,
@@ -264,7 +267,7 @@ namespace TestJob.Tests.ControllerTests
             // arrange
             Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
 
-            Ajax_product model = new Ajax_product
+            Ajax_product model = new ()
             {
                 projectId = project.Id.ToString(),
                 projectName = project.ProjectName,
@@ -297,7 +300,7 @@ namespace TestJob.Tests.ControllerTests
             DateTime dtCreate = project.CreateDate.AddDays(1);
             var compDateTime = Components_date.convDate_intoObj(dtCreate);
 
-            Ajax_product model = new Ajax_product
+            Ajax_product model = new ()
             {
                 projectId = project.Id.ToString(),
                 projectName = project.ProjectName + " updateName",

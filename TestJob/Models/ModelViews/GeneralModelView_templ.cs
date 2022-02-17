@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using TestJob.Models.Interface;
 using TestJob.Models.UserAPI;
 
@@ -13,7 +14,6 @@ namespace TestJob.Models.ModelViews.Templ
         // only for testing
         public string debug_path_for_copy = "";
         protected string mesError_default = "Cancel operation";
-
 
         public readonly string pathTxt;
         public readonly int maxSizeFile;
@@ -63,11 +63,24 @@ namespace TestJob.Models.ModelViews.Templ
             return false;
         }
 
+        protected static string Get_StrFromByte(byte[] arg)
+        {
+            return UserMix.Enc_GetStrFromBytes(arg);
+        }
+
+        protected static string Get_ComntFromFile(string pathTxt, byte[] arg)
+        {
+            string fileName = Get_StrFromByte(arg);
+            string fullPath = Path.Combine(pathTxt, fileName);
+            string res = UserMix.FileDownload(fullPath);
+
+            return string.IsNullOrEmpty(res) ? "No comment file" : res;
+        }
+
 
         public virtual TModel Model { get; set; }       // ajax model
         public virtual TResult ModelRes { get; set; }    // for save into database
         public virtual TView ModelView { get; set; }   // for ViewBag
-
 
         public abstract bool VerifyData();
         public abstract bool SaveDataModel();

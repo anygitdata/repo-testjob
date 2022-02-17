@@ -28,6 +28,20 @@ namespace TestJob.Models.ModelViews
         }
 
 
+        public static string Get_str_DateTime(DateTime? arg)
+        {
+            if (arg == null)
+                return "";
+
+            var compDate = convDate_intoObj(arg);
+
+            if (compDate.Result == IdentResult.Error)
+                return "";
+
+            return $"{compDate.date} {compDate.time}";
+
+        }
+
         public static Components_date convDate_intoObj(DateTime? argDate)
         {
 
@@ -42,7 +56,7 @@ namespace TestJob.Models.ModelViews
 
             try
             {
-                Components_date res = new Components_date {
+                var res = new Components_date {
                     Result = Ok,
                     date = dt.ToString("yyyy-MM-dd"),
                     time = dt.ToString("hh:mm"),

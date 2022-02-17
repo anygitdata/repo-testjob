@@ -2,6 +2,20 @@
 
 @{
     var anyData = ViewBag.anyData as AnyData_Comment;
+
+    var LstModelView = ViewBag.LstModelView as List<TaskComment_ModelView>;
+
+    bool initFirst = true;
+    string GetStile()
+    {
+        if (initFirst)
+        {
+            initFirst = false;
+            return "";
+        }
+        return "display:none;"; ;
+    }
+}
 }
 
 
@@ -13,11 +27,7 @@
     <input type="hidden" asp-for="@anyData.maxSizeFile" />    
 </div>
 
-<button id="btn-dlg-open" type="button" class="btn btn-primary"
-        data-toggle="modal"
-        data-target="#exampleModal">
-    CreateComment
-</button>
+
 `
 
 @if (Model.Debug)
@@ -87,6 +97,37 @@
 
 
 <div class="container">
+
+    <h1 class="u-h1Smaller">Editor comment</h1>
+    <ul class="ul_compl_data">
+        <li><b>Project</b>: @anyData.ProjectName</li>
+        <li><b>Task</b>: @anyData.TaskName</li>
+        <li><b>TaskStart:</b>: @anyData.Str_DateTime</li>
+    </ul>
+
+    <div class="py-2 mb-2">
+    <button id="btn-dlg-open" type="button" class="btn btn-primary btn-sm"
+            data-toggle="modal"
+            data-target="#exampleModal">
+        CreateComment
+    </button>
+    </div>
+
+
+    <div class="row">
+        @foreach (TaskComment_ModelView m in LstModelView)
+        {
+            <div class="col-8 border-top border-bottom border-dark p-2" style="@GetStile()">
+                @if (!string.IsNullOrEmpty(m.StrFileName))
+                {
+                    @:<b>fileName</b>: @m.StrFileName
+                    <div class="py-1"></div>
+                }
+                @m.Content
+            </div>
+        }
+    </div>
+
 
 
 

@@ -34,9 +34,9 @@ namespace TestBaseSettings
             anyUserData = new AnyUserData(_mock.Object);
         }
 
-        public HomeController homeController { get => new HomeController(dataContext, anyUserData); }
+        public HomeController HomeContr { get => new (dataContext, anyUserData); }
 
-        public RestController restController { get => new RestController(dataContext, anyUserData);}
+        public RestController RestContr { get => new (dataContext, anyUserData);}
 
     }
 }

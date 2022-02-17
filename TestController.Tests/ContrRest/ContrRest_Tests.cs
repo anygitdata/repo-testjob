@@ -10,19 +10,19 @@ using Xunit;
 
 namespace TestJob.Tests
 {
-    public class ContrRest__Tests: IClassFixture<SharedDatabaseFixture>
+    public class ContrRest_Tests : IClassFixture<SharedDatabaseFixture>
     {
-        DataContext context;
-        RestController contrRest;
-        public ContrRest__Tests(SharedDatabaseFixture fixture)
+        readonly DataContext context;
+        readonly RestController contrRest;
+        public ContrRest_Tests(SharedDatabaseFixture fixture)
         {
             context = fixture.CreateContext();
 
-            string path = Directory.GetCurrentDirectory();
-            string PathDir_txt = Path.GetFullPath(Path.Combine(path, @"..\..\..\..\", "TestJob", "wwwroot", "txt"));
+            string _path = Directory.GetCurrentDirectory();
+            string _pathDir_txt = Path.GetFullPath(Path.Combine(_path, @"..\..\..\..\", "TestJob", "wwwroot", "txt"));
 
             var mock = new Mock<IAnyUserData>();
-            mock.Setup(env => env.PathDir_txt).Returns(PathDir_txt);
+            mock.Setup(env => env.PathDir_txt).Returns(_pathDir_txt);
 
             contrRest = new RestController(context, mock.Object);
         }
@@ -32,14 +32,14 @@ namespace TestJob.Tests
         {
             if (!UserMix.FileExists(Path.Combine(contrRest.PathDir_txt, FileName)))
             {
-                BodyRequest bodyRequest = new BodyRequest { FileName = FileName, Data = "dataFor testing" };
+                var bodyRequest = new BodyRequest { FileName = FileName, Data = "dataFor testing" };
                 UserMix.FileCreate(contrRest.PathDir_txt, bodyRequest);
             }
         }
 
         // -------------------------------------------
 
-        [Fact] 
+        [Fact]
         public void Get_dataFromFile_test()
         {
             // arrange
@@ -86,12 +86,12 @@ namespace TestJob.Tests
         {
             // arrange
             string FileName = "VerifyData.txt";
-            string filePath = Path.Combine( contrRest.PathDir_txt, FileName) ;
+            string filePath = Path.Combine(contrRest.PathDir_txt, FileName);
 
             if (File.Exists(filePath))
                 File.Delete(filePath);
 
-            BodyRequest model = new BodyRequest
+            var model = new BodyRequest
             {
                 FileName = FileName,
                 Data = @"Начальная строка       использование произвФормата
@@ -123,7 +123,7 @@ namespace TestJob.Tests
             string fileExits = File.Exists(Path.Combine(PathDir_txt, fileName)) ? BodyRequest.Ok : BodyRequest.Error;
 
             // act
-            var resREST = contrRest.Delete_File(fileName) as OkObjectResult ;
+            var resREST = contrRest.Delete_File(fileName) as OkObjectResult;
 
             // assert
             Assert.IsType<OkObjectResult>(resREST as OkObjectResult);
@@ -134,7 +134,7 @@ namespace TestJob.Tests
         }
 
         [Fact]
-        public void update_File__exists_text()
+        public void Update_File__exists_text()
         {
             // arrange
 
@@ -142,7 +142,7 @@ namespace TestJob.Tests
 
             CreateFile(fileName);
 
-            BaseResult model = new BaseResult
+            var model = new BaseResult
             {
                 FileName = fileName,
                 Data = @"Измененная строка
@@ -160,18 +160,18 @@ namespace TestJob.Tests
             BaseResult item = Assert.IsType<BaseResult>(resREST.Value);
 
             Assert.Equal(item.FileName, fileName);
-            Assert.Equal(item.Result,  BaseResult.Ok);
+            Assert.Equal(item.Result, BaseResult.Ok);
             Assert.Equal(model.Data, item.Data);
 
         }
 
         [Fact]
-        public void update_File__not_exists_text()
+        public void Update_File__not_exists_text()
         {
             // arrange
 
             string fileName = "CreateProject_notExists.txt";
-            BaseResult model = new BaseResult
+            var model = new BaseResult
             {
                 FileName = fileName,
             };

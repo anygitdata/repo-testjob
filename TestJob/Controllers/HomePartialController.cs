@@ -12,16 +12,17 @@ namespace TestJob.Controllers
     {
 
         [HttpGet("ins-comment/{id}")]
+
         public IActionResult AddTaskComment(Guid id)
         {
-            var res = new GeneralModelView(context, anyUserData, new TaskComment_ModelView() );
-            res.Run_Init_modelView(id);
+            var res = new GenModelViewComn(context, anyUserData, id.ToString() );
 
-            var anyData = res.ModelRes as AnyData_Comment;
-            var model = res.ModelRes as TaskComment_ModelView;
-            
+            var anyData = res.ModelView;
+            var model = res.Model;
+
 
             ViewBag.anyData = anyData;
+            ViewBag.LstModelView = res.LstModelView;
 
             return View(model);
         }

@@ -28,7 +28,6 @@ namespace TestJob.Models.ModelViews
             Init_lstModelView(id);
         }
 
-
         private List<TaskComment_ModelView> _lstModelView;
         public List<TaskComment_ModelView> LstModelView {get => _lstModelView; }
                 

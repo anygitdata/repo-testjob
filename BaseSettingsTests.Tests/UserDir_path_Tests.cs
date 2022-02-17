@@ -12,7 +12,7 @@ namespace TestJob.Tests
 
         public UserDir_path_Tests(SharedDatabaseFixture fixture)
         {
-            BaseSetting_forTests baseSetting = new BaseSetting_forTests(fixture);
+            BaseSetting_forTests baseSetting = new (fixture);
 
             pathTxt = baseSetting.pathTxt;
         }

@@ -11,10 +11,10 @@ namespace TestJob.Models.Interface
         public int MaxSizeFile { get => GetSettingsExt.MaxSizeFile; }
 
 
-        private string _PathDir_txt;
-        public string PathDir_txt { get => _PathDir_txt; }
+        readonly string _pathDir_txt;
+        public string PathDir_txt { get => _pathDir_txt; }
 
-        private DataSettingsExt _dataSettingsExt;
+        private readonly DataSettingsExt _dataSettingsExt;
         public DataSettingsExt GetSettingsExt { get => _dataSettingsExt; }
 
         // ----------------------------------------------
@@ -22,7 +22,7 @@ namespace TestJob.Models.Interface
 
         public AnyUserData(IWebHostEnvironment environment)
         {
-            _PathDir_txt = Path.Combine(environment.WebRootPath, "txt");
+            _pathDir_txt = Path.Combine(environment.WebRootPath, "txt");
             DataSettings _dataSettings = DataSettings_read.GetSettings(PathDir_txt);
 
             _dataSettingsExt = new DataSettingsExt(_dataSettings);

@@ -13,11 +13,51 @@ namespace TestJob.Models.ModelViews
 
         public bool Init_lstModelView(string id)
         {
+            _lstModelView = context.Set<TaskComment>()
+                .Where(p => p.TaskId == Guid.Parse(id))
+                .Select(p => new TaskComment_ModelView
+                {
+                    IdComment = p.Id.ToString(),
+                    TaskId = id,
+                    StrFileName = ((bool)p.CommentType == true) ? "" : Get_StrFromByte(p.Content),
+                    Content = (bool) p.CommentType 
+                        ? Get_StrFromByte(p.Content) 
+                        : Get_ComntFromFile(pathTxt, p.Content)
+                }).ToList();
 
-            _lstModelView = new List<TaskComment_ModelView>();
+
+            var data = (from tsk in context.Tasks.Where(p => p.Id == Guid.Parse(id))
+                        from pr in context.Projects.Where(p => p.Id == tsk.ProjectId)
+                        select new
+                        {
+                            pr.ProjectName,
+                            tsk.Id,
+                            tsk.TaskName,
+                            tsk.StartDate
+                        }).ToList()
+                          .FirstOrDefault();
 
 
-            return false; 
+            Model = new TaskComment_ModelView
+            {
+                IdComment = "",
+                TaskId = id.ToString(),
+                TypeOperations = ETypeOperations.insert,
+                ContentType = false,
+                postedFile = null,
+                Debug = Debug
+            };
+
+            ModelView = new AnyData_Comment
+            {
+                ProjectName = data.ProjectName,
+                TaskName = data.TaskName,
+                Str_DateTime = Components_date.Get_str_DateTime(data.StartDate),
+                maxSizeFile = maxSizeFile,
+                NumComment = _lstModelView.Count
+            };
+
+            return Return_withOK(); 
         }
 
         /// <summary>
@@ -33,40 +73,6 @@ namespace TestJob.Models.ModelViews
                 if (!Model.ContentType)
                     //  Model.postedFile.CopyTo(fileStream);  in Save
                     Model.Content = UserMix.FileDownload(pathTxt, Model.StrFileName);
-
-
-                //var data = (from tsk in context.Tasks.Where(p => p.Id == id)
-                //            from pr in context.Projects.Where(p => p.Id == tsk.ProjectId)
-                //            select new
-                //            {
-                //                pr.ProjectName,
-                //                tsk.Id,
-                //                tsk.TaskName,
-                //                tsk.StartDate
-                //            }).ToList().FirstOrDefault();
-
-
-                //ModelRes = new TaskComment_ModelView
-                //{
-                //    IdComment = "",
-                //    TaskId = data.Id.ToString(),
-                //    TypeOperations = ETypeOperations.insert,
-                //    ContentType = false,
-                //    postedFile = null,
-                //    Debug = Debug
-                //};
-
-                //Components_date compStart =
-                //    Components_date.convDate_intoObj(data.StartDate);
-
-                //ModelView = new AnyData_Comment
-                //{
-                //    ProjectName = data.ProjectName,
-                //    TaskName = data.TaskName,
-                //    Date = compStart.date,
-                //    Time = compStart.time,
-                //    maxSizeFile = maxSizeFile
-                //};
 
                 return Return_withOK();
             }

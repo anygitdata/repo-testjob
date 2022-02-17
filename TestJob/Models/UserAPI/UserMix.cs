@@ -9,7 +9,7 @@ namespace TestJob.Models.UserAPI
     {        
         public string FileName { get; set; }
         public string Data { get; set; }
-        public Guid id { get; set; } 
+        public Guid Id { get; set; } 
         
     }
 
@@ -77,7 +77,7 @@ namespace TestJob.Models.UserAPI
         /// <returns></returns>
         public static BodyRequest Filedownload_ifNotExists(string pathDir_txt, string file, string data)
         {
-            BodyRequest res = new BodyRequest { FileName = file };
+            BodyRequest res = new () { FileName = file };
 
             if (!FileExists(pathDir_txt, file))
             {
@@ -123,7 +123,7 @@ namespace TestJob.Models.UserAPI
                 return; 
             }
 
-            using (StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.UTF8))
+            using (StreamWriter sw = new (file, false, System.Text.Encoding.UTF8))
             {
                 sw.Write(model.Data);
             }
@@ -140,7 +140,7 @@ namespace TestJob.Models.UserAPI
 
             try
             {
-                using (StreamWriter sw = new StreamWriter(pathFile, false, System.Text.Encoding.UTF8))
+                using (StreamWriter sw = new (pathFile, false, System.Text.Encoding.UTF8))
                 {
                     sw.Write(content);
                 }
@@ -200,7 +200,7 @@ namespace TestJob.Models.UserAPI
         {
             string path = Path.Combine(PathDir_txt, model.FileName);
 
-            using (StreamWriter writer = new StreamWriter(path))
+            using (StreamWriter writer = new (path))
             {
                 writer.Write(model.Data);
             }
@@ -225,7 +225,7 @@ namespace TestJob.Models.UserAPI
                     FileDelete(fullPath);
 
 
-                using (StreamWriter writer = new StreamWriter(fullPath))
+                using (StreamWriter writer = new (fullPath))
                 {
                     writer.Write(content);
                 }
