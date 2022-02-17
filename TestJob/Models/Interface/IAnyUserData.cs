@@ -10,6 +10,6 @@ namespace TestJob.Models.Interface
 
         DataSettingsExt GetSettingsExt { get; }
 
-        bool GetDebug { get; }
+        bool Debug { get; }
     }
 }

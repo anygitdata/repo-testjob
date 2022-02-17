@@ -17,14 +17,13 @@ namespace TestJob.Tests.GeneralModelView
     {
         readonly DataContext context;
         readonly IAnyUserData anyUserData;
-
-        TaskComment_ModelView model;
+        readonly TaskComment_ModelView model;
 
         public GenModelViewComn__Tests(SharedDatabaseFixture fixture)
         {
             context = fixture.CreateContext();
 
-            BaseSetting_forTests forTest = new BaseSetting_forTests(fixture);
+            BaseSetting_forTests forTest = new(fixture);
 
             anyUserData = forTest.anyUserData;
 
@@ -195,7 +194,7 @@ namespace TestJob.Tests.GeneralModelView
             res.debug_path_for_copy = path;
 
             res.VerifyData();
-            res.SaveModel();
+            res.SaveDataModel();
 
             // assert
             Assert.Equal(IdentResult.Ok, res.Result);
@@ -219,14 +218,8 @@ namespace TestJob.Tests.GeneralModelView
             var res = new GenModelViewComn(context, anyUserData, model);
             res.SetDebug(false);
             res.VerifyData();
-            res.SaveModel();
-
-            var resModel = res.ModelRes;
-
-
-            comn = context.Set<TaskComment>().Find(resModel.Id);
-
-            string sRes = Encoding.UTF8.GetString(comn.Content);
+            res.SaveDataModel();
+            
 
             // assert
             Assert.Equal(IdentResult.Ok, res.Result);

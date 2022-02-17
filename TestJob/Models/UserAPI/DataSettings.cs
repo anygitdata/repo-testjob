@@ -12,24 +12,39 @@ namespace TestJob.Models.UserAPI
     /// </summary>
     public class DataSettings
     {
-        public string seedData { get; set; }
-        public string debug { get; set; }
-        public int maxSizeFile { get; set; }
-        
+        public string seedData;
+        public int maxSizeFile;
+        public string debug;        
     }
 
 
-    public class DataSettingsExt: DataSettings
+    public class DataSettingsExt
     {
         public DataSettingsExt(DataSettings arg)
         {
-            seedData = arg.seedData;
-            debug = arg.debug;
-            maxSizeFile = arg.maxSizeFile;
+            _seedData = arg.seedData == "on";
+            _debug = arg.debug =="on";
+            _maxSizeFile = arg.maxSizeFile;
+
+            _base_debug = arg.debug;
+            _base_seedData = arg.seedData;
         }
 
-        public bool Debug { get => debug == "on" ? true : false; }
-        public bool SeedData { get => seedData == "on" ? true : false; }
+        readonly bool _seedData;
+        readonly bool _debug;
+        readonly int _maxSizeFile;
+
+        readonly string _base_seedData;
+        readonly string _base_debug;
+        
+        public string StrSeedData { get => _base_seedData; }
+        public string StrDebug { get => _base_debug; }
+
+
+        public bool SeedData { get => _seedData; }
+        public bool Debug { get => _debug; }
+        public int MaxSizeFile { get => _maxSizeFile; }
+
     }
 
 

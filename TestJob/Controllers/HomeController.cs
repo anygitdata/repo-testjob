@@ -34,8 +34,7 @@ namespace TestJob.Controllers
         [HttpGet("createtask/{id}")]
         public ActionResult CreateTask(Guid id)
         {
-            TaskUpdate model = new TaskUpdate
-            {
+            TaskUpdate model = new () {
                 OperTask = ETypeOperTask.create,
                 projectId = id.ToString(),
                 projectName = context.Set<Project>().Find(id).ProjectName,
@@ -132,7 +131,7 @@ namespace TestJob.Controllers
             string projectName = "All projects";
             string idUpdate = "false";
 
-            DateTime dDefault = default(DateTime);
+            DateTime dDefault = default;
 
             ModelProjectMenu selProject = null;
             Guid selProjId = default;
@@ -151,7 +150,7 @@ namespace TestJob.Controllers
             }
 
             // Filling content by tasks 
-            List<ModelTask> lsTask = new List<ModelTask>();
+            List<ModelTask> lsTask = new();
             IQueryable<Task> tasks; context.Set<Task>();
             if (id > 0)
                 tasks = context.Set<Task>().Where(p => p.ProjectId == selProjId);
@@ -187,18 +186,18 @@ namespace TestJob.Controllers
                     });
             }
 
-            Content_TableTask content_TableModel = new Content_TableTask { 
+            Content_TableTask content_TableModel = new () { 
                 LsProjects = lsDataServProc,    // list for projectMenu
                 LsTaskCont = lsTask,            // list for content table task
                 projectName = projectName,      // for selected project
                 projectId = projectId,          // for selected project
                 idUpdate = idUpdate,            // project Completion ID 
-                debug = anyUserData.GetSettingsExt.debug
+                debug = anyUserData.GetSettingsExt.StrDebug
 
             };
 
             ViewBag.Content_TableModel = content_TableModel;     // model for view
-            InsProjectView insProjecView = new InsProjectView(); // for modulDialot
+            InsProjectView insProjecView = new (); // for modulDialot
 
             return View(insProjecView);
         }

@@ -13,15 +13,15 @@ namespace BaseSettingsTests.Tests
     /// </summary>
     public class IAnyUserData_Tests: IClassFixture<SharedDatabaseFixture>
     {
-        string wwwroot;
+        //string wwwroot;
 
         readonly SharedDatabaseFixture fixture;
 
         public IAnyUserData_Tests(SharedDatabaseFixture fix)
         {
-            string path = Directory.GetCurrentDirectory();
-            wwwroot = Path.GetFullPath(Path.Combine(path, 
-                @"..\..\..\..\", "TestJob", "wwwroot"));
+            //string path = Directory.GetCurrentDirectory();
+            //wwwroot = Path.GetFullPath(Path.Combine(path, 
+            //    @"..\..\..\..\", "TestJob", "wwwroot"));
 
             fixture = fix;
         }
@@ -44,15 +44,15 @@ namespace BaseSettingsTests.Tests
 
             DataSettings settings = DataSettings_read.GetSettings(baseSetting.pathTxt);
 
-            bool seedData = settings.seedData == "on" ? true : false; 
+            bool seedData = settings.seedData == "on"; 
 
-            Assert.Equal(settings.debug == "on" ? true : false, baseSetting.anyUserData.GetSettingsExt.Debug);
-            Assert.Equal(settings.debug, baseSetting.anyUserData.GetSettingsExt.debug);
+            Assert.Equal(settings.debug == "on", baseSetting.anyUserData.GetSettingsExt.Debug);
+            Assert.Equal(settings.debug, baseSetting.anyUserData.GetSettingsExt.StrDebug);
 
             Assert.Equal(settings.maxSizeFile, baseSetting.anyUserData.MaxSizeFile);
 
 
-            Assert.Equal(settings.seedData, baseSetting.anyUserData.GetSettingsExt.seedData);
+            Assert.Equal(settings.seedData, baseSetting.anyUserData.GetSettingsExt.StrSeedData);
             Assert.Equal(seedData, baseSetting.anyUserData.GetSettingsExt.SeedData);
 
         }

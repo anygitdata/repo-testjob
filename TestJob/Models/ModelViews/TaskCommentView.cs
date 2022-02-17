@@ -82,7 +82,7 @@ namespace TestJob.Models.ModelViews
                 TaskName = data.TaskName,
                 Date = compStart.date,
                 Time = compStart.time,
-                maxSizeFile = anyUserData.GetSettingsExt.maxSizeFile
+                maxSizeFile = anyUserData.GetSettingsExt.MaxSizeFile
             };
 
 
@@ -127,7 +127,7 @@ namespace TestJob.Models.ModelViews
                         return;
                     }
 
-                    if (model.postedFile.Length > anyUserData.GetSettingsExt.maxSizeFile)
+                    if (model.postedFile.Length > anyUserData.GetSettingsExt.MaxSizeFile)
                     {
                         model.Result = Error;
                         model.Message = "big file";

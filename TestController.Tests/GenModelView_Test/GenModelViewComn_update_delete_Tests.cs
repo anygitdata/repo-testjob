@@ -15,13 +15,18 @@ namespace TestController.Tests.GeneralModelView_Tests
     {
         readonly DataContext context;
         readonly IAnyUserData anyUserData;
-        TaskComment_ModelView model;
+        readonly TaskComment_ModelView model;
+
+        private delegate string Del_strFromBytes(byte[] arg);
+
+        readonly Del_strFromBytes StrFromBytes;
+
 
         public GenModelViewComn_update_delete_Tests(SharedDatabaseFixture fixture)
         {
             context = fixture.CreateContext();
 
-            BaseSetting_forTests forTest = new BaseSetting_forTests(fixture);
+            BaseSetting_forTests forTest = new(fixture);
 
             anyUserData = forTest.anyUserData;
                         
@@ -34,7 +39,12 @@ namespace TestController.Tests.GeneralModelView_Tests
                 postedFile = null,
                 Content = "Edited comment"
             };
+
+            StrFromBytes = UserMix.Enc_GetStrFromBytes;
+
         }
+
+     
 
         // ----------------------------------
 
@@ -50,7 +60,7 @@ namespace TestController.Tests.GeneralModelView_Tests
             // act
             var res = new GenModelViewComn(context, anyUserData, model);
             res.VerifyData();
-            res.SaveModel();
+            res.SaveDataModel();
 
             // assert
             Assert.Equal(IdentResult.Ok, res.Result);
@@ -79,7 +89,7 @@ namespace TestController.Tests.GeneralModelView_Tests
             // act
             var res = new GenModelViewComn(context, anyUserData, model);
             res.VerifyData();
-            res.SaveModel();
+            res.SaveDataModel();
 
             // assert
             Assert.Equal(IdentResult.Ok, res.Result);
@@ -95,14 +105,19 @@ namespace TestController.Tests.GeneralModelView_Tests
 
             model.IdComment = comn.Id.ToString();
             model.ContentType = false;
-            model.Content = "Модифайл комментарий в файле";
+            model.Content = "Изменение комментария в файле";
 
             string fileName = UserMix.Enc_GetStrFromBytes(comn.Content);
             string fullPath = Path.Combine(anyUserData.PathDir_txt, fileName);
 
             if (!UserMix.FileExists(fullPath))
             {
-                throw new Exception("Файл не найден");
+                // Comment will be deleted 
+                string mes = $" IdComn:{comn.Id}  fileName:{StrFromBytes(comn.Content)}";
+                context.Remove(comn);
+                context.SaveChanges();
+
+                throw new Exception("Not exists " + $"{mes}" );
             }
             
             string content = UserMix.FileDownload(fullPath);
@@ -111,7 +126,7 @@ namespace TestController.Tests.GeneralModelView_Tests
             // act
             var res = new GenModelViewComn(context, anyUserData, model);
             res.VerifyData();
-            res.SaveModel();
+            res.SaveDataModel();
 
             // assert
             Assert.Equal(IdentResult.Ok, res.Result);

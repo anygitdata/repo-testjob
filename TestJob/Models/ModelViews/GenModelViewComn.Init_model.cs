@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TestJob.Models.ModelViews.Templ;
@@ -9,6 +10,16 @@ namespace TestJob.Models.ModelViews
     public partial class GenModelViewComn
          : GeneralModelView_templ<TaskComment_ModelView, TaskComment, AnyData_Comment>
     {
+
+        public bool Init_lstModelView(string id)
+        {
+
+            _lstModelView = new List<TaskComment_ModelView>();
+
+
+            return false; 
+        }
+
         /// <summary>
         /// Final operation 
         /// </summary>

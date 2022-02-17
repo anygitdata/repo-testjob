@@ -47,7 +47,7 @@ namespace BaseSettingsTests.Tests
             // Assert
             Assert.Equal(path, BaseModel_view.BaseModel_GetPathTxt);
 
-            Assert.Equal(anyUserData.GetDebug, BaseModel_view.Debug);
+            Assert.Equal(anyUserData.Debug, BaseModel_view.Debug);
 
         }
 

@@ -30,10 +30,10 @@ namespace TestJob.Models.ModelViews
             context = cont;
             pathTxt = anyData.PathDir_txt;
             anyUserData = anyData;
-            _debug = anyUserData.GetDebug;
+            _debug = anyUserData.Debug;
 
             dataSettingsExt = anyUserData.GetSettingsExt;
-            maxSizeFile = anyUserData.GetSettingsExt.maxSizeFile;
+            maxSizeFile = anyUserData.GetSettingsExt.MaxSizeFile;
 
             Model = model;
 

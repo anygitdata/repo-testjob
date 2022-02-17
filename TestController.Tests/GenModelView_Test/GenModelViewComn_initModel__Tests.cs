@@ -22,36 +22,36 @@ namespace TestJob.Tests.GeneralModelView_Tests
         {
             context = fixture.CreateContext();
 
-            BaseSetting_forTests forTest = new BaseSetting_forTests(fixture);
+            BaseSetting_forTests forTest = new(fixture);
 
             anyUserData = forTest.anyUserData;
         }
 
 
-        [Fact]
-        public void GeneralModelView_initModel__test()
-        {
-            // arrange
-            Guid id = context.Set<Task>().FirstOrDefault(p => p.CancelDate == null).Id;
+        //[Fact]
+        //public void GeneralModelView_initModel__test()
+        //{
+        //    // arrange
+        //    Guid id = context.Set<Task>().FirstOrDefault(p => p.CancelDate == null).Id;
 
-            var model = new TaskComment_ModelView
-            {
-                TaskId = id.ToString(),
-                Content = "Строка комментария",
-                TypeOperations= ETypeOperations.insert,
-                ContentType = true
-            };
+        //    var model = new TaskComment_ModelView
+        //    {
+        //        TaskId = id.ToString(),
+        //        Content = "Строка комментария",
+        //        TypeOperations= ETypeOperations.insert,
+        //        ContentType = true
+        //    };
 
-            // act
-            var res = new GenModelViewComn(context, anyUserData, model);
-            res.VerifyData();
-            res.SaveModel();
+        //    // act
+        //    var res = new GenModelViewComn(context, anyUserData, model);
+        //    res.VerifyData();
+        //    res.SaveDataModel ();
 
-            // assert
-            Assert.Equal(res.Result, IdentResult.Ok);
-            Assert.IsType<TaskComment>(res.ModelRes as TaskComment);
-            Assert.IsType<AnyData_Comment>(res.ModelView as AnyData_Comment);
-        }
+        //    // assert
+        //    Assert.Equal(res.Result, IdentResult.Ok);
+        //    Assert.IsType<TaskComment>(res.ModelRes as TaskComment);
+        //    Assert.IsType<AnyData_Comment>(res.ModelView as AnyData_Comment);
+        //}
 
     }
 }

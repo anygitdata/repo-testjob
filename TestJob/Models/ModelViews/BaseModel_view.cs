@@ -26,7 +26,7 @@ namespace TestJob.Models.ModelViews
                 //_dataCont = context;
 
                 _pathTxt = anyData.PathDir_txt;
-                _debug = anyData.GetDebug;
+                _debug = anyData.Debug;
 
                 idInit = true;
             }

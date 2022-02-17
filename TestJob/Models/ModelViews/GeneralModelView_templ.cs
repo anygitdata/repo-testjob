@@ -7,33 +7,31 @@ namespace TestJob.Models.ModelViews.Templ
     public abstract class GeneralModelView_templ<TModel, TResult, TView> : IdentResult
     {
 
-        protected bool _debug;
+        private bool _debug;
         public bool Debug { get => _debug; }
+
+        // only for testing
+        public string debug_path_for_copy = "";
+        protected string mesError_default = "Cancel operation";
+
 
         public readonly string pathTxt;
         public readonly int maxSizeFile;
 
         public readonly IAnyUserData anyUserData;
-
-        private DataContext _context;
-        public DataContext context { get => _context;}
-
+        public readonly DataContext context;
         public readonly DataSettingsExt dataSettingsExt;
-
-        public string debug_path_for_copy = "";
-        protected string mesError_default = "Cancel operation";
-
 
         public GeneralModelView_templ(DataContext cont, IAnyUserData anyData,
             TModel model)
         {
-            _context = cont;
+            context = cont;
             pathTxt = anyData.PathDir_txt;
             anyUserData = anyData;
-            _debug = anyUserData.GetDebug;
+            _debug = anyUserData.Debug;
 
             dataSettingsExt = anyUserData.GetSettingsExt;
-            maxSizeFile = anyUserData.GetSettingsExt.maxSizeFile;
+            maxSizeFile = anyUserData.GetSettingsExt.MaxSizeFile;
 
             SetResult_forStart();
 
@@ -52,7 +50,6 @@ namespace TestJob.Models.ModelViews.Templ
             Result = Error;
             Message = mesError_default;
         }
-
         protected bool Return_withOK()
         {
             Result = Ok;

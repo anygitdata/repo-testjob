@@ -14,25 +14,26 @@ namespace TestJob.Tests
     /// </summary>
     public class Read_JSON_settings_Tests: IClassFixture<SharedDatabaseFixture>
     {
-        readonly DataContext context;
+        //readonly DataContext context;
         readonly string pathTxt;
+
         //readonly HomeController contrHome;
-        
-        string[] settings = { "on", "off" };
-        string fullParhJSON;
+
+        readonly string[] settings = { "on", "off" };
+        readonly string fullParhJSON;
 
         public Read_JSON_settings_Tests(SharedDatabaseFixture fixture)
         {
-            BaseSetting_forTests baseSetting = new BaseSetting_forTests(fixture);
+            BaseSetting_forTests baseSetting = new (fixture);
 
-            context = baseSetting.dataContext;
+            //context = baseSetting.dataContext;
             //contrHome = baseSetting.homeController;
             pathTxt = baseSetting.pathTxt;
 
             fullParhJSON = Path.Combine(UserDir_path.PathDir_Settings(pathTxt), "settings.json");
         }
 
-        private DataSettings Init_DataSettings()
+        private DataSettings Get_DataSettings()
         {
             string pathJSON = UserDir_path.PathDir_Settings(pathTxt);
             string pathFile = Path.Combine(pathJSON, "settings.json");
@@ -43,15 +44,15 @@ namespace TestJob.Tests
 
         private void SettingsSeedData_into_file(string seedData)
         {
-            DataSettings curSettings = Init_DataSettings();
+            DataSettings curSettings = Get_DataSettings();
 
             curSettings.seedData = seedData;
             File.WriteAllText(fullParhJSON, JsonConvert.SerializeObject(curSettings));
         }
 
-        private void SettingsDebuf_into_file(string seedData)
+        private void SettingsDebug_into_file(string seedData)
         {
-            DataSettings curSettings = Init_DataSettings();
+            DataSettings curSettings = Get_DataSettings();
 
             curSettings.debug = seedData;
             File.WriteAllText(fullParhJSON, JsonConvert.SerializeObject(curSettings));
@@ -67,7 +68,7 @@ namespace TestJob.Tests
         public void Settings_readJSONdata_SeedData_fromFile()
         {
             // act
-            DataSettings res = Init_DataSettings();
+            DataSettings res = Get_DataSettings();
          
             // assert
             Assert.True(Array.IndexOf(settings, res.seedData)>=0);
@@ -79,12 +80,12 @@ namespace TestJob.Tests
         {
             // arrange
             SettingsSeedData_into_file("off");
-            DataSettings curSettings = Init_DataSettings();
+            DataSettings curSettings = Get_DataSettings();
 
             curSettings.seedData = "off";
             File.WriteAllText(fullParhJSON, JsonConvert.SerializeObject(curSettings));
 
-            DataSettings secondSettings = Init_DataSettings();
+            DataSettings secondSettings = Get_DataSettings();
             
             // assert
             Assert.Equal("off", secondSettings.seedData);
@@ -96,14 +97,14 @@ namespace TestJob.Tests
         public void Settings_DataSettings_read_setOn()
         {
             SettingsSeedData_into_file("on");
-            DataSettings curSettings = Init_DataSettings();
+            DataSettings curSettings = Get_DataSettings();
 
             // act
             var resProc = DataSettings_read.GetSettings(pathTxt);
-            DataSettings dataSettings = Init_DataSettings();
+            DataSettings dataSettings = Get_DataSettings();
 
             // assert
-            Assert.Equal(curSettings.seedData, "on");
+            Assert.Equal("on", curSettings.seedData);
             Assert.NotEqual(dataSettings.seedData, resProc.seedData);
         }
 
@@ -112,14 +113,14 @@ namespace TestJob.Tests
         {
             // arrange
             SettingsSeedData_into_file("off");
-            DataSettings curSettings = Init_DataSettings();
+            DataSettings curSettings = Get_DataSettings();
 
             // act
             var resProc = DataSettings_read.GetSettings(pathTxt);
-            DataSettings dataSettings = Init_DataSettings();
+            DataSettings dataSettings = Get_DataSettings();
 
             // assert
-            Assert.Equal(curSettings.seedData, "off");
+            Assert.Equal("off", curSettings.seedData);
             Assert.Equal(dataSettings.seedData, resProc.seedData);
         }
 
@@ -128,7 +129,7 @@ namespace TestJob.Tests
         public void Settings_DataSettings_read_debug()
         {
             // arrange
-            SettingsDebuf_into_file("on");
+            SettingsDebug_into_file("on");
             
             // act
             var curSettins = DataSettings_read.GetSettings(pathTxt);
@@ -139,7 +140,7 @@ namespace TestJob.Tests
             // ----------- next test
 
             // arrange
-            SettingsDebuf_into_file("off");
+            SettingsDebug_into_file("off");
             // act
             var updSettins = DataSettings_read.GetSettings(pathTxt);
 

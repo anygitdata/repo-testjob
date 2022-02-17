@@ -7,8 +7,8 @@ namespace TestJob.Models.Interface
     public class AnyUserData: IAnyUserData
     {
         
-        public bool GetDebug { get => GetSettingsExt.Debug; }
-        public int MaxSizeFile { get => GetSettingsExt.maxSizeFile; }
+        public bool Debug { get => GetSettingsExt.Debug; }
+        public int MaxSizeFile { get => GetSettingsExt.MaxSizeFile; }
 
 
         private string _PathDir_txt;
