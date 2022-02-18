@@ -35,7 +35,7 @@ namespace TestJob.Models.ModelViews.Templ
 
             SetResult_forStart();
 
-            Model = model;            
+            Model = model;
         }
 
 

@@ -57,11 +57,18 @@ namespace TestJob.Tests.GeneralModelView_Tests
         public void GeneralModelView_Init_lstModelView__Tests()
         {
             // arrange
-            string id = context.Set<Task>().FirstOrDefault(p => p.CancelDate == null).Id.ToString();
+            Task task = context.Set<Task>().FirstOrDefault(p => p.CancelDate == null);
+            string id = task.Id.ToString();
+            int numCount = context.Set<TaskComment>().Where(p => p.TaskId == task.Id).Count();
 
             // act
             var res = new GenModelViewComn(context, anyUserData, id);
-            
+
+            // assert
+            Assert.Null(res.Model);
+
+            Assert.IsType<AnyData_Comment>(res.ModelView as AnyData_Comment);
+            Assert.Equal(numCount, res.LstModelView.Count);
 
         }
 

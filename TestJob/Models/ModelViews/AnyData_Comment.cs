@@ -15,9 +15,6 @@ namespace TestJob.Models.ModelViews
         public string Time { get; set; }
         public string Debug { get; set; }
 
-        public int NumComment { get; set; }
-
-
         public int maxSizeFile { get; set; }
     }
 

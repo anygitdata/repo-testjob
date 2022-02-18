@@ -5,32 +5,72 @@
 
     var LstModelView = ViewBag.LstModelView as List<TaskComment_ModelView>;
 
+    int index = 0;
+
+    string GetClass()
+    {
+        index++;
+        if (index == 1)
+            return "btn-sel";
+        else
+            return "btn-not-sel";
+
+    }
+
+    string id_selComn = "on";
     bool initFirst = true;
-    string GetStile()
+    string Get_idSelComn()
+    {
+        string res = id_selComn;
+
+        if (id_selComn == "on")
+            id_selComn = "off";
+        return res;
+    }
+
+    string Css_divCommn()
     {
         if (initFirst)
         {
             initFirst = false;
             return "";
         }
-        return "display:none;"; ;
+        return "div-comn-hide";
     }
-}
+
 }
 
+
+<style>
+
+    .div-comn-hide {
+        display: none;
+    }
+
+    .btn-sel-default {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .btn-sel {
+        background: #f8dd91;
+    }
+
+    .btn-not-sel {
+        background: #dcded9;
+    }
+</style>
 
 <div>
     <input type="hidden" asp-for="IdComment" />
     <input type="hidden" asp-for="TaskId" />
     <input type="hidden" asp-for="TypeOperations" />
     <input type="hidden" asp-for="Debug" />
-    <input type="hidden" asp-for="@anyData.maxSizeFile" />    
+    <input type="hidden" asp-for="@anyData.maxSizeFile" />
 </div>
 
 
-`
-
-@if (Model.Debug)
+@if (anyData.Debug=="True")
 {
     <div class="btn-group dropright">
         <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -62,7 +102,7 @@
             </div>
             <div class="modal-body">
 
-                <div class="message-err text-danger" ></div>
+                <div class="message-err text-danger"></div>
 
                 <form class="mt-2">
 
@@ -99,28 +139,43 @@
 <div class="container">
 
     <h1 class="u-h1Smaller">Editor comment</h1>
+    @*General header*@
     <ul class="ul_compl_data">
         <li><b>Project</b>: @anyData.ProjectName</li>
         <li><b>Task</b>: @anyData.TaskName</li>
         <li><b>TaskStart:</b>: @anyData.Str_DateTime</li>
     </ul>
 
-    <div class="py-2 mb-2">
-    <button id="btn-dlg-open" type="button" class="btn btn-primary btn-sm"
-            data-toggle="modal"
-            data-target="#exampleModal">
-        CreateComment
-    </button>
+
+
+    @*Navigation buttons *@
+    <div class="row mb-3" style="padding-right:8rem">
+        @foreach (TaskComment_ModelView m in LstModelView)
+        {
+            <div class="col-auto px-1">
+                <button class="btn-sel-default @(GetClass()) btn-sm border border-info rounded-circle btn-sel-comn"
+                        id="btn-@(m.IdComment)">
+                    @index
+                </button>
+            </div>
+        }
+
+        <div class="col"></div>
     </div>
 
 
+    @*Comment block *@
     <div class="row">
         @foreach (TaskComment_ModelView m in LstModelView)
         {
-            <div class="col-8 border-top border-bottom border-dark p-2" style="@GetStile()">
+            <div class="@Css_divCommn() col-10 border-top border-bottom border-dark p-2"
+                 fileName="@(m.StrFileName)"
+                 idSelComn="@(Get_idSelComn())"
+                 id="div-@(m.IdComment)"
+                 style="background: #f8dd91;">
                 @if (!string.IsNullOrEmpty(m.StrFileName))
                 {
-                    @:<b>fileName</b>: @m.StrFileName
+                    @:<span><b>fileName</b>: @m.StrFileName</span>
                     <div class="py-1"></div>
                 }
                 @m.Content
@@ -129,6 +184,21 @@
     </div>
 
 
+    @*Button block user interface *@
+    <div class="row mt-4">
+        <div class="col-auto rounded-circle px-1">
+            <button data-toggle="modal"
+                    class="border-0"
+                    style="background-color:none"
+                    data-target="#exampleModal">
+                <img src="~/img/adds.png" alt="Add" />
+            </button>
+        </div>
+
+        <div class="col-auto rounded-circle px-1"><img src="~/img/penc.png" alt="Upd" /></div>
+        <div class="col-auto rounded-circle px-1"><img src="~/img/del.png" alt="Del" /></div>
+        <div class="col"></div>
+    </div>
 
 
 </div>
@@ -136,5 +206,8 @@
 
 @section Scripts {
     <script src="~/js/create.taskcomment.js"></script>
-    <script src="~/js/create.taskcomment.test.js"></script>
+    @if (anyData.Debug=="True")
+        {
+            <script src="~/js/create.taskcomment.test.js"></script>
+        }
 }

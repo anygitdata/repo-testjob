@@ -10,9 +10,9 @@ namespace TestJob.Models.ModelViews
     public partial class GenModelViewComn
          : GeneralModelView_templ<TaskComment_ModelView, TaskComment, AnyData_Comment>
     {
-
         public bool Init_lstModelView(string id)
         {
+            // for list TaskComment
             _lstModelView = context.Set<TaskComment>()
                 .Where(p => p.TaskId == Guid.Parse(id))
                 .Select(p => new TaskComment_ModelView
@@ -38,23 +38,13 @@ namespace TestJob.Models.ModelViews
                           .FirstOrDefault();
 
 
-            Model = new TaskComment_ModelView
-            {
-                IdComment = "",
-                TaskId = id.ToString(),
-                TypeOperations = ETypeOperations.insert,
-                ContentType = false,
-                postedFile = null,
-                Debug = Debug
-            };
-
             ModelView = new AnyData_Comment
             {
                 ProjectName = data.ProjectName,
                 TaskName = data.TaskName,
                 Str_DateTime = Components_date.Get_str_DateTime(data.StartDate),
                 maxSizeFile = maxSizeFile,
-                NumComment = _lstModelView.Count
+                Debug = Debug ? "True": "False"
             };
 
             return Return_withOK(); 

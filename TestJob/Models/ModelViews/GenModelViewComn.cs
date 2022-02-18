@@ -24,7 +24,8 @@ namespace TestJob.Models.ModelViews
         /// <param name="id"></param>
         public GenModelViewComn(DataContext cont, IAnyUserData anyData,
             string id) : this(cont, anyData, new TaskComment_ModelView())
-        {            
+        {
+            Model = default;
             Init_lstModelView(id);
         }
 

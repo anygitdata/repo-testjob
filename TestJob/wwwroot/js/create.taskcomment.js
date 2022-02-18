@@ -17,6 +17,8 @@ const elHtml = (($) => {
     const btn_drm_postFile_empty = $('#btn-drm-postFile-empty')
     const btn_drm_base_param = $('#btn-drm-base-param')
 
+    const btn_sel_default = $('.btn-sel-default');
+
 
     const lb_cont_type = $('.lb-cont-type')
     const ContentType = $('#ContentType')
@@ -27,7 +29,9 @@ const elHtml = (($) => {
 
     const div_testarea = $('.div-testarea');
     const div_postedFile = $('.div-postedFile')
-    const div_message_err =  $('.message-err')
+    const div_message_err = $('.message-err')
+
+
 
     // -----------------------------
     return {
@@ -37,6 +41,7 @@ const elHtml = (($) => {
 
         btn_drm_getdata, btn_drm_verfdata, btn_drm_save,
         btn_drm_postFile_empty, btn_drm_base_param,
+        btn_sel_default,
 
         lb_cont_type,
         ContentType,
@@ -51,18 +56,7 @@ const elHtml = (($) => {
 
 
 const buttonFunctions = (($, el) => {
-
-    // base setting
-    //if (el.ContentType.is(':checked')) {
-    //    el.div_testarea.show()
-    //    el.lb_cont_type.text('Into file')
-    //}
-    //else {
-    //    el.div_testarea.hide()
-    //    el.lb_cont_type.text('Into database')
-    //}
-
-    // -------------------------------------
+    
 
     function CheckData() {
         const check = el.ContentType
@@ -74,15 +68,37 @@ const buttonFunctions = (($, el) => {
     }
 
 
+    el.btn_sel_default.bind('click', (e) => {
+        const btn = $(e.currentTarget)
+        const btn_id = btn.prop('id')
+        const id = btn.prop('id').substring(4, btn_id.length)
+
+        const idDiv = 'div-' + id;
+        const divComn = $('#' + idDiv);
+
+        el.btn_sel_default.removeClass('btn-sel')
+        btn.removeClass('btn-not-sel')
+
+        btn.addClass('btn-sel')
+
+        // div-72511B9B-45BE-445F-9635-1B62C6DAF625
+
+        const div = $("[idSelComn='on']").attr('idSelComn', 'off')
+        div.addClass('div-comn-hide')
+
+        divComn.attr('idSelComn', 'on')
+        divComn.removeClass('div-comn-hide')
+
+    })
+
     el.btn_dlg_open.click((e) => {
         //console.log('click for btn_dlg_open')
-    });
+    })
 
-    
 
     el.btn_close.click((e) => {
         //console.log('click for btn_dlg_close')
-    });
+    })
 
     el.ContentType.click(() => {
         if (CheckData() == true) {
