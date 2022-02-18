@@ -9,6 +9,7 @@ namespace TestJob.Models.ModelViews
     public class AnyData_Comment
     {
         public string ProjectName { get; set; }
+        public string TaskId { get; set; }
         public string TaskName { get; set; }
         public string Str_DateTime { get; set; }
         public string Date { get; set; }

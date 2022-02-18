@@ -65,10 +65,10 @@ namespace TestJob.Controllers
             if (project.UpdateDate != null)
                 dtUpdate = project.UpdateDate;
 
-            Components_date convDate = Components_date.convDate_intoObj(dtCreate);
+            Components_date convDate = Components_date.ConvDate_intoObj(dtCreate);
             Components_date convDateUpd = null;
             if (dtUpdate != null)
-                convDateUpd = Components_date.convDate_intoObj(dtCreate);
+                convDateUpd = Components_date.ConvDate_intoObj(dtCreate);
 
             projDetail = new Api_Ajax_contProject
             {

@@ -61,37 +61,21 @@
     }
 </style>
 
+
+@*hidden input*@
 <div>
-    <input type="hidden" asp-for="IdComment" />
-    <input type="hidden" asp-for="TaskId" />
-    <input type="hidden" asp-for="TypeOperations" />
-    <input type="hidden" asp-for="Debug" />
+    <input type="hidden" asp-for="@anyData.TaskId" />    
+    <input type="hidden" asp-for="@anyData.Debug" />
     <input type="hidden" asp-for="@anyData.maxSizeFile" />
 </div>
 
 
-@if (anyData.Debug=="True")
-{
-    <div class="btn-group dropright">
-        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Test command selector
-        </button>
-        <div class="dropdown-menu">
-            <button id="btn-drm-getdata" class="dropdown-item">GetData</button>
-            <button id="btn-drm-verfdata" class="dropdown-item">VerfData</button>
-            <button id="btn-drm-save" class="dropdown-item">saveData</button>
-            <button id="btn-drm-base-param" class="dropdown-item">BaseParam</button>
-            <button id="btn-drm-postFile-empty" class="dropdown-item">postFileEmpty</button>
-        </div>
-    </div>
-}
-
-<div class="modal fade" id="exampleModal"
+<div class="modal fade" id="div-Modal"
      tabindex="-1"
      role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
 
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" >
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Comment Editor </h5>
@@ -102,16 +86,37 @@
             </div>
             <div class="modal-body">
 
+                @if (anyData.Debug == "on")
+                {
+                    <div class="btn-group dropright">
+                        <button type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Test command selector
+                        </button>
+                        <div class="dropdown-menu">
+                            <button id="btn-drm-getdata" class="dropdown-item">GetData</button>
+                            <button id="btn-drm-verfdata" class="dropdown-item">VerfData</button>
+                            <button id="btn-drm-save" class="dropdown-item">saveData</button>
+                            <button id="btn-drm-base-param" class="dropdown-item">BaseParam</button>
+                            <button id="btn-drm-postFile-empty" class="dropdown-item">postFileEmpty</button>
+                        </div>
+                    </div>
+                }
+
                 <div class="message-err text-danger"></div>
 
                 <form class="mt-2">
 
-                    <div class="form-group form-check">
+                    <div class="form-group form-check div-content-type">
                         <input class="form-check-input"
                                asp-for="ContentType" />
                         <label class="form-check-label lb-cont-type"
                                asp-for="ContentType">For DBase</label>
                     </div>
+
+                    <div class="div-dlg-strFile">
+                        <b>File:</b> <span class="span-dlg-strFile"></span>
+                    </div>
+
                     <div class="div-postedFile">
                         <input asp-for="postedFile" />
                     </div>
@@ -126,10 +131,10 @@
             </div>
             <div class="modal-footer">
                 <button id="btn-dlg-close" type="button"
-                        class="btn btn-secondary btn-close" data-dismiss="modal">
+                        class="btn btn-secondary btn-close btn-sm" data-dismiss="modal">
                     Close
                 </button>
-                <button id="btn-dlg-save" type="button" class="btn btn-primary">Save changes</button>
+                <button id="btn-dlg-save" type="button" class="btn btn-primary btn-sm"><span>Save</span></button>
             </div>
         </div>
     </div>
@@ -145,7 +150,6 @@
         <li><b>Task</b>: @anyData.TaskName</li>
         <li><b>TaskStart:</b>: @anyData.Str_DateTime</li>
     </ul>
-
 
 
     @*Navigation buttons *@
@@ -178,27 +182,42 @@
                     @:<span><b>fileName</b>: @m.StrFileName</span>
                     <div class="py-1"></div>
                 }
-                @m.Content
+                <div class="div-comment">@m.Content</div>
             </div>
         }
     </div>
 
 
     @*Button block user interface *@
-    <div class="row mt-4">
-        <div class="col-auto rounded-circle px-1">
-            <button data-toggle="modal"
-                    class="border-0"
-                    style="background-color:none"
-                    data-target="#exampleModal">
-                <img src="~/img/adds.png" alt="Add" />
-            </button>
-        </div>
-
-        <div class="col-auto rounded-circle px-1"><img src="~/img/penc.png" alt="Upd" /></div>
-        <div class="col-auto rounded-circle px-1"><img src="~/img/del.png" alt="Del" /></div>
-        <div class="col"></div>
+<div class="row mt-4">
+    <div class="col-auto rounded-circle px-1">
+        <button id="btn-userIntf-add"
+                class="border-0"
+                style="background-color:none">               
+            <img src="~/img/adds.png" alt="Add" />
+        </button>
     </div>
+
+    <div class="col-auto rounded-circle px-1">
+        <button id="btn-userIntf-upd" class="border-0"
+                style="background-color:none">                
+            <img src="~/img/penc.png" alt="Upd" />
+        </button>
+    </div>
+
+
+    <div class="col-auto rounded-circle px-1">
+        <button id="btn-userIntf-del" class="border-0"
+                style="background-color:none">                
+            <img src="~/img/del.png" alt="Del" />
+        </button>
+    </div>
+
+    @*<div class="col-auto rounded-circle px-1"><img src="~/img/penc.png" alt="Upd" /></div>
+    <div class="col-auto rounded-circle px-1"><img src="~/img/del.png" alt="Del" /></div>*@
+
+    <div class="col"></div>
+</div>
 
 
 </div>
@@ -206,8 +225,8 @@
 
 @section Scripts {
     <script src="~/js/create.taskcomment.js"></script>
-    @if (anyData.Debug=="True")
-        {
-            <script src="~/js/create.taskcomment.test.js"></script>
-        }
+    @if (anyData.Debug=="on")
+    {
+        <script src="~/js/create.taskcomment.test.js"></script>
+    }
 }

@@ -67,6 +67,10 @@ namespace TestJob.Models.ModelViews.Templ
         {
             return UserMix.Enc_GetStrFromBytes(arg);
         }
+        protected static byte[] Get_bytesFromStr(string arg)
+        {
+            return UserMix.Enc_GetBytesFromStr(arg);
+        }
 
         protected static string Get_ComntFromFile(string pathTxt, byte[] arg)
         {
@@ -82,6 +86,9 @@ namespace TestJob.Models.ModelViews.Templ
         public virtual TResult ModelRes { get; set; }    // for save into database
         public virtual TView ModelView { get; set; }   // for ViewBag
 
+
+        protected abstract string Get_pathFromBytes(byte[] arg);
+        protected abstract string LoadFileTxt(string arg);
         public abstract bool VerifyData();
         public abstract bool SaveDataModel();
         public abstract bool Init_model();

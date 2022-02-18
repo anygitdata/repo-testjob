@@ -166,9 +166,9 @@ namespace TestJob.Controllers
                 if (descr.Length > 15)
                     descr = ts.TaskName.Substring(0, 15) + " ..."; // Line reduction 
 
-                Components_date compCreate = Components_date.convDate_intoObj(ts.CreateDate);
-                Components_date compStart = Components_date.convDate_intoObj(ts.StartDate);
-                Components_date compUpdate = Components_date.convDate_intoObj(argDate:ts.UpdateDate);
+                Components_date compCreate = Components_date.ConvDate_intoObj(ts.CreateDate);
+                Components_date compStart = Components_date.ConvDate_intoObj(ts.StartDate);
+                Components_date compUpdate = Components_date.ConvDate_intoObj(argDate:ts.UpdateDate);
 
                 lsTask.Add(
                     new ModelTask

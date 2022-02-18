@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using TestJob.Models.Interface;
 using TestJob.Models.ModelViews.Templ;
+using TestJob.Models.UserAPI;
 
 namespace TestJob.Models.ModelViews
 {
@@ -29,9 +32,28 @@ namespace TestJob.Models.ModelViews
             Init_lstModelView(id);
         }
 
+
+        protected override string LoadFileTxt(string file)
+        {
+            return UserMix.FileDownload(pathTxt, file);
+        }
+
+        protected override string Get_pathFromBytes(byte[] arg)
+        {
+            string file = Get_StrFromByte(arg);
+
+            return Path.Combine(pathTxt, file);
+        }
+
+
         private List<TaskComment_ModelView> _lstModelView;
         public List<TaskComment_ModelView> LstModelView {get => _lstModelView; }
-                
+
+        private TaskComment Get_itemTaskComn(string id)
+        {
+            return context.Set<TaskComment>().Find(Guid.Parse(id));
+        }
+
 
     }
 }

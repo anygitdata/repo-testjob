@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TestJob.Models.ModelViews.Templ;
@@ -41,14 +40,16 @@ namespace TestJob.Models.ModelViews
             ModelView = new AnyData_Comment
             {
                 ProjectName = data.ProjectName,
+                TaskId = id,
                 TaskName = data.TaskName,
                 Str_DateTime = Components_date.Get_str_DateTime(data.StartDate),
                 maxSizeFile = maxSizeFile,
-                Debug = Debug ? "True": "False"
+                Debug = Debug ? "on": "off"
             };
 
             return Return_withOK(); 
         }
+
 
         /// <summary>
         /// Final operation 
@@ -61,35 +62,56 @@ namespace TestJob.Models.ModelViews
             if (Model.TypeOperations == ETypeOperations.insert)
             {
                 if (!Model.ContentType)
-                    //  Model.postedFile.CopyTo(fileStream);  in Save
-                    Model.Content = UserMix.FileDownload(pathTxt, Model.StrFileName);
+                {
+                    string fullPath = Path.Combine(pathTxt, Model.Content);
+
+                    if (!string.IsNullOrEmpty(debug_path_for_copy))  // for testing 
+                        File.Copy(debug_path_for_copy, fullPath, true);
+                    else
+                    {
+                        using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            Model.postedFile.CopyTo(fileStream);
+                        }
+                    }
+
+                    Model.StrFileName = Model.Content;  // Model.Content is comment or fileName                    
+                    Model.Content = LoadFileTxt(Model.StrFileName);
+                }
+                    
+
+                if (!Debug)
+                {
+                    context.Add(ModelRes);
+                    context.SaveChanges();                                       
+                }
+
 
                 return Return_withOK();
             }
 
+
             if (Model.TypeOperations == ETypeOperations.update)
             {
-                var comn = context.Set<TaskComment>().Find(Guid.Parse(Model.IdComment));
+                var comn = Get_itemTaskComn(Model.IdComment);
 
-                if (!Model.ContentType) // comment in file
+                if (! (bool)comn.CommentType ) // false -> comment in file
                 {
-                    string fileName = UserMix.Enc_GetStrFromBytes(comn.Content);
-                    string fullPath = Path.Combine(pathTxt, fileName);
+                    string fullPath = Get_pathFromBytes(comn.Content);
 
-                    // update only file
-                    UserMix.FileCreate(fullPath, Model.Content);
+                    // remove and create file 
+                    if (!Debug)
+                        UserMix.FileCreate(fullPath, Model.Content);
                 }
                 else
                 {
                     // update in database
-                    comn.Content = UserMix.Enc_GetBytesFromStr(Model.Content);
+                    comn.Content = Get_bytesFromStr(Model.Content);
 
                     if (!Debug)
                         context.SaveChanges();
                 }
 
-
-                ModelRes = comn;
 
                 return Return_withOK();
             }
@@ -97,7 +119,15 @@ namespace TestJob.Models.ModelViews
 
             if (Model.TypeOperations == ETypeOperations.delete)
             {
-                context.Remove(context.Set<TaskComment>().Find(Guid.Parse(Model.IdComment)));
+                TaskComment comn = Get_itemTaskComn(Model.IdComment);
+
+                if (! (bool)comn.CommentType)
+                {
+                    if (!Debug)
+                        UserMix.FileDelete(Get_pathFromBytes(comn.Content));
+                }
+
+                context.Remove(comn);
 
                 if (!Debug)
                     context.SaveChanges();

@@ -298,7 +298,7 @@ namespace TestJob.Tests.ControllerTests
             string projNameInitial = project.ProjectName;
 
             DateTime dtCreate = project.CreateDate.AddDays(1);
-            var compDateTime = Components_date.convDate_intoObj(dtCreate);
+            var compDateTime = Components_date.ConvDate_intoObj(dtCreate);
 
             Ajax_product model = new ()
             {

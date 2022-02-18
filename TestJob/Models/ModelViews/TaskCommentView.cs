@@ -74,7 +74,7 @@ namespace TestJob.Models.ModelViews
             };
 
             var compStart =
-                Components_date.convDate_intoObj(data.StartDate);
+                Components_date.ConvDate_intoObj(data.StartDate);
 
             anyDataOut = new AnyData_Comment
             {

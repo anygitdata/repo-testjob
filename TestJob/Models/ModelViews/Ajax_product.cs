@@ -116,7 +116,7 @@ namespace TestJob.Models.ModelViews
                 {
                     DateTime dtCreate = project.CreateDate;
 
-                    Components_date comp_dateTime = Components_date.convDate_intoObj(dtCreate);
+                    Components_date comp_dateTime = Components_date.ConvDate_intoObj(dtCreate);
 
                     res = new Ajax_product
                     {
@@ -147,9 +147,9 @@ namespace TestJob.Models.ModelViews
 
 
             if ((typeOperation & ETypeOperations.insert) > 0)
-                comp_dateTime = Components_date.convDate_intoObj(project.CreateDate);
+                comp_dateTime = Components_date.ConvDate_intoObj(project.CreateDate);
             else
-                comp_dateTime = Components_date.convDate_intoObj((DateTime) project.UpdateDate);
+                comp_dateTime = Components_date.ConvDate_intoObj((DateTime) project.UpdateDate);
 
             model.projectName = project.ProjectName;
             model.date = comp_dateTime.date; 

@@ -12,7 +12,7 @@ namespace TestJob.Tests
         public void ComponentsDate__ConvStr_intoDateTime_paramIsNull_test()
         {
             // act 
-            var res = Components_date.convDate_intoObj(argDate:null);
+            var res = Components_date.ConvDate_intoObj(argDate:null);
 
             // assert
             Assert.Equal("ok", res.Result);
@@ -31,7 +31,7 @@ namespace TestJob.Tests
             string time = dt.ToString("hh:mm");
 
             // act
-            Components_date res = Components_date.convDate_intoObj(dt);
+            Components_date res = Components_date.ConvDate_intoObj(dt);
 
             // assert
             Assert.Equal(dt, res.resDate);
@@ -52,7 +52,7 @@ namespace TestJob.Tests
 
 
             // act
-            Components_date res = Components_date.convDate_intoObj(comb);
+            Components_date res = Components_date.ConvDate_intoObj(comb);
 
             // assert
             Assert.Equal("Error convert datetime by params", res.Message);
@@ -71,7 +71,7 @@ namespace TestJob.Tests
             string strDateTime = dt.ToString();
 
             // act 
-            var res = Components_date.convDate_intoObj(strDateTime);
+            var res = Components_date.ConvDate_intoObj(strDateTime);
 
             // assert
             Assert.Equal("ok", res.Result);

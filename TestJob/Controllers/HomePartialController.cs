@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
-using TestJob.Models;
 using TestJob.Models.ModelViews;
 using TestJob.Models.UserAPI;
 
@@ -34,10 +31,10 @@ namespace TestJob.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult AddTaskComment([FromForm] TaskComment_ModelView model)
+        public IActionResult AddTaskComment(TaskComment_ModelView model)
         {
-            var res = new GeneralModelView(context, anyUserData, model);
-            res.Run_VerifyData();
+            var res = new GenModelViewComn(context, anyUserData, model);
+            res.VerifyData();
 
             if (res.Result == IdentResult.Error)
             {
@@ -49,11 +46,11 @@ namespace TestJob.Controllers
             if (res.Debug)
                 return Ok(model);
 
-            res.Run_SaveModel();
+            res.SaveDataModel();
 
             return Ok(model);
         }
-        
+
 
     }
 }

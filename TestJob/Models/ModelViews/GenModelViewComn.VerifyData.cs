@@ -49,7 +49,6 @@ namespace TestJob.Models.ModelViews
                     return Return_withOK();
                 }
             }
-            
 
 
             // update or delete
@@ -68,9 +67,9 @@ namespace TestJob.Models.ModelViews
                 }
 
 
-                if (!Model.ContentType)   // comment in file
+                if ((Model.TypeOperations == ETypeOperations.update) && !Model.ContentType)   // comment in file
                 {
-                    string fileName = UserMix.Enc_GetStrFromBytes(comn.Content);
+                    string fileName = Get_StrFromByte(comn.Content);
                     string fullPath = Path.Combine(pathTxt, fileName);
 
 

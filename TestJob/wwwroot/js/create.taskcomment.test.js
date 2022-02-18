@@ -5,29 +5,34 @@
 ;const FuncTest = (($, el, bf, pb, bv) => {
 
     el.btn_drm_getdata.click(() => {
+
+        const typeOper = $('form').attr('typeOper')
+
         const AdditionalInf = {}
         const data = pb.GetData()
 
-        const files = el.postedFile[0].files
-        if (files.length > 0) {
-            AdditionalInf.size = files[0].size
-            AdditionalInf.type = files[0].type
+        if (typeOper == 'add') {
 
-            if (AdditionalInf.type != pb.typeFile)
-                AdditionalInf.errorPostFile = pb.Err_NotTextFile
-            else
-                if (AdditionalInf.size > pb.maxSizeFile)
-                    AdditionalInf.errorSize = pb.Err_BigFile
+            if (bf.CheckData() == false) {
+
+                const files = el.postedFile[0].files
+
+                if (files.length > 0) {
+                    AdditionalInf.size = files[0].size
+                    AdditionalInf.type = files[0].type
+
+                    if (AdditionalInf.type != pb.typeFile)
+                        AdditionalInf.errorPostFile = pb.Err_NotTextFile
+                    else
+                        if (AdditionalInf.size > pb.maxSizeFile)
+                            AdditionalInf.errorSize = pb.Err_BigFile
+                }
+            }
+
+            if (bf.CheckData() == true && data.Content == '')
+                AdditionalInf.errContent = pb.Err_NotData_forContent
+            
         }
-        
-
-        if (bf.CheckData() == true && data.Content == '')
-            AdditionalInf.errContent = pb.Err_NotData_forContent
-        else {
-            if (bf.CheckData() == false && files.length == 0)
-                AdditionalInf.errPostedFile = pb.Err_PostFile_notData
-        }
-
 
         let keys = Object.keys(data), k = 0, i=0
 
@@ -75,9 +80,8 @@
         console.group('-------- BaseParam --------')
 
         console.log('Debug:', el.Debug)
-        console.log('TaskId:', el.TaskId)
-        console.log('TypeOperations:', el.TypeOperations)
-        console.log('IdComment:', el.IdComment.val())
+        console.log('TaskId:', el.TaskId)        
+        console.log('maxSizeFile:', el.maxSizeFile)
 
         console.groupEnd()
     })

@@ -165,6 +165,7 @@ namespace TestJob.Models.UserAPI
             return res;
         }
 
+
         public static bool FileDelete(string pathTxt, string fileName)
         {
 
@@ -223,7 +224,6 @@ namespace TestJob.Models.UserAPI
             {
                 if (FileExists(fullPath))
                     FileDelete(fullPath);
-
 
                 using (StreamWriter writer = new (fullPath))
                 {

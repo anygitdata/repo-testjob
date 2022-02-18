@@ -11,12 +11,12 @@ namespace TestJob.Models.ModelViews
         public DateTime resDate { get; set; }
 
 
-        public static Components_date convDate_intoObj(string dt)
+        public static Components_date ConvDate_intoObj(string dt)
         {
             DateTime val;
             if (DateTime.TryParse(dt, out val))
             {
-                return convDate_intoObj(val);
+                return ConvDate_intoObj(val);
             }
 
             return new Components_date
@@ -33,7 +33,7 @@ namespace TestJob.Models.ModelViews
             if (arg == null)
                 return "";
 
-            var compDate = convDate_intoObj(arg);
+            var compDate = ConvDate_intoObj(arg);
 
             if (compDate.Result == IdentResult.Error)
                 return "";
@@ -42,7 +42,7 @@ namespace TestJob.Models.ModelViews
 
         }
 
-        public static Components_date convDate_intoObj(DateTime? argDate)
+        public static Components_date ConvDate_intoObj(DateTime? argDate)
         {
 
             DateTime dt;
