@@ -5,38 +5,7 @@
 
     var LstModelView = ViewBag.LstModelView as List<TaskComment_ModelView>;
 
-    int index = 0;
-
-    string GetClass()
-    {
-        index++;
-        if (index == 1)
-            return "btn-sel";
-        else
-            return "btn-not-sel";
-
-    }
-
-    string id_selComn = "on";
-    bool initFirst = true;
-    string Get_idSelComn()
-    {
-        string res = id_selComn;
-
-        if (id_selComn == "on")
-            id_selComn = "off";
-        return res;
-    }
-
-    string Css_divCommn()
-    {
-        if (initFirst)
-        {
-            initFirst = false;
-            return "";
-        }
-        return "div-comn-hide";
-    }
+    int index = 1;
 
 }
 
@@ -88,18 +57,7 @@
 
                 @if (anyData.Debug == "on")
                 {
-                    <div class="btn-group dropright">
-                        <button type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Test command selector
-                        </button>
-                        <div class="dropdown-menu">
-                            <button id="btn-drm-getdata" class="dropdown-item">GetData</button>
-                            <button id="btn-drm-verfdata" class="dropdown-item">VerfData</button>
-                            <button id="btn-drm-save" class="dropdown-item">saveData</button>
-                            <button id="btn-drm-base-param" class="dropdown-item">BaseParam</button>
-                            <button id="btn-drm-postFile-empty" class="dropdown-item">postFileEmpty</button>
-                        </div>
-                    </div>
+                    <partial name="_AddTaskComment_test" />
                 }
 
                 <div class="message-err text-danger"></div>
@@ -139,6 +97,7 @@
         </div>
     </div>
 </div>
+@* end block modelDlg *@
 
 
 <div class="container">
@@ -153,13 +112,13 @@
 
 
     @*Navigation buttons *@
-    <div class="row mb-3" style="padding-right:8rem">
+    <div class="row mb-3 div-btn-navig" style="padding-right:8rem">
         @foreach (TaskComment_ModelView m in LstModelView)
         {
             <div class="col-auto px-1">
-                <button class="btn-sel-default @(GetClass()) btn-sm border border-info rounded-circle btn-sel-comn"
+                <button class="btn-sel-default btn-sm border border-info rounded-circle"
                         id="btn-@(m.IdComment)">
-                    @index
+                    @(index++)
                 </button>
             </div>
         }
@@ -169,12 +128,11 @@
 
 
     @*Comment block *@
-    <div class="row">
+    <div class="row div-comments">
         @foreach (TaskComment_ModelView m in LstModelView)
         {
-            <div class="@Css_divCommn() col-10 border-top border-bottom border-dark p-2"
-                 fileName="@(m.StrFileName)"
-                 idSelComn="@(Get_idSelComn())"
+            <div class="div-comn-hide col-10 border-top border-bottom border-dark p-2"
+                 fileName="@(m.StrFileName)"                 
                  id="div-@(m.IdComment)"
                  style="background: #f8dd91;">
                 @if (!string.IsNullOrEmpty(m.StrFileName))
@@ -188,7 +146,7 @@
     </div>
 
 
-    @*Button block user interface *@
+    @*Button editor *@
 <div class="row mt-4">
     <div class="col-auto rounded-circle px-1">
         <button id="btn-userIntf-add"
@@ -213,8 +171,6 @@
         </button>
     </div>
 
-    @*<div class="col-auto rounded-circle px-1"><img src="~/img/penc.png" alt="Upd" /></div>
-    <div class="col-auto rounded-circle px-1"><img src="~/img/del.png" alt="Del" /></div>*@
 
     <div class="col"></div>
 </div>

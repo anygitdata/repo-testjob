@@ -19,7 +19,7 @@ namespace TestJob.Models.ModelViews
 
         public string StrFileName { get; set; }
 
-        public bool Debug { get; set; }
+        //public bool Debug { get; set; }
 
         public ETypeOperations TypeOperations { get; set; }
     }

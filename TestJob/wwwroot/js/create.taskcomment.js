@@ -12,12 +12,6 @@ const elHtml = (($) => {
     const btn_dlg_open = $('#btn-dlg-open')
     const btn_close = $('.btn-close')
 
-    const btn_drm_getdata = $('#btn-drm-getdata')
-    const btn_drm_verfdata = $('#btn-drm-verfdata')
-    const btn_drm_save = $('#btn-drm-save')
-    const btn_drm_postFile_empty = $('#btn-drm-postFile-empty')
-    const btn_drm_base_param = $('#btn-drm-base-param')
-
     const btn_userIntf_add = $('#btn-userIntf-add')
     const btn_userIntf_upd = $('#btn-userIntf-upd')
     const btn_userIntf_del = $('#btn-userIntf-del')
@@ -41,12 +35,12 @@ const elHtml = (($) => {
     const div_content_type = $('.div-content-type')
     const div_Modal = $('#div-Modal')    
     const div_modal_footer = $('.modal-footer')
+    const div_comments = $('.div-comments')
+    const div_btn_navig = $('.div-btn-navig')
+
 
     const span_dlg_strFile = $('.span-dlg-strFile')
 
-
-    // base settings
-    $('#div-Modal').modal('hide')
 
     // -----------------------------
     return {
@@ -54,11 +48,9 @@ const elHtml = (($) => {
 
         btn_dlg_save, btn_dlg_open, btn_close,
 
-        btn_drm_getdata, btn_drm_verfdata, btn_drm_save,
-        btn_drm_postFile_empty, btn_drm_base_param,
         btn_sel_default,
         btn_userIntf_add, btn_userIntf_upd, btn_userIntf_del,
-        div_Modal,
+        div_Modal, div_comments, div_btn_navig,
 
         span_dlg_strFile,
 
@@ -75,7 +67,8 @@ const elHtml = (($) => {
         Debug
     }
 
-})(jQuery);
+})(jQuery); 
+// elHtml
 
 
 const buttonFunctions = (($, el) => {
@@ -96,11 +89,20 @@ const buttonFunctions = (($, el) => {
         return id
     }
 
+    function Get_firstButtonNavigator() {
+
+        return el.div_btn_navig.children().first().find('button')
+    }
+
+
 
     el.btn_userIntf_add.click(() => {
 
         if (CheckData() == false)
             el.ContentType.click()
+
+
+        el.div_message_err.empty()
 
         el.div_postedFile.hide()
         el.div_dlg_strFile.hide()
@@ -217,13 +219,15 @@ const buttonFunctions = (($, el) => {
     el.ContentType.click()
 
 
-    return { CheckData, Get_idFromForm}
+    return {
+        CheckData, Get_idFromForm, Get_firstButtonNavigator
+    }
 
 })(jQuery, elHtml);
 
 
 // data processing
-const ProcBlock = (($, el, bf, bv) => {
+;const ProcBlock = (($, el, bf, bv) => {
 
     const typeFile = 'text/plain'
     const maxSizeFile = 400
@@ -374,4 +378,22 @@ const ProcBlock = (($, el, bf, bv) => {
     }
 
 })(jQuery, elHtml, buttonFunctions, baseValues);
+
+
+
+// settings for start
+;((el, bf) => {
+
+    // base settings
+    $('#div-Modal').modal('hide')
+
+    if (el.div_btn_navig.children().length > 0) {
+        bf.Get_firstButtonNavigator().click()
+    }
+    else {
+        el.btn_userIntf_upd.addClass('disabled')
+        el.btn_userIntf_del.addClass('disabled')
+    }
+
+})(elHtml, buttonFunctions);
 
