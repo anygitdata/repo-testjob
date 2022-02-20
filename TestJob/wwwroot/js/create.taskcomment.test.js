@@ -17,8 +17,11 @@
     const btn_drm_data_ajaxDel = $('#btn-drm-data_ajaxDel')
 
 
-    // --------------------
+    const after_response_add = $('#btn-drm-response-add')
+    const after_response_upd = $('#btn-drm-response-upd')
+    const after_response_del = $('#btn-drm-response-del')
 
+    // --------------------
     return {
         btn_drm_getdata,
         btn_drm_verfdata,
@@ -29,6 +32,8 @@
         btn_drm_data_ajaxAdd,
         btn_drm_data_ajaxUpd,
         btn_drm_data_ajaxDel,
+
+        after_response_add, after_response_upd, after_response_del
     }
 
 })()
@@ -143,24 +148,20 @@ const objTest = ((el, bf) => {
 
     })
 
-
     ht.btn_drm_verfdata.click(() => {
         const res = pb.VerfData()
         if (res == bv.ok)
             console.log('verfData: ', res);
     })
 
-
     ht.btn_drm_save.click(() => {
         pb.SaveData()
     })
-
 
     ht.btn_drm_postFile_empty.click(() => {
         el.postedFile.val('')
         console.log('el.postedFile: ', el.postedFile.val())
     })
-
 
     ht.btn_drm_base_param.click(() => {
 
@@ -210,6 +211,55 @@ const objTest = ((el, bf) => {
             console.log(keys[k] + ': ', data[keys[k]])
         }
         console.groupEnd()
+    })
+
+
+    // ------------------------
+    ht.after_response_add.click((e) => {
+
+        e.preventDefault()
+
+        const data = {
+            result: 'ok',
+            strFileName: 'Testing_file.txt',
+            IdComment: '79540886-EFDD-4CE0-988C-A9E5B2751221',
+            content: 'Comment by procTesting'
+        }
+
+        pb.After_responseAdd(data)
+
+
+        const data2 = {
+            result: 'ok',
+            strFileName:'',
+            IdComment: '2793071A-9759-46D5-8162-4BFA8F845391',
+            content: 'Comment by procTesting'
+        }
+
+        pb.After_responseAdd(data2)
+
+    })
+
+    ht.after_response_upd.click((e) => {
+
+        e.preventDefault()
+
+        const data = {
+            result: 'ok',
+            IdComment: '79540886-EFDD-4CE0-988C-A9E5B2751221',
+            content: 'Update comment by procTesting'
+        }
+
+        pb.After_responseUpd(data)
+    })
+
+    ht.after_response_del.click((e) => {
+        const data = {
+            result: 'ok'
+        }
+
+        pb.After_responseDel(data)
+
     })
 
 

@@ -16,8 +16,7 @@ const elHtml = (($) => {
     const btn_userIntf_upd = $('#btn-userIntf-upd')
     const btn_userIntf_del = $('#btn-userIntf-del')
 
-
-    const btn_sel_default = $('.btn-sel-default'); // button navigator
+    let btn_sel_default = $('.btn-sel-default'); // button navigator
 
 
     const lb_cont_type = $('.lb-cont-type')
@@ -35,7 +34,7 @@ const elHtml = (($) => {
     const div_content_type = $('.div-content-type')
     const div_Modal = $('#div-Modal')    
     const div_modal_footer = $('.modal-footer')
-    const div_comments = $('.div-comments')
+    const div_main_comments = $('.main-comments')
     const div_btn_navig = $('.div-btn-navig')
 
 
@@ -50,7 +49,8 @@ const elHtml = (($) => {
 
         btn_sel_default,
         btn_userIntf_add, btn_userIntf_upd, btn_userIntf_del,
-        div_Modal, div_comments, div_btn_navig,
+        div_Modal, div_btn_navig,
+        div_main_comments,
 
         span_dlg_strFile,
 
@@ -61,7 +61,7 @@ const elHtml = (($) => {
 
         div_testarea, div_postedFile,
         div_message_err, div_dlg_strFile,
-        div_comment, div_content_type,
+        div_comment, div_content_type,        
         div_modal_footer,
 
         Debug
@@ -90,11 +90,12 @@ const buttonFunctions = (($, el) => {
     }
 
     function Get_firstButtonNavigator() {
+        const item = el.div_btn_navig.children().first()
 
-        return el.div_btn_navig.children().first().find('button')
+        return item.find('button')
     }
 
-
+    // --------------------------------------
 
     el.btn_userIntf_add.click(() => {
 
@@ -124,14 +125,13 @@ const buttonFunctions = (($, el) => {
 
     el.btn_userIntf_upd.click(() => {
 
-        const div = $("[idSelComn='on']")
-        const divId = div.prop('id')
-        const id = divId.substring(4, divId.length)
+        const div = $("[divsel='on']")
+        const id = div.attr('divid')
         const fileName = div.attr('fileName')
         const content = div.children('.div-comment').text()
 
 
-        el.btn_userIntf_add.click() // base settings
+        el.btn_userIntf_add.click()
 
         el.postedFile.val('')
 
@@ -163,7 +163,7 @@ const buttonFunctions = (($, el) => {
     el.btn_userIntf_del.click(() => {
         el.btn_userIntf_upd.click()
         el.div_testarea.addClass('disabled')
-
+         
         const id = Get_idFromForm()
 
         $('form').attr('idData', id).attr('typeOper', 'del')
@@ -172,29 +172,22 @@ const buttonFunctions = (($, el) => {
     })
 
 
-    // button navigator
-    el.btn_sel_default.bind('click', (e) => {
-        const btn = $(e.currentTarget)
-        const btn_id = btn.prop('id')
-        const id = btn.prop('id').substring(4, btn_id.length)
+    function Click_default(e) {
+        const divCur = $("div[divsel='on']")
+        if (divCur.length > 0) {
+            el.btn_sel_default.removeClass('btn-sel')
+            divCur.attr('divsel', 'off').addClass('div-comn-hide')
+        }
 
-        const idDiv = 'div-' + id;
-        const divComn = $('#' + idDiv);
 
-        el.btn_sel_default.removeClass('btn-sel')
-        btn.removeClass('btn-not-sel')
+        const btnNav = $(e.currentTarget).removeClass('btn-not-sel').addClass('btn-sel')
 
-        btn.addClass('btn-sel')
+        const id = btnNav.prop('id')
 
-        // div-72511B9B-45BE-445F-9635-1B62C6DAF625
+        const divid = "div[divid='##']".replace('##', id)
+        $(divid).attr('divsel', 'on').removeClass('div-comn-hide')
 
-        const div = $("[idSelComn='on']").attr('idSelComn', 'off')
-        div.addClass('div-comn-hide')
-
-        divComn.attr('idSelComn', 'on')
-        divComn.removeClass('div-comn-hide')
-
-    })
+    }
     
 
     el.ContentType.click(() => {
@@ -215,19 +208,21 @@ const buttonFunctions = (($, el) => {
         }
     })
 
-    // initBase state
+
+    // initBase state  
     el.ContentType.click()
 
 
     return {
-        CheckData, Get_idFromForm, Get_firstButtonNavigator
+        CheckData, Get_idFromForm,
+        Get_firstButtonNavigator, Click_default
     }
 
 })(jQuery, elHtml);
 
 
 // data processing
-;const ProcBlock = (($, el, bf, bv) => {
+const ProcBlock = (($, el, bf, bv) => {
 
     const typeFile = 'text/plain'
     const maxSizeFile = 400
@@ -249,8 +244,16 @@ const buttonFunctions = (($, el) => {
         div.append(err)
     }
 
-    el.btn_dlg_save.click(SaveData)
+    function SelectedItem(arg) {
 
+        const attr_divsel = "div[divsel='on']"
+        const divSel = $(attr_divsel)
+
+        if (arg == 'div')
+            return divSel
+        else
+            return $('#' + divSel.attr('divid'))
+    }
 
     function GetData() {
 
@@ -293,7 +296,6 @@ const buttonFunctions = (($, el) => {
         }
 
     }
-
 
     function VerfData() {
 
@@ -347,6 +349,7 @@ const buttonFunctions = (($, el) => {
     }
 
 
+    // block ajax handlers 
     function AddItem() {
         const data = GetData()
 
@@ -362,19 +365,96 @@ const buttonFunctions = (($, el) => {
 
     }
 
+    // end block ajax handlers 
 
-    function SaveData(e) {
-        if (VerfData())
+
+    // block response ajax
+    function After_responseAdd(data) {
+        if (data.result == bv.error || data.result == undefined)
             return
+
+        const div = $('<div style="background: #f8dd91;"></div>')
+            .addClass('col-10 div-comn-hide border-top border-bottom border-dark p-2')
+            .attr('fileName', data.strFileName)
+            .attr('divid', data.IdComment)
+            .attr('divsel', 'off')
+
+        if (data.strFileName != '') {
+            const templSpan = '<span><b>fileName</b>: ##file</span><div class="py-1"></div>'
+                    .replace('##file', data.strFileName)
+            div.append($(templSpan))
+        }
+
+        const templDivComn = '<div class="div-comment">##comment</div>'.replace('##comment', data.content)
+        const divComn = $(templDivComn)
+        div.append(divComn)
+
+
+        const divBtn = $('<div class="col-auto px-1"></div>')
+        const numCount = el.div_btn_navig.children().length
+        const btn = $('<button class="btn-sel-default btn-sm border border-info rounded-circle">##</button>'
+            .replace('##', numCount)).attr('id', data.IdComment)
+
+        divBtn.append(btn)
+
+
+        el.div_main_comments.append(div)
+        divBtn.insertBefore('.last-column')
+
+        el.div_Modal.modal('hide')
+        el.btn_sel_default = $('.btn-sel-default')  // btn array update !!!
+
+        btn.click()
 
     }
 
 
+    function After_responseUpd(data) {
+
+        if (data.result == bv.error || data.result == undefined)
+            return
+
+        const div = SelectedItem('div')
+        div.find('.div-comment').text(data.content)
+
+        el.div_Modal.modal('hide')
+
+    }
+
+
+    function After_responseDel(data) {
+        if (data.result == bv.error || data.result == undefined)
+            return
+
+        el.div_Modal.modal('hide')
+
+        const divBtn = SelectedItem('btn').parent()
+        divBtn.remove()
+
+        SelectedItem('div').remove()
+
+
+        bf.Get_firstButtonNavigator().click()
+    }
+
+    // End of ajax response block 
+
+
+    el.btn_dlg_save.click(() => {
+        if (VerfData() == bv.error)
+            return
+    })
+
+
+    // ---------------------------------------
+
     return {
-        GetData, VerfData, SaveData, typeFile,
+        GetData, VerfData, typeFile,
         maxSizeFile, MessageErr,
         Err_NotTextFile, Err_BigFile,
-        Err_NotData_forContent, Err_PostFile_notData
+        Err_NotData_forContent, Err_PostFile_notData,
+
+        After_responseAdd, After_responseUpd, After_responseDel
     }
 
 })(jQuery, elHtml, buttonFunctions, baseValues);
@@ -382,7 +462,9 @@ const buttonFunctions = (($, el) => {
 
 
 // settings for start
-;((el, bf) => {
+((el, bf) => {
+
+    $('.div-btn-navig').on('click', '.btn-sel-default', bf.Click_default);
 
     // base settings
     $('#div-Modal').modal('hide')

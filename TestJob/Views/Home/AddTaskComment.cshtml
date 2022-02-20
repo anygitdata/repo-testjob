@@ -33,7 +33,7 @@
 
 @*hidden input*@
 <div>
-    <input type="hidden" asp-for="@anyData.TaskId" />    
+    <input type="hidden" asp-for="@anyData.TaskId" />
     <input type="hidden" asp-for="@anyData.Debug" />
     <input type="hidden" asp-for="@anyData.maxSizeFile" />
 </div>
@@ -44,10 +44,10 @@
      role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
 
-    <div class="modal-dialog" role="document" >
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Comment Editor </h5>
+                <h5 class="modal-title" id="exampleModalLabel">Editor comment</h5>
                 <button type="button"
                         class="close btn-close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -117,23 +117,24 @@
         {
             <div class="col-auto px-1">
                 <button class="btn-sel-default btn-sm border border-info rounded-circle"
-                        id="btn-@(m.IdComment)">
+                        id="@(m.IdComment)">
                     @(index++)
                 </button>
             </div>
         }
 
-        <div class="col"></div>
+        <div class="col last-column"></div>
     </div>
 
 
     @*Comment block *@
-    <div class="row div-comments">
+    <div class="row main-comments">
         @foreach (TaskComment_ModelView m in LstModelView)
         {
-            <div class="div-comn-hide col-10 border-top border-bottom border-dark p-2"
-                 fileName="@(m.StrFileName)"                 
-                 id="div-@(m.IdComment)"
+            <div class="col-10 div-comn-hide border-top border-bottom border-dark p-2"
+                 fileName="@(m.StrFileName)"
+                 divid="@(m.IdComment)"
+                 divsel="off"
                  style="background: #f8dd91;">
                 @if (!string.IsNullOrEmpty(m.StrFileName))
                 {
@@ -147,33 +148,33 @@
 
 
     @*Button editor *@
-<div class="row mt-4">
-    <div class="col-auto rounded-circle px-1">
-        <button id="btn-userIntf-add"
-                class="border-0"
-                style="background-color:none">               
-            <img src="~/img/adds.png" alt="Add" />
-        </button>
+    <div class="row mt-4">
+        <div class="col-auto rounded-circle px-1">
+            <button id="btn-userIntf-add"
+                    class="border-0"
+                    style="background-color:none">
+                <img src="~/img/adds.png" alt="Add" />
+            </button>
+        </div>
+
+        <div class="col-auto rounded-circle px-1">
+            <button id="btn-userIntf-upd" class="border-0"
+                    style="background-color:none">
+                <img src="~/img/penc.png" alt="Upd" />
+            </button>
+        </div>
+
+
+        <div class="col-auto rounded-circle px-1">
+            <button id="btn-userIntf-del" class="border-0"
+                    style="background-color:none">
+                <img src="~/img/del.png" alt="Del" />
+            </button>
+        </div>
+
+
+        <div class="col"></div>
     </div>
-
-    <div class="col-auto rounded-circle px-1">
-        <button id="btn-userIntf-upd" class="border-0"
-                style="background-color:none">                
-            <img src="~/img/penc.png" alt="Upd" />
-        </button>
-    </div>
-
-
-    <div class="col-auto rounded-circle px-1">
-        <button id="btn-userIntf-del" class="border-0"
-                style="background-color:none">                
-            <img src="~/img/del.png" alt="Del" />
-        </button>
-    </div>
-
-
-    <div class="col"></div>
-</div>
 
 
 </div>
@@ -181,7 +182,7 @@
 
 @section Scripts {
     <script src="~/js/create.taskcomment.js"></script>
-    @if (anyData.Debug=="on")
+    @if (anyData.Debug == "on")
     {
         <script src="~/js/create.taskcomment.test.js"></script>
     }
