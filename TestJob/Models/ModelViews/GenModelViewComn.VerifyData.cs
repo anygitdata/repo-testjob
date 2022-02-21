@@ -10,6 +10,25 @@ namespace TestJob.Models.ModelViews
     {
         public override bool VerifyData()
         {
+            if (Model.TypeOperations == ETypeOperations.delete)
+            {
+                try
+                {
+                    var taskComn = context.Set<TaskComment>().Find(Guid.Parse(Model.IdComment));
+
+                    if (taskComn == null)
+                    {
+                        return Return_withEROR("No data to comment");
+                    }
+
+                    return Return_withOK();
+                }
+                catch {
+                    return Return_withEROR("ID error"); ;
+                }
+            }
+
+
             if (string.IsNullOrEmpty(Model.Content))
             {                
                 return Return_withEROR("Not data for Content");
@@ -52,7 +71,7 @@ namespace TestJob.Models.ModelViews
 
 
             // update or delete
-            if (Model.TypeOperations > ETypeOperations.insert)
+            if (Model.TypeOperations == ETypeOperations.update)
             {
                 if (string.IsNullOrEmpty(Model.IdComment))
                 {
@@ -67,7 +86,7 @@ namespace TestJob.Models.ModelViews
                 }
 
 
-                if ((Model.TypeOperations == ETypeOperations.update) && !Model.ContentType)   // comment in file
+                if (!Model.ContentType)   // comment in file
                 {
                     string fileName = Get_StrFromByte(comn.Content);
                     string fullPath = Path.Combine(pathTxt, fileName);

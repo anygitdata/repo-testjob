@@ -9,7 +9,6 @@ namespace TestJob.Controllers
     {
 
         [HttpGet("ins-comment/{id}")]
-
         public IActionResult AddTaskComment(Guid id)
         {
             var res = new GenModelViewComn(context, anyUserData, id.ToString() );
@@ -25,13 +24,52 @@ namespace TestJob.Controllers
         }
 
 
+        [HttpDelete("del-comment/{id}")]
+        public IActionResult DelTaskComment(string id)
+        {
+            var model = new TaskComment_ModelView(id);
+            model.TypeOperations = Models.ETypeOperations.delete;
+
+
+            var res = new GenModelViewComn(context, anyUserData, model);
+
+            if (!res.VerifyData())
+            {
+                return Ok(res.BasicData);
+            }
+
+            res.SaveDataModel();
+
+            return Ok(res.BasicData);
+        }
+
+
+        [HttpPut("upd-comment/{id}")]
+        public IActionResult UpdTaskComment(TaskComment_ModelView model)
+        {
+            model.TypeOperations = Models.ETypeOperations.update;
+
+            var res = new GenModelViewComn(context, anyUserData, model);
+
+            if (!res.VerifyData())
+            {
+                return Ok(res.BasicData);
+            }
+
+            res.SaveDataModel();
+
+            return Ok(model);
+        }
+
+
+
         /// <summary>
         /// use Ajax 
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult AddTaskComment(TaskComment_ModelView model)
+        public IActionResult AddTaskComment([FromForm] TaskComment_ModelView model)
         {
             var res = new GenModelViewComn(context, anyUserData, model);
             res.VerifyData();

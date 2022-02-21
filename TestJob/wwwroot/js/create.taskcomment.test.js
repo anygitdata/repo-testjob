@@ -43,14 +43,6 @@ const objTest = ((el, bf) => {
 
     function Get_data_ajaxAdd(strFileName, content) {
 
-        /*
-        IdComment
-        TaskId
-        Content
-        ContentType
-        StrFileName
-             */
-
         const res = {
             idComment: "E0ABAE77-E3F2-4F63-AD59-9EAEB49AD282",
             Content: content,
@@ -175,7 +167,7 @@ const objTest = ((el, bf) => {
     })
 
 
-    // ------------------------------
+    // ------------------------------ 
     ht.btn_drm_data_ajaxAdd.click(() => {
         const data = ot.Get_data_ajaxAdd('taskComment.txt', 'comment from testing procedure')
         const keys = Object.keys(data)

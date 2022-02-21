@@ -1,11 +1,8 @@
 ﻿
 const elHtml = (($) => {
 
-    //const btn_dlg_close = $('#btn-dlg-close')
-
     const Debug = $('#anyData_Debug').val()
     const TaskId = $('#anyData_TaskId').val()
-    const TypeOperations = $('#TypeOperations')
     const maxSizeFile = $('#anyData_maxSizeFile').val()
 
     const btn_dlg_save = $('#btn-dlg-save')
@@ -41,9 +38,25 @@ const elHtml = (($) => {
     const span_dlg_strFile = $('.span-dlg-strFile')
 
 
+    function AddClass_Disabled(arg) {
+
+        if (arg == true) {
+            btn_userIntf_upd.addClass('disabled')
+            btn_userIntf_del.addClass('disabled')
+        }
+        else {
+            btn_userIntf_upd.removeClass('disabled')
+            btn_userIntf_del.removeClass('disabled')
+        }
+    }
+    
+
     // -----------------------------
-    return {
-        IdComment, TaskId, TypeOperations, maxSizeFile,
+    return {        
+
+        AddClass_Disabled,
+
+        IdComment, TaskId, maxSizeFile,
 
         btn_dlg_save, btn_dlg_open, btn_close,
 
@@ -84,15 +97,20 @@ const buttonFunctions = (($, el) => {
 
     function Get_idFromForm() {
         const idData = $('form').attr('idData')
-        const id = idData.substring(0, idData.length)
 
-        return id
+        return idData
     }
 
     function Get_firstButtonNavigator() {
-        const item = el.div_btn_navig.children().first()
 
-        return item.find('button')
+        if (el.div_btn_navig.children().length > 1) {
+            return el.div_btn_navig.children().first().find('button')
+        }
+
+        el.AddClass_Disabled(true)
+
+
+        return null
     }
 
     // --------------------------------------
@@ -120,6 +138,7 @@ const buttonFunctions = (($, el) => {
         $('form').attr('idData', '').attr('typeOper', 'add')
 
         el.div_Modal.modal('show')
+        el.TypeOperations = ''
     })
 
 
@@ -136,6 +155,7 @@ const buttonFunctions = (($, el) => {
         el.postedFile.val('')
 
         $('form').attr('idData', id).attr('typeOper','upd')
+
 
         if (fileName != '') {
             if (CheckData() == true)
@@ -213,6 +233,8 @@ const buttonFunctions = (($, el) => {
     el.ContentType.click()
 
 
+
+    // ----------------------------
     return {
         CheckData, Get_idFromForm,
         Get_firstButtonNavigator, Click_default
@@ -268,9 +290,9 @@ const ProcBlock = (($, el, bf, bv) => {
 
         if (typeOper == 'upd') {
             return {
-                TypeId: el.TaskId,
                 IdComment : bf.Get_idFromForm(),
-                Content: el.Content.val()
+                Content: el.Content.val(),
+                ContentType: bf.CheckData()
             }
         }
 
@@ -279,7 +301,8 @@ const ProcBlock = (($, el, bf, bv) => {
             const res = {
                 TypeId: el.TaskId,                
                 IdComment: '',
-                ContentType: bf.CheckData()
+                ContentType: bf.CheckData(),
+                TypeOperations: el.TypeOperations
             }
 
             if (bf.CheckData() == false) {
@@ -307,21 +330,20 @@ const ProcBlock = (($, el, bf, bv) => {
         if (typeOper == 'del')
             return bv.ok
 
-        if (el.TaskId == '') {
-            MessageErr('Not data for TaskId')
-            return bv.error
-        }
 
         if (el.Content.val().trim() == '') {
             MessageErr(Err_NotData_forContent)
             return bv.error
         }
 
-
         if (typeOper == 'upd') {
             return bv.ok
         }
 
+        if (el.TaskId == '') {
+            MessageErr('Not data for TaskId')
+            return bv.error
+        }
 
         if (typeOper == 'add') {
 
@@ -349,20 +371,75 @@ const ProcBlock = (($, el, bf, bv) => {
     }
 
 
+    el.btn_dlg_save.click(() => {
+
+        const typeOper = $('form').attr('typeOper')
+
+        if (typeOper == undefined || typeOper == '')
+            return
+
+        switch (typeOper) {
+            case 'add':
+                AddItem()
+                break
+            case 'upd':
+                UpdItem()
+                break
+            case 'del':
+                DelItem()
+                break
+        }
+
+
+    })
+
+
     // block ajax handlers 
     function AddItem() {
+        console.log('AddItem')
+    }
+
+
+    function UpdItem() {
+        if (VerfData() == bv.error)
+            return
+
+
+        const id = bf.Get_idFromForm()
+        const url = '/upd-comment/' + id
+
         const data = GetData()
 
+        $.ajax(url, {
+            data: data,
+            method: 'PUT',
+            success: function (data) {
+                After_responseUpd(data)
+            }
+        }
+        )
     }
 
 
     function DelItem() {
 
-    }
+        if (VerfData() == bv.error)
+            return
 
 
-    function updItem() {
+        const id = bf.Get_idFromForm()
+        const url = '/del-comment/' + id
 
+        const data = GetData()
+
+        $.ajax(url, {
+            data: data,
+            method: 'DELETE',
+            success: function (data) {
+                After_responseDel(data)
+                }
+            }
+        )
     }
 
     // end block ajax handlers 
@@ -411,39 +488,76 @@ const ProcBlock = (($, el, bf, bv) => {
 
     function After_responseUpd(data) {
 
-        if (data.result == bv.error || data.result == undefined)
-            return
+        if (data.result == bv.error) {
+            if (el.Debug == 'on') {
+                console.group('------- After_responseUpd -------')
+                console.log(data.idComment)
+                console.log('result:', data.result)
+                console.log('message:', data.message)
+                console.groupEnd()
+            }
+
+            MessageErr(data.message)
+
+            return            
+        }
+
 
         const div = SelectedItem('div')
         div.find('.div-comment').text(data.content)
 
         el.div_Modal.modal('hide')
 
+
+        if (el.Debug == 'on') {
+            console.group('------- After_responseUpd -------')
+            console.log(data.idComment)
+            console.log('result:', data.result)
+            console.log('message:', data.message)
+            console.groupEnd()
+        }
     }
 
 
     function After_responseDel(data) {
-        if (data.result == bv.error || data.result == undefined)
+
+        if (data.result == bv.error) {
+
+            if (el.Debug == 'on') {
+                console.group('------- After_responseDel -------')
+                console.log(data.idComment)
+                console.log('result:', data.result)
+                console.log('message:',data.message)
+                console.groupEnd()
+            }
+
+            MessageErr(data.message)
+
             return
+        }
+
 
         el.div_Modal.modal('hide')
 
-        const divBtn = SelectedItem('btn').parent()
-        divBtn.remove()
-
+        SelectedItem('btn').parent().remove()
         SelectedItem('div').remove()
 
+        const btnNav = bf.Get_firstButtonNavigator()
 
-        bf.Get_firstButtonNavigator().click()
+        if (btnNav != null)
+            btnNav.click()
+
+        if (el.Debug == 'on') {
+            console.group('------- After_responseDel -------')
+            console.log(data.idComment)
+            console.log('result:', data.result)
+            console.log('message:', data.message)
+            console.groupEnd()
+        }
+
     }
 
     // End of ajax response block 
-
-
-    el.btn_dlg_save.click(() => {
-        if (VerfData() == bv.error)
-            return
-    })
 
 
     // ---------------------------------------
@@ -469,13 +583,11 @@ const ProcBlock = (($, el, bf, bv) => {
     // base settings
     $('#div-Modal').modal('hide')
 
-    if (el.div_btn_navig.children().length > 0) {
-        bf.Get_firstButtonNavigator().click()
-    }
-    else {
-        el.btn_userIntf_upd.addClass('disabled')
-        el.btn_userIntf_del.addClass('disabled')
-    }
+
+    const btnNav = bf.Get_firstButtonNavigator()
+    if (btnNav != null)
+        btnNav.click()
+    
 
 })(elHtml, buttonFunctions);
 

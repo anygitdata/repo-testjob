@@ -20,10 +20,14 @@ namespace TestJob.Controllers
         readonly string _PathDir_txt;
         public string PathDir_txt { get { return _PathDir_txt; } }
 
+        readonly IAnyUserData anyUserData;
+
         public RestController(DataContext cont, IAnyUserData userData)
         {
             context = cont;
             _PathDir_txt = userData.PathDir_txt;
+
+            anyUserData = userData;
 
             BaseModel_view.Set_IAnyUserData(context, userData);
         }

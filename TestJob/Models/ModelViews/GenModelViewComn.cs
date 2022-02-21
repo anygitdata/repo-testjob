@@ -32,6 +32,30 @@ namespace TestJob.Models.ModelViews
             Init_lstModelView(id);
         }
 
+        protected override bool Return_withOK() {
+            base.Return_withOK();
+
+            if (Model != null)
+            {
+                Model.Result = Result;
+                Model.Message = Message;
+            }
+
+            return true;
+        }
+
+        protected override bool Return_withEROR(string err)
+        {
+            base.Return_withEROR(err);
+
+            if (Model != null)
+            {
+                Model.Result = Result;
+                Model.Message = Message;
+            }
+
+            return false;
+        }
 
         protected override string LoadFileTxt(string file)
         {
@@ -43,6 +67,18 @@ namespace TestJob.Models.ModelViews
             string file = Get_StrFromByte(arg);
 
             return Path.Combine(pathTxt, file);
+        }
+
+        public TaskComment_ModelView BasicData
+        {
+            get {
+                var res = new TaskComment_ModelView(Model.IdComment);
+                res.Result = Result;
+                res.Message = Message;
+
+                return res; 
+            }
+
         }
 
 

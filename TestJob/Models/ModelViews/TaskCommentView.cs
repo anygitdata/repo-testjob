@@ -19,9 +19,18 @@ namespace TestJob.Models.ModelViews
 
         public string StrFileName { get; set; }
 
-        //public bool Debug { get; set; }
-
         public ETypeOperations TypeOperations { get; set; }
+
+
+        public TaskComment_ModelView() {
+            Result = Error;
+            Message = "Cancel operation";
+        }
+        public TaskComment_ModelView(string id): this()
+        {            
+            IdComment = id;
+        }
+
     }
 
 

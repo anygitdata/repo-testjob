@@ -50,13 +50,13 @@ namespace TestJob.Models.ModelViews.Templ
             Result = Error;
             Message = mesError_default;
         }
-        protected bool Return_withOK()
+        protected virtual bool Return_withOK()
         {
             Result = Ok;
             Message = Ok;
             return true;
         }
-        protected bool Return_withEROR(string err)
+        protected virtual bool Return_withEROR(string err)
         {
             Result = Error;
             Message = err;
