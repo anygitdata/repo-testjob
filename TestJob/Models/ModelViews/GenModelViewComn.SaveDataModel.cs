@@ -23,6 +23,9 @@ namespace TestJob.Models.ModelViews
                     Content = Get_bytesFromStr(Model.Content)
                 };
 
+                Model.IdComment = ModelRes.Id.ToString();
+                Model.StrFileName = "";
+
 
                 return Init_model();
 

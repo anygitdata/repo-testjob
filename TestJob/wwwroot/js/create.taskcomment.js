@@ -20,7 +20,7 @@ const elHtml = (($) => {
     const ContentType = $('#ContentType')
     const IdComment = $('#IdComment')
 
-    const postedFile = $('#postedFile')
+    let postedFile = $('#postedFile')
     const Content = $('#Content')
 
     const div_testarea = $('.div-testarea');
@@ -299,17 +299,19 @@ const ProcBlock = (($, el, bf, bv) => {
         if (typeOper == 'add') {
 
             const res = {
-                TypeId: el.TaskId,                
+                TaskId: el.TaskId,
                 IdComment: '',
-                ContentType: bf.CheckData(),
-                TypeOperations: el.TypeOperations
+                ContentType: bf.CheckData()
             }
 
             if (bf.CheckData() == false) {
                 const files = el.postedFile[0].files
 
                 if (files.length > 0) {
+                    
+
                     res.Content = files[0].name
+                    res.postedFile = files
                 }
             }
             else
@@ -331,14 +333,16 @@ const ProcBlock = (($, el, bf, bv) => {
             return bv.ok
 
 
-        if (el.Content.val().trim() == '') {
-            MessageErr(Err_NotData_forContent)
-            return bv.error
-        }
-
         if (typeOper == 'upd') {
+
+            if (el.Content.val().trim() == '') {
+                MessageErr(Err_NotData_forContent)
+                return bv.error
+            }
+
             return bv.ok
         }
+
 
         if (el.TaskId == '') {
             MessageErr('Not data for TaskId')
@@ -361,6 +365,16 @@ const ProcBlock = (($, el, bf, bv) => {
 
                 if (file.size > maxSizeFile) {
                     MessageErr(Err_BigFile)
+                    return bv.error
+                }
+
+                // settings
+                el.Content.val(file.name)
+            }
+            else {
+
+                if (el.Content.val().trim() == '') {
+                    MessageErr(Err_NotData_forContent)
                     return bv.error
                 }
             }
@@ -396,7 +410,27 @@ const ProcBlock = (($, el, bf, bv) => {
 
     // block ajax handlers 
     function AddItem() {
-        console.log('AddItem')
+        if (VerfData() == bv.error)
+            return
+
+        const form = $('form')[0]
+        const fd = new FormData(form)
+        fd.append('TaskId', el.TaskId)
+        
+        const url = '/ins-comment'
+
+        $.ajax(url, {
+            data: fd,
+            method: 'POST',
+
+            processData: false,
+            contentType: false,
+
+            success: function (data) {
+                After_responseAdd(data)
+                }
+            }
+        )
     }
 
 
@@ -447,16 +481,29 @@ const ProcBlock = (($, el, bf, bv) => {
 
     // block response ajax
     function After_responseAdd(data) {
-        if (data.result == bv.error || data.result == undefined)
+
+        if (data.result == bv.error) {
+            if (el.Debug == 'on') {
+                console.group('------- Error After_responseAdd -------')
+                console.log(data.idComment)
+                console.log('result:', data.result)
+                console.log('message:', data.message)
+                console.groupEnd()
+            }
+
+            MessageErr(data.message)
+
             return
+        }
+
 
         const div = $('<div style="background: #f8dd91;"></div>')
             .addClass('col-10 div-comn-hide border-top border-bottom border-dark p-2')
             .attr('fileName', data.strFileName)
-            .attr('divid', data.IdComment)
+            .attr('divid', data.idComment)
             .attr('divsel', 'off')
 
-        if (data.strFileName != '') {
+        if (data.strFileName != '' ) {
             const templSpan = '<span><b>fileName</b>: ##file</span><div class="py-1"></div>'
                     .replace('##file', data.strFileName)
             div.append($(templSpan))
@@ -470,7 +517,7 @@ const ProcBlock = (($, el, bf, bv) => {
         const divBtn = $('<div class="col-auto px-1"></div>')
         const numCount = el.div_btn_navig.children().length
         const btn = $('<button class="btn-sel-default btn-sm border border-info rounded-circle">##</button>'
-            .replace('##', numCount)).attr('id', data.IdComment)
+            .replace('##', numCount)).attr('id', data.idComment)
 
         divBtn.append(btn)
 
@@ -482,6 +529,15 @@ const ProcBlock = (($, el, bf, bv) => {
         el.btn_sel_default = $('.btn-sel-default')  // btn array update !!!
 
         btn.click()
+
+
+        if (el.Debug == 'on') {
+            console.group('------- After_responseAdd -------')
+            console.log(data.idComment)
+            console.log('result:', data.result)
+            console.log('message:', data.message)
+            console.groupEnd()
+        }
 
     }
 

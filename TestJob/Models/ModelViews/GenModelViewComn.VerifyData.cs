@@ -29,12 +29,6 @@ namespace TestJob.Models.ModelViews
             }
 
 
-            if (string.IsNullOrEmpty(Model.Content))
-            {                
-                return Return_withEROR("Not data for Content");
-            }
-
-
             if (Model.TypeOperations == ETypeOperations.insert)
             {
                 if (!Model.ContentType)
@@ -65,6 +59,11 @@ namespace TestJob.Models.ModelViews
                 }
                 else
                 {
+                    if (string.IsNullOrEmpty(Model.Content))
+                    {
+                        return Return_withEROR("Not data for Content");
+                    }
+
                     return Return_withOK();
                 }
             }
@@ -76,6 +75,11 @@ namespace TestJob.Models.ModelViews
                 if (string.IsNullOrEmpty(Model.IdComment))
                 {
                     return Return_withEROR("no comment id");
+                }
+
+                if (string.IsNullOrEmpty(Model.Content))
+                {
+                    return Return_withEROR("Not data for Content");
                 }
 
                 TaskComment comn = context.Set<TaskComment>().Find(Guid.Parse(Model.IdComment));
@@ -91,6 +95,7 @@ namespace TestJob.Models.ModelViews
                     string fileName = Get_StrFromByte(comn.Content);
                     string fullPath = Path.Combine(pathTxt, fileName);
 
+                    Model.Content = fileName;
 
                     if (!UserMix.FileExists(fullPath))
                     {

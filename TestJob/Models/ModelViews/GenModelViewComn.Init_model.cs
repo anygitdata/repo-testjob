@@ -63,22 +63,28 @@ namespace TestJob.Models.ModelViews
             {
                 if (!Model.ContentType)
                 {
-                    string fullPath = Path.Combine(pathTxt, Model.Content);
 
-                    if (!string.IsNullOrEmpty(debug_path_for_copy))  // for testing 
-                        File.Copy(debug_path_for_copy, fullPath, true);
-                    else
+                    string fileName = Model.Content;
+                    string fullPath = Path.Combine(pathTxt, fileName);
+
+                    if (!Debug)
                     {
                         using (var fileStream = new FileStream(fullPath, FileMode.Create))
                         {
                             Model.postedFile.CopyTo(fileStream);
                         }
-                    }
 
-                    Model.StrFileName = Model.Content;  // Model.Content is comment or fileName                    
-                    Model.Content = LoadFileTxt(Model.StrFileName);
-                }
+                        Model.Content = LoadFileTxt(fileName);
+                    }
+                    else
+                        Model.Content = "Testing data: load data from file";
+
+
+                    Model.StrFileName = fileName;  // Model.Content is comment or fileName                    
                     
+                    Model.postedFile = default;
+                }
+
 
                 if (!Debug)
                 {

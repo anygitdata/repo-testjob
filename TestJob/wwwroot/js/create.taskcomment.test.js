@@ -4,7 +4,14 @@
  */
 
 
-;const htmlTest = (() => {
+;const htmlTest = (($, el) => {
+
+    const Debug = el.Debug
+    const TaskId = el.TaskId
+    const maxSizeFile = el.maxSizeFile
+    const postedFile = el.postedFile
+
+
 
     const btn_drm_getdata = $('#btn-drm-getdata')
     const btn_drm_verfdata = $('#btn-drm-verfdata')
@@ -23,6 +30,9 @@
 
     // --------------------
     return {
+
+        Debug, TaskId, maxSizeFile, postedFile,
+
         btn_drm_getdata,
         btn_drm_verfdata,
         btn_drm_save,
@@ -36,7 +46,7 @@
         after_response_add, after_response_upd, after_response_del
     }
 
-})()
+})(jQuery, elHtml)
 
 
 const objTest = ((el, bf) => {
@@ -95,11 +105,13 @@ const objTest = ((el, bf) => {
         const AdditionalInf = {}
         const data = pb.GetData()
 
+        console.log(data)
+
         if (typeOper == 'add') {
 
             if (bf.CheckData() == false) {
 
-                const files = el.postedFile[0].files
+                const files = ht.postedFile[0].files
 
                 if (files.length > 0) {
                     AdditionalInf.size = files[0].size
@@ -146,22 +158,13 @@ const objTest = ((el, bf) => {
             console.log('verfData: ', res);
     })
 
-    ht.btn_drm_save.click(() => {
-        pb.SaveData()
-    })
-
-    ht.btn_drm_postFile_empty.click(() => {
-        el.postedFile.val('')
-        console.log('el.postedFile: ', el.postedFile.val())
-    })
-
     ht.btn_drm_base_param.click(() => {
 
         console.group('-------- BaseParam --------')
 
-        console.log('Debug:', el.Debug)
-        console.log('TaskId:', el.TaskId)        
-        console.log('maxSizeFile:', el.maxSizeFile)
+        console.log('Debug:', ht.Debug)
+        console.log('TaskId:', ht.TaskId)        
+        console.log('maxSizeFile:', ht.maxSizeFile)
 
         console.groupEnd()
     })
@@ -211,11 +214,18 @@ const objTest = ((el, bf) => {
 
         e.preventDefault()
 
+        if ($('form').attr('typeOper') != 'add') {
+            pb.MessageErr('Open add dialog ')
+
+            return
+        }
+
         const data = {
             result: 'ok',
             strFileName: 'Testing_file.txt',
-            IdComment: '79540886-EFDD-4CE0-988C-A9E5B2751221',
-            content: 'Comment by procTesting'
+            idComment: '79540886-EFDD-4CE0-988C-A9E5B2751221',
+            content: 'Описание задачи из файла',
+            message: 'ok'
         }
 
         pb.After_responseAdd(data)
@@ -224,8 +234,9 @@ const objTest = ((el, bf) => {
         const data2 = {
             result: 'ok',
             strFileName:'',
-            IdComment: '2793071A-9759-46D5-8162-4BFA8F845391',
-            content: 'Comment by procTesting'
+            idComment: '2793071A-9759-46D5-8162-4BFA8F845391',
+            content: 'Comment by procTesting',
+            message: 'ok'
         }
 
         pb.After_responseAdd(data2)
@@ -236,18 +247,40 @@ const objTest = ((el, bf) => {
 
         e.preventDefault()
 
+        const id = bf.Get_idFromForm()
+
+        if (id == '' || $('form').attr('typeOper') != 'upd') {
+            pb.MessageErr('Open update dialog ')
+
+            return
+        }
+        
         const data = {
             result: 'ok',
-            IdComment: '79540886-EFDD-4CE0-988C-A9E5B2751221',
-            content: 'Update comment by procTesting'
+            idComment: id,
+            content: 'Update comment by procTesting',
+            message: 'ok'
         }
 
         pb.After_responseUpd(data)
     })
 
     ht.after_response_del.click((e) => {
+
+        e.preventDefault()
+
+        const id = bf.Get_idFromForm()
+
+        if (id == '' || $('form').attr('typeOper') != 'del') {
+            pb.MessageErr('Open delete dialog ')
+
+            return
+        }
+
         const data = {
-            result: 'ok'
+            idComment: id,
+            result: 'ok',
+            message: 'ok'
         }
 
         pb.After_responseDel(data)

@@ -27,8 +27,10 @@ namespace TestJob.Controllers
         [HttpDelete("del-comment/{id}")]
         public IActionResult DelTaskComment(string id)
         {
-            var model = new TaskComment_ModelView(id);
-            model.TypeOperations = Models.ETypeOperations.delete;
+            var model = new TaskComment_ModelView(id)
+            {
+                TypeOperations = Models.ETypeOperations.delete
+            };
 
 
             var res = new GenModelViewComn(context, anyUserData, model);
@@ -61,16 +63,12 @@ namespace TestJob.Controllers
             return Ok(model);
         }
 
-
-
-        /// <summary>
-        /// use Ajax 
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPost]
+        
+        [HttpPost("ins-comment")]
         public IActionResult AddTaskComment([FromForm] TaskComment_ModelView model)
         {
+            model.TypeOperations = Models.ETypeOperations.insert;
+
             var res = new GenModelViewComn(context, anyUserData, model);
             res.VerifyData();
 
@@ -80,9 +78,6 @@ namespace TestJob.Controllers
                 model.Message = res.Message;
                 return Ok(model);
             }
-
-            if (res.Debug)
-                return Ok(model);
 
             res.SaveDataModel();
 
