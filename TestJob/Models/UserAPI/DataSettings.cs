@@ -20,6 +20,19 @@ namespace TestJob.Models.UserAPI
 
     public class DataSettingsExt
     {
+
+        public DataSettingsExt(string pathDir_txt)
+        {
+            var settings = DataSettings_read.GetSettings(pathDir_txt);
+
+            _seedData = settings.seedData == "on";
+            _debug = settings.debug == "on";
+            _maxSizeFile = settings.maxSizeFile;
+
+            _base_debug = settings.debug;
+            _base_seedData = settings.seedData;
+        }
+
         public DataSettingsExt(DataSettings arg)
         {
             _seedData = arg.seedData == "on";

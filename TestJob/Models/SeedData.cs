@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Linq;
 using TestJob.Models.Interface;
 using TestJob.Models.UserAPI;
@@ -22,32 +23,45 @@ namespace TestJob.Models
             DataContext context = app.ApplicationServices
                 .CreateScope().ServiceProvider.GetRequiredService<DataContext>();
 
-            string PathDir_txt = userData.PathDir_txt;
+            string pathDir_txt = userData.PathDir_txt;
             
 
             if (context.Database.GetPendingMigrations().Any())
                 context.Database.Migrate();
 
+
             // Параметр seedData сбрасывается if seedData == on then seedData = off
-            if (DataSettings_read.GetSettings(PathDir_txt).seedData == "on")
-            {               
-                context.RemoveRange(context.Set<Project>());
-
-                context.SaveChanges();
-            }
-
-
-            if (!context.Projects.Any())
+            try
             {
-                ModifyDataBase(context);
-                ModifyDataBaseNext(context);
 
-                context.SaveChanges();
+                if (userData.GetSettingsExt.StrSeedData == "on")
+                {               
+                    context.RemoveRange(context.Set<Project>());
+
+                    context.SaveChanges();
+
+                    UserMix.File_Message_intoLog(pathDir_txt, "Выполнена перезагрузка таблиц");
+                }
+
+
+                if (!context.Projects.Any())
+                {
+                    ModifyDataBase(context);
+                    ModifyDataBaseNext(context);
+
+                    context.SaveChanges();
                 
 
-                InitializationServProcedure(context, PathDir_txt);
+                    InitializationServProcedure(context, pathDir_txt);
+
+                }
 
             }
+            catch (Exception ex)
+            {
+                UserMix.File_Message_intoLog(pathDir_txt, ex.Message);
+            }
+
 
         }
 

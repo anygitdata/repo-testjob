@@ -55,57 +55,27 @@ namespace TestJob.Models.UserAPI
         }
 
 
-        //public static List<FileModel> FilesDescr(string pathTxt)
-        //{
-        //    string[] filesPaths = Directory.GetFiles(pathTxt);
-
-        //    List<FileModel> files = new List<FileModel>();
-        //    foreach (string filePath in filesPaths)
-        //    {
-        //        files.Add(new FileModel { FileName = Path.GetFileName(filePath) });
-        //    }
-
-        //    return files;
-        //}
-        
-
-        /// <summary>
-        /// if not exists -> createFile
-        /// </summary>
-        /// <param name="pathDir_txt"></param>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        public static BodyRequest Filedownload_ifNotExists(string pathDir_txt, string file, string data)
+        public static void File_Message_intoLog(string pathDir_txt, string message)
         {
-            BodyRequest res = new () { FileName = file };
+            string pathFile = Path.Combine(pathDir_txt, @"..\", "anymessage", "message.txt");
+                       
 
-            if (!FileExists(pathDir_txt, file))
+            using (StreamWriter w = File.AppendText(pathFile))
             {
-                res.Data = "...";
-                FileCreate(pathDir_txt, res);
+                w.Write("\r\nLog Entry : ");
+                w.WriteLine($"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()}");
+                w.WriteLine("  :");
+                w.WriteLine($"  :{message}");
+                w.WriteLine("-------------------------------");
+           
             }
-            else
-            {
-                if (!string.IsNullOrEmpty(data))
-                {
-                    res.Data = data;
-                    FileUpdate(pathDir_txt, res);
-                }
-                else
-                    res.Data = FileDownload(pathDir_txt, file);
-            }
-
-            return res;
+           
         }
 
 
-        /// <summary>
-        /// return Full path for each file 
-        /// </summary>
-        /// <returns></returns>
-        public static string[] File_GetFilesSQL(string PathDir_txt)
+        public static string[] File_AllFiles_SQL(string pathDir_txt)
         {
-            string pathDir = Path.Combine(PathDir_txt, @"..\", "sql");
+            string pathDir = Path.Combine(pathDir_txt, @"..\", "sql");
 
             return Directory.GetFiles(pathDir);
         }
@@ -196,6 +166,7 @@ namespace TestJob.Models.UserAPI
 
             return res;
         }
+
 
         public static void FileCreate(string PathDir_txt, BodyRequest model)
         {

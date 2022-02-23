@@ -65,7 +65,7 @@ namespace TestJob.Controllers
 
         
         [HttpPost("ins-comment")]
-        public IActionResult AddTaskComment([FromForm] TaskComment_ModelView model)
+        public IActionResult AddTaskComment(TaskComment_ModelView model)
         {
             model.TypeOperations = Models.ETypeOperations.insert;
 

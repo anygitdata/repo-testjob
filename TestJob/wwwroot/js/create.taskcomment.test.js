@@ -10,14 +10,14 @@
     const TaskId = el.TaskId
     const maxSizeFile = el.maxSizeFile
     const postedFile = el.postedFile
-
-
+    
 
     const btn_drm_getdata = $('#btn-drm-getdata')
     const btn_drm_verfdata = $('#btn-drm-verfdata')
     const btn_drm_save = $('#btn-drm-save')
     const btn_drm_postFile_empty = $('#btn-drm-postFile-empty')
     const btn_drm_base_param = $('#btn-drm-base-param')
+    const btn_drm_setting = $('#btn-drm-setting')
 
     const btn_drm_data_ajaxAdd = $('#btn-drm-data_ajaxAdd')
     const btn_drm_data_ajaxUpd = $('#btn-drm-data_ajaxUpd')
@@ -28,9 +28,18 @@
     const after_response_upd = $('#btn-drm-response-upd')
     const after_response_del = $('#btn-drm-response-del')
 
+    const strCl_div_use_verfdata = '.info-use-verfdata'
+
+    function Setting_const_use_VerfData() {
+        el.use_VerfData = el.use_VerfData == 'on' ? 'off' : 'on'
+
+        return el.use_VerfData
+    }
+
+
     // --------------------
     return {
-
+        Setting_const_use_VerfData, strCl_div_use_verfdata,
         Debug, TaskId, maxSizeFile, postedFile,
 
         btn_drm_getdata,
@@ -38,6 +47,7 @@
         btn_drm_save,
         btn_drm_postFile_empty,
         btn_drm_base_param,
+        btn_drm_setting,
 
         btn_drm_data_ajaxAdd,
         btn_drm_data_ajaxUpd,
@@ -105,9 +115,14 @@ const objTest = ((el, bf) => {
         const AdditionalInf = {}
         const data = pb.GetData()
 
-        console.log(data)
-
         if (typeOper == 'add') {
+
+            console.group('------ getData for add -------')
+            for (var pair of data.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+            console.groupEnd()
+
 
             if (bf.CheckData() == false) {
 
@@ -127,23 +142,27 @@ const objTest = ((el, bf) => {
 
             if (bf.CheckData() == true && data.Content == '')
                 AdditionalInf.errContent = pb.Err_NotData_forContent
-            
+
+        }
+        else {
+
+            let keys = Object.keys(data), k = 0
+
+            console.group('------ getData -------')
+            for (k; k < keys.length; k++) {
+                console.log(keys[k] + ': ', data[keys[k]])
+            }
+            console.groupEnd()
         }
 
-        let keys = Object.keys(data), k = 0, i=0
-
-        console.group('------ getData -------')
-        for (k; k < keys.length; k++) {
-            console.log(keys[k] + ': ', data[keys[k]])
-        }
-        console.groupEnd()
 
         keys = Object.keys(AdditionalInf)
 
         if (keys.length > 0) {
+            let i
 
             console.group('------ AdditionalInf -------')
-            for (i; i < keys.length; i++ ) {
+            for (i=0; i < keys.length; i++ ) {
                 console.log(keys[i] + ': ', AdditionalInf[keys[i]])
             }
 
@@ -169,6 +188,13 @@ const objTest = ((el, bf) => {
         console.groupEnd()
     })
 
+    ht.btn_drm_setting.click(() => {
+        const res = ht.Setting_const_use_VerfData()
+        if (res == 'off') 
+            $(ht.strCl_div_use_verfdata).text('Server level verification')
+        else
+            $(ht.strCl_div_use_verfdata).text('')
+    })
 
     // ------------------------------ 
     ht.btn_drm_data_ajaxAdd.click(() => {

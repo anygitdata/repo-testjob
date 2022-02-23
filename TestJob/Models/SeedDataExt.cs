@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using TestJob.Models.UserAPI;
 
 namespace TestJob.Models
 {
@@ -39,7 +40,7 @@ namespace TestJob.Models
                 new TaskComment
                 {
                     CommentType = false,
-                    Content = Encoding.ASCII.GetBytes("Task1.txt"),
+                    Content = UserMix.Enc_GetBytesFromStr("Task1.txt"),
                     Task = task1
                 },
 
@@ -47,14 +48,14 @@ namespace TestJob.Models
                 {
                     CommentType = true,
                     Task = task2,
-                    Content = Encoding.ASCII.GetBytes("Creation of tools for processing user data")
+                    Content = UserMix.Enc_GetBytesFromStr("Creation of tools for processing user data")
                 },
 
                 new TaskComment
                 {
                     CommentType = true,
                     Task = task3,
-                    Content = Encoding.ASCII.GetBytes("Creating a Test Structure")
+                    Content = UserMix.Enc_GetBytesFromStr("Creating a Test Structure")
                 });
 
             #endregion

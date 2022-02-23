@@ -6,7 +6,6 @@ namespace TestJob.Models.Interface
 {
     public class AnyUserData: IAnyUserData
     {
-        
         public bool Debug { get => GetSettingsExt.Debug; }
         public int MaxSizeFile { get => GetSettingsExt.MaxSizeFile; }
 
@@ -14,8 +13,9 @@ namespace TestJob.Models.Interface
         readonly string _pathDir_txt;
         public string PathDir_txt { get => _pathDir_txt; }
 
-        private readonly DataSettingsExt _dataSettingsExt;
-        public DataSettingsExt GetSettingsExt { get => _dataSettingsExt; }
+        //private readonly DataSettingsExt _dataSettingsExt;
+        public DataSettingsExt GetSettingsExt { get =>
+                new DataSettingsExt(PathDir_txt); } 
 
         // ----------------------------------------------
 
@@ -23,9 +23,9 @@ namespace TestJob.Models.Interface
         public AnyUserData(IWebHostEnvironment environment)
         {
             _pathDir_txt = Path.Combine(environment.WebRootPath, "txt");
-            DataSettings _dataSettings = DataSettings_read.GetSettings(PathDir_txt);
+            //DataSettings _dataSettings = DataSettings_read.GetSettings(PathDir_txt);
 
-            _dataSettingsExt = new DataSettingsExt(_dataSettings);
+            //_dataSettingsExt = new DataSettingsExt(PathDir_txt);
         }
 
 

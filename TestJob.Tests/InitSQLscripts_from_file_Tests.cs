@@ -32,7 +32,7 @@ namespace TestJob.Tests
         public void InitServProc_from_files_test()
         {
             // act
-            var res = UserMix.File_GetFilesSQL(contrRest.PathDir_txt);
+            var res = UserMix.File_AllFiles_SQL(contrRest.PathDir_txt);
             string[] file = new string[res.Length];
 
             for(int i=0; i<res.Length; i++)

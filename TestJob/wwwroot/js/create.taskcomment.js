@@ -1,7 +1,21 @@
-﻿
-const elHtml = (($) => {
+﻿const elHtml = (($) => {
 
+    /*
+     * Attributes:
+     * FOR divSelected:
+     * filename = "..."
+     * divid = "Guid"
+     * divsel="on"
+     * 
+     * FOR btnNavigates:
+     * in -> div class="col-auto
+     * attr btnSeleted
+     * id = "Guid"
+     */
+
+    let use_VerfData = 'on'  // on -> frondEnd verify data else backEnd
     const Debug = $('#anyData_Debug').val()
+
     const TaskId = $('#anyData_TaskId').val()
     const maxSizeFile = $('#anyData_maxSizeFile').val()
 
@@ -21,6 +35,8 @@ const elHtml = (($) => {
     const IdComment = $('#IdComment')
 
     let postedFile = $('#postedFile')
+    const sId_postedFile = '#postedFile'
+
     const Content = $('#Content')
 
     const div_testarea = $('.div-testarea');
@@ -52,7 +68,8 @@ const elHtml = (($) => {
     
 
     // -----------------------------
-    return {        
+    return {
+        use_VerfData, 
 
         AddClass_Disabled,
 
@@ -69,7 +86,7 @@ const elHtml = (($) => {
 
         lb_cont_type,
         ContentType,
-        postedFile,
+        postedFile, sId_postedFile,
         Content,
 
         div_testarea, div_postedFile,
@@ -280,7 +297,8 @@ const ProcBlock = (($, el, bf, bv) => {
     function GetData() {
 
         const typeOper = $('form').attr('typeOper')
-                
+        const checkData = bf.CheckData()
+        
         if (typeOper == 'del') {
             return {
                 TypeId: el.TaskId,
@@ -289,33 +307,35 @@ const ProcBlock = (($, el, bf, bv) => {
         }
 
         if (typeOper == 'upd') {
+            const selDiv = SelectedItem('div')
+
             return {
                 IdComment : bf.Get_idFromForm(),
                 Content: el.Content.val(),
-                ContentType: bf.CheckData()
+                ContentType: selDiv.attr('filename').length>0 ? false : true
             }
         }
 
+
         if (typeOper == 'add') {
 
-            const res = {
-                TaskId: el.TaskId,
-                IdComment: '',
-                ContentType: bf.CheckData()
+            if (checkData == false) {
+                const file = $(el.sId_postedFile)[0].files[0] // el.postedFile[0].files[0]
+                if (file == undefined)
+                    el.Content.val('')
+                else
+                    el.Content.val(file.name)
             }
+                        
 
-            if (bf.CheckData() == false) {
-                const files = el.postedFile[0].files
+            res = new FormData($('form')[0])
+            res.append('TaskId', el.TaskId)
 
-                if (files.length > 0) {
-                    
+            res.set('ContentType', checkData)
 
-                    res.Content = files[0].name
-                    res.postedFile = files
-                }
-            }
-            else
-                res.Content = el.Content.val()
+            if (checkData == true)
+                res.delete('postedFile')
+
 
             return res
         }
@@ -323,6 +343,10 @@ const ProcBlock = (($, el, bf, bv) => {
     }
 
     function VerfData() {
+
+        if (el.use_VerfData == 'off')  // Disabling verification
+            return bv.ok
+
 
         el.div_message_err.empty()
 
@@ -343,13 +367,12 @@ const ProcBlock = (($, el, bf, bv) => {
             return bv.ok
         }
 
-
-        if (el.TaskId == '') {
-            MessageErr('Not data for TaskId')
-            return bv.error
-        }
-
         if (typeOper == 'add') {
+
+            if (el.TaskId == '') {
+                MessageErr('Not data for TaskId')
+                return bv.error
+            }
 
             if (bf.CheckData() == false) {
                 if (el.postedFile.val() == '') {
@@ -367,9 +390,6 @@ const ProcBlock = (($, el, bf, bv) => {
                     MessageErr(Err_BigFile)
                     return bv.error
                 }
-
-                // settings
-                el.Content.val(file.name)
             }
             else {
 
@@ -410,17 +430,20 @@ const ProcBlock = (($, el, bf, bv) => {
 
     // block ajax handlers 
     function AddItem() {
+        // in VerfData -> if (el.use_VerfData == 'off') 
+
         if (VerfData() == bv.error)
             return
 
-        const form = $('form')[0]
-        const fd = new FormData(form)
-        fd.append('TaskId', el.TaskId)
+        const data = GetData()
+        //const form = $('form')[0]
+        //const fd = new FormData(form)
+        //fd.append('TaskId', el.TaskId)
         
         const url = '/ins-comment'
 
         $.ajax(url, {
-            data: fd,
+            data: data,
             method: 'POST',
 
             processData: false,

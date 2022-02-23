@@ -9,7 +9,7 @@ namespace TestJob.Models
         static partial void InitializationServProcedure(DataContext cont, string PathDir_txt)
         {
 
-            var res = UserMix.File_GetFilesSQL(PathDir_txt);
+            var res = UserMix.File_AllFiles_SQL(PathDir_txt);
 
             for (int i = 0; i < res.Length; i++)
             {
