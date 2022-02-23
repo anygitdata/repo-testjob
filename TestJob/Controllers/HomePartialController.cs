@@ -24,44 +24,58 @@ namespace TestJob.Controllers
         }
 
 
-        [HttpDelete("del-comment/{id}")]
-        public IActionResult DelTaskComment(string id)
-        {
-            var model = new TaskComment_ModelView(id)
-            {
-                TypeOperations = Models.ETypeOperations.delete
-            };
+        //[HttpDelete]
+        //public IActionResult DelTaskComment(string id)
+        //{
+        //    var model = new TaskComment_ModelView(id)
+        //    {
+        //        TypeOperations = Models.ETypeOperations.delete
+        //    };
 
 
-            var res = new GenModelViewComn(context, anyUserData, model);
+        //    var res = new GenModelViewComn(context, anyUserData, model);
 
-            if (!res.VerifyData())
-            {
-                return Ok(res.BasicData);
-            }
+        //    if (!res.VerifyData())
+        //    {
+        //        return Ok(res.BasicData);
+        //    }
 
-            res.SaveDataModel();
+        //    res.SaveDataModel();
 
-            return Ok(res.BasicData);
-        }
+        //    return Ok(res.BasicData);
+        //}
 
 
-        [HttpPut("upd-comment/{id}")]
-        public IActionResult UpdTaskComment(TaskComment_ModelView model)
-        {
-            model.TypeOperations = Models.ETypeOperations.update;
+        //[HttpPut]
+        //public IActionResult UpdTaskComment(TaskComment_ModelView model)
+        //{
+        //    model.TypeOperations = Models.ETypeOperations.update;
 
-            var res = new GenModelViewComn(context, anyUserData, model);
+        //    try
+        //    {
+        //        var res = new GenModelViewComn(context, anyUserData, model);
 
-            if (!res.VerifyData())
-            {
-                return Ok(res.BasicData);
-            }
+        //        if (!res.VerifyData())
+        //        {
+        //            return Ok(res.BasicData);
+        //        }
 
-            res.SaveDataModel();
+        //        res.SaveDataModel();
 
-            return Ok(model);
-        }
+        //        return Ok(model);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        model.Result = IdentResult.Error;
+        //        model.Message = "Cancel operation update TaskComment";
+
+        //        UserMix.File_Message_intoLog(PathDir_txt, "Cancel operation update TaskComment");
+        //        UserMix.File_Message_intoLog(PathDir_txt, $"{ex.Message}");
+
+        //        return Ok(model);
+        //    }
+        //}
 
         
         [HttpPost("ins-comment")]

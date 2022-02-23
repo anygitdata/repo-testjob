@@ -4,6 +4,8 @@
     var content_TableModel = ViewBag.Content_TableModel as Content_TableTask;
 
     ViewBag.productId = content_TableModel.projectId;
+
+    ViewBag.Debug = content_TableModel.debug as string;
 }
 
 
@@ -25,6 +27,11 @@
 
 @if (content_TableModel.debug == "on")
 {
+
+    <div class="ml-3 mb-2 u-textSmaller text-danger">
+        <b>Включен режим Debug</b>
+    </div>
+
     <div class="container border-top border-bottom border-danger py-2">
         <button id="btnLoad-panelTesting" class="btn btn-light btn-sm px-3 ml-3">Download test panel</button>
         <div class="container" id="div_panelTest">

@@ -18,13 +18,16 @@ namespace TestJob.Models.ModelViews
 
                     if (taskComn == null)
                     {
+                        if (Debug)
+                            return Return_withEROR("Временные данные не изменяются");
+
                         return Return_withEROR("No data to comment");
                     }
 
                     return Return_withOK();
                 }
                 catch {
-                    return Return_withEROR("ID error"); ;
+                    return Return_withEROR("Cancel verifyData");
                 }
             }
 
@@ -69,7 +72,6 @@ namespace TestJob.Models.ModelViews
             }
 
 
-            // update or delete
             if (Model.TypeOperations == ETypeOperations.update)
             {
                 if (string.IsNullOrEmpty(Model.IdComment))
@@ -86,6 +88,9 @@ namespace TestJob.Models.ModelViews
 
                 if (comn == null)
                 {
+                    if (Debug)                    
+                        return Return_withEROR("Временные данные не изменяются");
+
                     return Return_withEROR("task comment not found");
                 }
 
@@ -95,7 +100,11 @@ namespace TestJob.Models.ModelViews
                     string fileName = Get_StrFromByte(comn.Content);
                     string fullPath = Path.Combine(pathTxt, fileName);
 
-                    Model.Content = fileName;
+
+                    if (!Debug)
+                        Model.Content = fileName;
+                    else
+                        Model.Content = "Debug: контент файла закрыт";
 
                     if (!UserMix.FileExists(fullPath))
                     {

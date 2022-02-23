@@ -463,7 +463,7 @@ const ProcBlock = (($, el, bf, bv) => {
 
 
         const id = bf.Get_idFromForm()
-        const url = '/upd-comment/' + id
+        const url = '/api/Rest/upd-comment/' + id
 
         const data = GetData()
 
@@ -485,7 +485,7 @@ const ProcBlock = (($, el, bf, bv) => {
 
 
         const id = bf.Get_idFromForm()
-        const url = '/del-comment/' + id
+        const url = '/api/Rest/del-comment/' + id
 
         const data = GetData()
 

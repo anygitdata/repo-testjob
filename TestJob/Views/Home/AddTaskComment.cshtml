@@ -104,12 +104,20 @@
 <div class="container">
 
     <h1 class="u-h1Smaller">Editor comment</h1>
+    @if (anyData.Debug == "on")
+    {
+        <div class="mt-n2 mb-2 u-textSmaller text-danger">
+            <b>Включен режим Debug</b>
+        </div>
+    }
     @*General header*@
     <ul class="ul_compl_data">
         <li><b>Project</b>: @anyData.ProjectName</li>
         <li><b>Task</b>: @anyData.TaskName</li>
         <li><b>TaskStart:</b>: @anyData.Str_DateTime</li>
     </ul>
+
+
 
 
     @*Navigation buttons *@
