@@ -1,5 +1,4 @@
 ﻿using System;
-using TestJob.Models.UserAPI;
 
 namespace TestJob.Models.ModelViews
 {

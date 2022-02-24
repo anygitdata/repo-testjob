@@ -12,7 +12,6 @@ namespace TestJob.Models
                 create = 1, start = 2,
                 detail = 3, update = 4, cancel = 5 };
 
-
     public class ConvEnum {
         public static Enum ConvStrEnum_intoEnum(string typeEnum, string strTypeOper)
         {
