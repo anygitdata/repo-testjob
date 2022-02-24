@@ -44,9 +44,12 @@ namespace TestJob.Models.ModelViews
             return true;
         }
 
-        protected override bool Return_withEROR(string err)
+        private bool saveDataCont = false;
+        protected override bool Return_withEROR(string err, bool saveCont = false)
         {
             base.Return_withEROR(err);
+
+            saveDataCont = saveCont;
 
             if (Model != null)
             {
@@ -69,12 +72,23 @@ namespace TestJob.Models.ModelViews
             return Path.Combine(pathTxt, file);
         }
 
+        protected override string Get_pathFromStr(string arg)
+        {
+            return Path.Combine(pathTxt, arg);
+        }
+
         public TaskComment_ModelView BasicData
         {
             get {
-                var res = new TaskComment_ModelView(Model.IdComment);
-                res.Result = Result;
-                res.Message = Message;
+                var res = new TaskComment_ModelView()
+                {
+                    IdComment = Model.IdComment,
+                    Result = Model.Result,
+                    Message = Model.Message
+                };
+
+                if (saveDataCont)
+                    res.Content = Model.Content;
 
                 return res; 
             }

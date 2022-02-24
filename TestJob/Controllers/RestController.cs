@@ -11,7 +11,7 @@ using TestJob.Models.UserAPI;
 
 namespace TestJob.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/controller")]
     public partial class RestController : Controller
     {
 
@@ -20,71 +20,70 @@ namespace TestJob.Controllers
         readonly string _PathDir_txt;
         public string PathDir_txt { get { return _PathDir_txt; } }
 
-        readonly IAnyUserData anyUserData;
+        //readonly IAnyUserData anyUserData;
 
         public RestController(DataContext cont, IAnyUserData userData)
         {
             context = cont;
             _PathDir_txt = userData.PathDir_txt;
 
-            anyUserData = userData;
+            //anyUserData = userData;
 
             BaseModel_view.Set_IAnyUserData(context, userData);
         }
 
 
-        [HttpDelete("del-comment/{id}")]
-        public IActionResult DelTaskComment(string id)
-        {
-            var model = new TaskComment_ModelView(id)
-            {
-                TypeOperations = Models.ETypeOperations.delete
-            };
+        //[HttpPost("deldescr/{id}")]
+        //public IActionResult DelDescr(string id)
+        //{
+        //    var model = new TaskComment_ModelView(id)
+        //    {
+        //        TypeOperations = ETypeOperations.delete
+        //    };
+
+        //    var res = new GenModelViewComn(context, anyUserData, model);
+
+        //    if (!res.VerifyData())
+        //    {
+        //        return Ok(res.BasicData);
+        //    }
+
+        //    res.SaveDataModel();
+
+        //    return Ok(res.BasicData);
+        //}
 
 
-            var res = new GenModelViewComn(context, anyUserData, model);
+        //[HttpPut("upddescr")]
+        //public IActionResult UpdDescr([FromBody] TaskComment_ModelView model)
+        //{
+        //    model.TypeOperations = ETypeOperations.update;
 
-            if (!res.VerifyData())
-            {
-                return Ok(res.BasicData);
-            }
+        //    try
+        //    {
+        //        var res = new GenModelViewComn(context, anyUserData, model);
 
-            res.SaveDataModel();
+        //        if (!res.VerifyData())
+        //        {
+        //            return Ok(res.BasicData);
+        //        }
 
-            return Ok(res.BasicData);
-        }
+        //        res.SaveDataModel();
 
+        //        return Ok(model);
 
-        [HttpPut("upd-comment/{id}")]
-        public IActionResult UpdTaskComment(TaskComment_ModelView model)
-        {
-            model.TypeOperations = Models.ETypeOperations.update;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        model.Result = IdentResult.Error;
+        //        model.Message = "Cancel operation update TaskComment";
 
-            try
-            {
-                var res = new GenModelViewComn(context, anyUserData, model);
+        //        UserMix.File_Message_intoLog(PathDir_txt, "Cancel operation update TaskComment");
+        //        UserMix.File_Message_intoLog(PathDir_txt, $"{ex.Message}");
 
-                if (!res.VerifyData())
-                {
-                    return Ok(res.BasicData);
-                }
-
-                res.SaveDataModel();
-
-                return Ok(model);
-
-            }
-            catch (Exception ex)
-            {
-                model.Result = IdentResult.Error;
-                model.Message = "Cancel operation update TaskComment";
-
-                UserMix.File_Message_intoLog(PathDir_txt, "Cancel operation update TaskComment");
-                UserMix.File_Message_intoLog(PathDir_txt, $"{ex.Message}");
-
-                return Ok(model);
-            }
-        }
+        //        return Ok(model);
+        //    }
+        //}
 
 
         [HttpGet("checkNameproject")]

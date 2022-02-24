@@ -461,19 +461,17 @@ const ProcBlock = (($, el, bf, bv) => {
         if (VerfData() == bv.error)
             return
 
-
-        const id = bf.Get_idFromForm()
-        const url = '/api/Rest/upd-comment/' + id
+        const url = '/upddescr'
 
         const data = GetData()
 
         $.ajax(url, {
             data: data,
-            method: 'PUT',
+            method: 'POST',
             success: function (data) {
                 After_responseUpd(data)
+                }
             }
-        }
         )
     }
 
@@ -485,13 +483,10 @@ const ProcBlock = (($, el, bf, bv) => {
 
 
         const id = bf.Get_idFromForm()
-        const url = '/api/Rest/del-comment/' + id
-
-        const data = GetData()
+        const url = '/deldescr/' + id
 
         $.ajax(url, {
-            data: data,
-            method: 'DELETE',
+            method: 'GET',
             success: function (data) {
                 After_responseDel(data)
                 }
@@ -568,17 +563,22 @@ const ProcBlock = (($, el, bf, bv) => {
     function After_responseUpd(data) {
 
         if (data.result == bv.error) {
-            if (el.Debug == 'on') {
+            if (el.Debug == 'on' && bf.CheckData() == false) {
                 console.group('------- After_responseUpd -------')
                 console.log(data.idComment)
                 console.log('result:', data.result)
                 console.log('message:', data.message)
                 console.groupEnd()
+
+                MessageErr(data.message)
+                return
             }
 
-            MessageErr(data.message)
-
-            return            
+            // обработка данные тестирования
+            if (el.Debug == 'on' && bf.CheckData() == true) {
+                data.result = 'ok'
+                MessageErr(data.message)
+            }
         }
 
 

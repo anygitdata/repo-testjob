@@ -35,8 +35,13 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark @disabled" asp-area="" asp-controller="Home"
-                                   asp-action="InsTask">Add task</a>
+                                @if (!string.IsNullOrEmpty(productId))
+                                {
+                                    <a class="@disabled nav-link text-dark"
+                                       asp-area="" asp-controller="Home"
+                                       asp-action="CreateTask"
+                                       asp-route-id="@(Guid.Parse(productId))">Add task</a>
+                                }
                             </li>
                         </ul>
                     </div>
@@ -52,14 +57,6 @@
         <footer class="border-top footer text-muted border-dark border-top">
             <div class="container">
                 &copy; 2022 - TestJob -
-                @if (!string.IsNullOrEmpty(productId))
-                {
-                    <a class="@disabled"
-                       asp-area="" asp-controller="Home"
-                       asp-action="CreateTask"
-                       asp-route-id="@(Guid.Parse(productId))">Add task </a>
-                }
-
 
             </div>
         </footer>

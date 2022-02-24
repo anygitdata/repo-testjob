@@ -56,7 +56,7 @@ namespace TestJob.Models.ModelViews.Templ
             Message = Ok;
             return true;
         }
-        protected virtual bool Return_withEROR(string err)
+        protected virtual bool Return_withEROR(string err, bool saveCont=false)
         {
             Result = Error;
             Message = err;
@@ -88,6 +88,8 @@ namespace TestJob.Models.ModelViews.Templ
 
 
         protected abstract string Get_pathFromBytes(byte[] arg);
+        protected abstract string Get_pathFromStr(string arg);
+
         protected abstract string LoadFileTxt(string arg);
         public abstract bool VerifyData();
         public abstract bool SaveDataModel();

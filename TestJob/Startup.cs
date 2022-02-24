@@ -49,16 +49,6 @@ namespace TestJob
 
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapControllerRoute(
-                //    name: "delComment",
-                //    pattern: "del-comment/{id}",
-                //    new { Controller = "Home", action = "DelTaskComment" });
-
-                //endpoints.MapControllerRoute(
-                //    name: "updComment",
-                //    pattern: "upd-comment/{id}",
-                //    new { Controller = "Home", action = "UpdTaskComment" });
-
 
                 endpoints.MapControllerRoute(
                     name: "InsTask",

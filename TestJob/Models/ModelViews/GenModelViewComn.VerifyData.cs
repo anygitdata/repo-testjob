@@ -89,26 +89,24 @@ namespace TestJob.Models.ModelViews
                 if (comn == null)
                 {
                     if (Debug)                    
-                        return Return_withEROR("Временные данные не изменяются");
+                        return Return_withEROR("Изменение временных данных", true);
 
                     return Return_withEROR("task comment not found");
                 }
 
 
                 if (!Model.ContentType)   // comment in file
-                {
-                    string fileName = Get_StrFromByte(comn.Content);
-                    string fullPath = Path.Combine(pathTxt, fileName);
-
-
-                    if (!Debug)
-                        Model.Content = fileName;
-                    else
-                        Model.Content = "Debug: контент файла закрыт";
+                {                    
+                    string fullPath = Get_pathFromBytes(comn.Content);
 
                     if (!UserMix.FileExists(fullPath))
                     {
                         return Return_withEROR("No comment file");
+                    }
+
+                    if (Debug)
+                    {
+                        return Return_withEROR("Debug: доступ к файлу закрыт");
                     }
                 }
 
