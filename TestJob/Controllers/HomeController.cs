@@ -29,6 +29,21 @@ namespace TestJob.Controllers
 
         // -------------------------------------------
 
+        [HttpGet("ins-comment/{id}")]
+        public IActionResult AddTaskComment(Guid id)
+        {
+            var res = new GenModelViewComn(context, anyUserData, id.ToString());
+
+            var anyData = res.ModelView;
+            var model = res.Model;
+
+
+            ViewBag.anyData = anyData;
+            ViewBag.LstModelView = res.LstModelView;
+
+            return View(model);
+        }
+
 
         [HttpGet("createtask/{id}")]
         public ActionResult CreateTask(Guid id)
@@ -44,55 +59,6 @@ namespace TestJob.Controllers
             };
 
             return View(model) ;
-        }
-
-
-        [HttpPost("createtask")]
-        public ActionResult CreateTask([FromForm] TaskStart model)
-        {
-            switch (model.OperTask.ToString())
-            {
-                case "create":
-                    TaskCreate.VerifyData(context, model as TaskCreate );
-                    break;
-                case "start":
-                    TaskStart.VerifyData(context, model);
-                    break;
-            }
-
-
-            if (model.Result == IdentResult.Error)
-                return Ok(model);
-
-            if (!TaskCreate.Debug)
-            {
-                context.Add(model.ObjTask);
-                context.SaveChanges();
-            }
-
-
-            return Ok(model);
-        }
-
-        // ---------------------------------
-
-
-        [HttpPut("modfroject")]
-        public ActionResult UpdProject([FromForm] Ajax_product model)
-        {
-            Ajax_product.VerifyData(context, model);
-
-            if (model.Result == IdentResult.Error)
-            {
-                return Ok(model);
-            }
-
-            context.SaveChanges();
-
-            Ajax_product.ReloadModel(context, model, ETypeOperations.update);
-
-
-            return Ok(model);
         }
 
 

@@ -440,7 +440,7 @@ const ProcBlock = (($, el, bf, bv) => {
         //const fd = new FormData(form)
         //fd.append('TaskId', el.TaskId)
         
-        const url = '/ins-comment'
+        const url = '/api/descr'
 
         $.ajax(url, {
             data: data,
@@ -461,13 +461,13 @@ const ProcBlock = (($, el, bf, bv) => {
         if (VerfData() == bv.error)
             return
 
-        const url = '/upddescr'
+        const url = '/api/descr'
 
         const data = GetData()
 
         $.ajax(url, {
             data: data,
-            method: 'POST',
+            method: 'PUT',
             success: function (data) {
                 After_responseUpd(data)
                 }
@@ -483,10 +483,12 @@ const ProcBlock = (($, el, bf, bv) => {
 
 
         const id = bf.Get_idFromForm()
-        const url = '/deldescr/' + id
+        //const url = '/deldescr/' + id
+
+        const url = '/api/descr/' + id
 
         $.ajax(url, {
-            method: 'GET',
+            method: 'DELETE',
             success: function (data) {
                 After_responseDel(data)
                 }

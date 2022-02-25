@@ -123,204 +123,204 @@ namespace TestJob.Tests.ControllerTests
         }
 
 
-        [Fact]
-        public void Home_UpdProject_with_updateData_test()
-        {
-            // arrange
-            Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate != null);
+        //[Fact]
+        //public void Home_UpdProject_with_updateData_test()
+        //{
+        //    // arrange
+        //    Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate != null);
 
-            Ajax_product model = new ()
-            {
-                projectId = project.Id.ToString(),
-                projectName = project.ProjectName,
-                time = "12:00",
-                date = "2022-02-03"
-            };
+        //    Ajax_product model = new ()
+        //    {
+        //        projectId = project.Id.ToString(),
+        //        projectName = project.ProjectName,
+        //        time = "12:00",
+        //        date = "2022-02-03"
+        //    };
 
-            // act
-            var resOk = contrHome.UpdProject(model) as OkObjectResult;
+        //    // act
+        //    var resOk = contrHome.UpdProject(model) as OkObjectResult;
 
-            // assert
-            Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
+        //    // assert
+        //    Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
 
-            var item = Assert.IsType<Ajax_product>(resOk.Value);
+        //    var item = Assert.IsType<Ajax_product>(resOk.Value);
 
-            Assert.Equal(IdentResult.Error, item.Result);
-            Assert.Equal("Project closed", item.Message);
+        //    Assert.Equal(IdentResult.Error, item.Result);
+        //    Assert.Equal("Project closed", item.Message);
 
-        }
-
-
-        [Fact]
-        public void Home_UpdProject_with_createData_less_updateData_test()
-        {
-            // arrange
-            Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
-
-            Ajax_product model = new ()
-            {
-                projectId = project.Id.ToString(),
-                projectName = project.ProjectName,
-                time = "12:00",
-                date = "2020-02-03"
-            };
-
-            // act
-            var resOk = contrHome.UpdProject(model) as OkObjectResult;
-
-            // assert
-            Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
-
-            var item = Assert.IsType<Ajax_product>(resOk.Value);
-
-            Assert.Equal(IdentResult.Error, item.Result);
-            Assert.Equal("UpdateDate must be greater than CreateDate", item.Message);
-
-        }
+        //}
 
 
-        [Fact]
-        public void Home_UpdProject_with_not_exists_product_test()
-        {
-            // arrange
-            Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
+        //[Fact]
+        //public void Home_UpdProject_with_createData_less_updateData_test()
+        //{
+        //    // arrange
+        //    Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
 
-            Ajax_product model = new ()
-            {
-                projectId = Guid.NewGuid().ToString(),
-                projectName = "empty",
-                time = "12:00",
-                date = "2020-02-03"
-            };
+        //    Ajax_product model = new ()
+        //    {
+        //        projectId = project.Id.ToString(),
+        //        projectName = project.ProjectName,
+        //        time = "12:00",
+        //        date = "2020-02-03"
+        //    };
 
-            // act
-            var resOk = contrHome.UpdProject(model) as OkObjectResult;
+        //    // act
+        //    var resOk = contrHome.UpdProject(model) as OkObjectResult;
 
-            // assert
-            Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
+        //    // assert
+        //    Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
 
-            var item = Assert.IsType<Ajax_product>(resOk.Value);
+        //    var item = Assert.IsType<Ajax_product>(resOk.Value);
 
-            Assert.Equal(IdentResult.Error, item.Result);
-            Assert.Equal("Project not exist", item.Message);
+        //    Assert.Equal(IdentResult.Error, item.Result);
+        //    Assert.Equal("UpdateDate must be greater than CreateDate", item.Message);
 
-        }
-
-
-        [Fact]
-        public void Home_UpdProject_without_date_or_time_test()
-        {
-            // arrange
-            Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
-
-            Ajax_product model = new ()
-            {
-                projectId = project.Id.ToString(),
-                projectName = project.ProjectName,
-                date = "2022-02-03"
-            };
-
-            // act
-            var resOk = contrHome.UpdProject(model) as OkObjectResult;
-
-            // assert
-            Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
-
-            var item = Assert.IsType<Ajax_product>(resOk.Value);
-
-            Assert.Equal(IdentResult.Error, item.Result);
-            Assert.Equal("Fill fields date, time", item.Message);
-
-        }
-
-        [Fact]
-        public void Home_UpdProject_with_error_time_test()
-        {
-            // arrange
-            Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
-
-            Ajax_product model = new ()
-            {
-                projectId = project.Id.ToString(),
-                projectName = project.ProjectName,
-                date = "2022-02-03",
-                time = "11-00"
-            };
-
-            // act
-            var resOk = contrHome.UpdProject(model) as OkObjectResult;
-
-            // assert
-            Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
-
-            var item = Assert.IsType<Ajax_product>(resOk.Value);
-
-            Assert.Equal(IdentResult.Error, item.Result);
-            Assert.Equal("Check date and time fields", item.Message);
-
-        }
+        //}
 
 
-        [Fact]
-        public void Home_UpdProject_with_error_date_test()
-        {
-            // arrange
-            Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
+        //[Fact]
+        //public void Home_UpdProject_with_not_exists_product_test()
+        //{
+        //    // arrange
+        //    Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
 
-            Ajax_product model = new ()
-            {
-                projectId = project.Id.ToString(),
-                projectName = project.ProjectName,
-                date = "2022-0203",
-                time = "11:00"
-            };
+        //    Ajax_product model = new ()
+        //    {
+        //        projectId = Guid.NewGuid().ToString(),
+        //        projectName = "empty",
+        //        time = "12:00",
+        //        date = "2020-02-03"
+        //    };
 
-            // act
-            var resOk = contrHome.UpdProject(model) as OkObjectResult;
+        //    // act
+        //    var resOk = contrHome.UpdProject(model) as OkObjectResult;
 
-            // assert
-            Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
+        //    // assert
+        //    Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
 
-            var item = Assert.IsType<Ajax_product>(resOk.Value);
+        //    var item = Assert.IsType<Ajax_product>(resOk.Value);
 
-            Assert.Equal(IdentResult.Error, item.Result);
-            Assert.Equal("Check date and time fields", item.Message);
+        //    Assert.Equal(IdentResult.Error, item.Result);
+        //    Assert.Equal("Project not exist", item.Message);
 
-        }
+        //}
 
 
-        [Fact]
-        public void Home_UpdProject_updateProject_test()
-        {
-            // arrange
-            Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
+        //[Fact]
+        //public void Home_UpdProject_without_date_or_time_test()
+        //{
+        //    // arrange
+        //    Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
 
-            string projNameInitial = project.ProjectName;
+        //    Ajax_product model = new ()
+        //    {
+        //        projectId = project.Id.ToString(),
+        //        projectName = project.ProjectName,
+        //        date = "2022-02-03"
+        //    };
 
-            DateTime dtCreate = project.CreateDate.AddDays(1);
-            var compDateTime = Components_date.ConvDate_intoObj(dtCreate);
+        //    // act
+        //    var resOk = contrHome.UpdProject(model) as OkObjectResult;
 
-            Ajax_product model = new ()
-            {
-                projectId = project.Id.ToString(),
-                projectName = project.ProjectName + " updateName",
-                date = compDateTime.date,
-                time = compDateTime.time
-            };
+        //    // assert
+        //    Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
 
-            // act
-            var resOk = contrHome.UpdProject(model) as OkObjectResult;
+        //    var item = Assert.IsType<Ajax_product>(resOk.Value);
 
-            // assert
-            Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
+        //    Assert.Equal(IdentResult.Error, item.Result);
+        //    Assert.Equal("Fill fields date, time", item.Message);
 
-            var item = Assert.IsType<Ajax_product>(resOk.Value);
+        //}
 
-            Assert.Equal(IdentResult.Ok, item.Result);
+        //[Fact]
+        //public void Home_UpdProject_with_error_time_test()
+        //{
+        //    // arrange
+        //    Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
 
-            RecoveryProject(model, projNameInitial);
+        //    Ajax_product model = new ()
+        //    {
+        //        projectId = project.Id.ToString(),
+        //        projectName = project.ProjectName,
+        //        date = "2022-02-03",
+        //        time = "11-00"
+        //    };
 
-        }
+        //    // act
+        //    var resOk = contrHome.UpdProject(model) as OkObjectResult;
+
+        //    // assert
+        //    Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
+
+        //    var item = Assert.IsType<Ajax_product>(resOk.Value);
+
+        //    Assert.Equal(IdentResult.Error, item.Result);
+        //    Assert.Equal("Check date and time fields", item.Message);
+
+        //}
+
+
+        //[Fact]
+        //public void Home_UpdProject_with_error_date_test()
+        //{
+        //    // arrange
+        //    Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
+
+        //    Ajax_product model = new ()
+        //    {
+        //        projectId = project.Id.ToString(),
+        //        projectName = project.ProjectName,
+        //        date = "2022-0203",
+        //        time = "11:00"
+        //    };
+
+        //    // act
+        //    var resOk = contrHome.UpdProject(model) as OkObjectResult;
+
+        //    // assert
+        //    Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
+
+        //    var item = Assert.IsType<Ajax_product>(resOk.Value);
+
+        //    Assert.Equal(IdentResult.Error, item.Result);
+        //    Assert.Equal("Check date and time fields", item.Message);
+
+        //}
+
+
+        //[Fact]
+        //public void Home_UpdProject_updateProject_test()
+        //{
+        //    // arrange
+        //    Project project = context.Set<Project>().FirstOrDefault(p => p.UpdateDate == null);
+
+        //    string projNameInitial = project.ProjectName;
+
+        //    DateTime dtCreate = project.CreateDate.AddDays(1);
+        //    var compDateTime = Components_date.ConvDate_intoObj(dtCreate);
+
+        //    Ajax_product model = new ()
+        //    {
+        //        projectId = project.Id.ToString(),
+        //        projectName = project.ProjectName + " updateName",
+        //        date = compDateTime.date,
+        //        time = compDateTime.time
+        //    };
+
+        //    // act
+        //    var resOk = contrHome.UpdProject(model) as OkObjectResult;
+
+        //    // assert
+        //    Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
+
+        //    var item = Assert.IsType<Ajax_product>(resOk.Value);
+
+        //    Assert.Equal(IdentResult.Ok, item.Result);
+
+        //    RecoveryProject(model, projNameInitial);
+
+        //}
 
 
     }

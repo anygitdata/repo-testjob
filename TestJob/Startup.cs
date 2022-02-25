@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,16 @@ namespace TestJob
             });
 
             services.AddControllersWithViews();
+
+            services.Configure<MvcNewtonsoftJsonOptions>(opts => {
+                opts.SerializerSettings.NullValueHandling
+                    = Newtonsoft.Json.NullValueHandling.Ignore;
+            });
+
+            services.Configure<MvcOptions>(opts => {
+                opts.RespectBrowserAcceptHeader = true;
+                opts.ReturnHttpNotAcceptable = true;
+            });
         }
 
         
