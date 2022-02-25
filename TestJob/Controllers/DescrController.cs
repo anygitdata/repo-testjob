@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestJob.Models;
 using TestJob.Models.Interface;
-using TestJob.Models.ModelViews;
+using TestJob.Models.ModelViews.ComnView;
 using TestJob.Models.UserAPI;
 
 namespace TestJob.Controllers
@@ -50,56 +50,56 @@ namespace TestJob.Controllers
         }
 
 
-        [HttpPut]
-        public IActionResult UpdateDescr(TaskComment_ModelView model)
-        {
-            model.TypeOperations = ETypeOperations.update;
+        //[HttpPut]
+        //public IActionResult UpdateDescr(TaskComment_ModelView model)
+        //{
+        //    model.TypeOperations = ETypeOperations.update;
 
-            try
-            {
-                var res = new GenModelViewComn(context, anyUserData, model);
+        //    try
+        //    {
+        //        var res = new GenModelViewComn(context, anyUserData, model);
 
-                if (!res.VerifyData())
-                {
-                    return Ok(res.BasicData);
-                }
+        //        if (!res.VerifyData())
+        //        {
+        //            return Ok(res.BasicData);
+        //        }
 
-                res.SaveDataModel();
+        //        res.SaveDataModel();
 
-                return Ok(model);
+        //        return Ok(model);
 
-            }
-            catch (Exception ex)
-            {
-                model.Result = IdentResult.Error;
-                model.Message = "Cancel operation update TaskComment";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        model.Result = IdentResult.Error;
+        //        model.Message = "Cancel operation update TaskComment";
 
-                UserMix.File_Message_intoLog(PathDir_txt, "Cancel operation update TaskComment");
-                UserMix.File_Message_intoLog(PathDir_txt, $"{ex.Message}");
+        //        UserMix.File_Message_intoLog(PathDir_txt, "Cancel operation update TaskComment");
+        //        UserMix.File_Message_intoLog(PathDir_txt, $"{ex.Message}");
 
-                return Ok(model);
-            }
-        }
+        //        return Ok(model);
+        //    }
+        //}
 
 
-        [HttpDelete("{id}")]
-        public IActionResult DelDescr(string id)
-        {
-            var model = new TaskComment_ModelView(id)
-            {
-                TypeOperations = ETypeOperations.delete
-            };
+        //[HttpDelete("{id}")]
+        //public IActionResult DelDescr(string id)
+        //{
+        //    var model = new TaskComment_ModelView(id)
+        //    {
+        //        TypeOperations = ETypeOperations.delete
+        //    };
 
-            var res = new GenModelViewComn(context, anyUserData, model);
+        //    var res = new GenModelViewComn(context, anyUserData, model);
 
-            if (!res.VerifyData())
-            {
-                return Ok(res.BasicData);
-            }
+        //    if (!res.VerifyData())
+        //    {
+        //        return Ok(res.BasicData);
+        //    }
 
-            res.SaveDataModel();
+        //    res.SaveDataModel();
 
-            return Ok(res.BasicData);
-        }
+        //    return Ok(res.BasicData);
+        //}
     }
 }

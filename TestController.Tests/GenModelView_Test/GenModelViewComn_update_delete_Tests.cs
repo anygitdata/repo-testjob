@@ -6,6 +6,7 @@ using TestBaseSettings;
 using TestJob.Models;
 using TestJob.Models.Interface;
 using TestJob.Models.ModelViews;
+using TestJob.Models.ModelViews.ComnView;
 using TestJob.Models.UserAPI;
 using Xunit;
 

@@ -5,6 +5,7 @@ using System.Linq;
 using TestJob.Models;
 using TestJob.Models.Interface;
 using TestJob.Models.ModelViews;
+using TestJob.Models.ModelViews.ComnView;
 using TestJob.Models.UserAPI;
 
 namespace TestJob.Controllers
@@ -24,7 +25,7 @@ namespace TestJob.Controllers
 
             anyUserData = userData;
 
-            BaseModel_view.Set_IAnyUserData(context, anyUserData);
+            //BaseModel_view.Set_IAnyUserData(context, anyUserData);
         }
 
         // -------------------------------------------
@@ -48,17 +49,19 @@ namespace TestJob.Controllers
         [HttpGet("createtask/{id}")]
         public ActionResult CreateTask(Guid id)
         {
-            TaskUpdate model = new () {
-                OperTask = ETypeOperTask.create,
-                projectId = id.ToString(),
-                projectName = context.Set<Project>().Find(id).ProjectName,
-                Message = "",
 
-                dateCreate = "",
-                timeCreate = ""
-            };
 
-            return View(model) ;
+            //TaskUpdate model = new () {
+            //    OperTask = ETypeOperTask.create,
+            //    projectId = id.ToString(),
+            //    projectName = context.Set<Project>().Find(id).ProjectName,
+            //    Message = "",
+
+            //    dateCreate = "",
+            //    timeCreate = ""
+            //};
+
+            return View() ;
         }
 
 

@@ -3,7 +3,7 @@ using System.IO;
 using TestJob.Models.Interface;
 using TestJob.Models.UserAPI;
 
-namespace TestJob.Models.ModelViews.Templ
+namespace TestJob.Models.ModelViews.ComnView
 {
     public abstract class GeneralModelView_templ<TModel, TResult, TView> : IdentResult
     {

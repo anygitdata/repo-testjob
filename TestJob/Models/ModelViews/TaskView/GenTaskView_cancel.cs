@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestJob.Models.Interface;
 
-namespace TestJob.Models.ModelViews
+namespace TestJob.Models.ModelViews.TaskView
 {
     public class GenTaskView_cancel : GenTaskView_templ
     {

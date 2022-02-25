@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using TestJob.Models.Interface;
 using TestJob.Models.UserAPI;
 
-namespace TestJob.Models.ModelViews
+namespace TestJob.Models.ModelViews.TaskView
 {
 
     public class GenTaskView: IdentResult

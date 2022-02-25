@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TestJob.Models;
 using TestJob.Models.Interface;
 using TestJob.Models.ModelViews;
-using TestJob.Models.UserAPI;
+using TestJob.Models.ModelViews.TaskView;
 
 namespace TestJob.Controllers
 {
@@ -26,27 +22,27 @@ namespace TestJob.Controllers
 
 
         [HttpPost("createtask")]
-        public ActionResult CreateTask([FromForm] TaskStart model)
+        public ActionResult CreateTask([FromForm] GenTaskView model)
         {
-            switch (model.OperTask.ToString())
-            {
-                case "create":
-                    TaskCreate.VerifyData(context, model as TaskCreate);
-                    break;
-                case "start":
-                    TaskStart.VerifyData(context, model);
-                    break;
-            }
+            //switch (model.OperTask.ToString())
+            //{
+            //    case "create":
+            //        TaskCreate.VerifyData(context, model as TaskCreate);
+            //        break;
+            //    case "start":
+            //        TaskStart.VerifyData(context, model);
+            //        break;
+            //}
 
 
-            if (model.Result == IdentResult.Error)
-                return Ok(model);
+            //if (model.Result == IdentResult.Error)
+            //    return Ok(model);
 
-            if (!TaskCreate.Debug)
-            {
-                context.Add(model.ObjTask);
-                context.SaveChanges();
-            }
+            //if (!TaskCreate.Debug)
+            //{
+            //    context.Add(model.ObjTask);
+            //    context.SaveChanges();
+            //}
 
 
             return Ok(model);

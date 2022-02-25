@@ -27,9 +27,9 @@ namespace TestJob.Controllers
             context = cont;
             _PathDir_txt = userData.PathDir_txt;
 
-            //anyUserData = userData;
+            //anyUserData = userData;   
 
-            BaseModel_view.Set_IAnyUserData(context, userData);
+            //BaseModel_view.Set_IAnyUserData(context, userData);
         }
 
 

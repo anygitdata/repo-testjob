@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
-using TestJob.Models.ModelViews.Templ;
 using TestJob.Models.UserAPI;
 
-namespace TestJob.Models.ModelViews
+namespace TestJob.Models.ModelViews.ComnView
 {
     public partial class GenModelViewComn
         : GeneralModelView_templ<TaskComment_ModelView, TaskComment, AnyData_Comment>
