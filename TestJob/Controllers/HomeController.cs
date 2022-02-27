@@ -6,6 +6,7 @@ using TestJob.Models;
 using TestJob.Models.Interface;
 using TestJob.Models.ModelViews;
 using TestJob.Models.ModelViews.ComnView;
+using TestJob.Models.ModelViews.TaskView;
 using TestJob.Models.UserAPI;
 
 namespace TestJob.Controllers
@@ -28,7 +29,7 @@ namespace TestJob.Controllers
             //BaseModel_view.Set_IAnyUserData(context, anyUserData);
         }
 
-        // -------------------------------------------
+        // --------------------------------------------------------------
 
         [HttpGet("ins-comment/{id}")]
         public IActionResult AddTaskComment(Guid id)
@@ -49,19 +50,11 @@ namespace TestJob.Controllers
         [HttpGet("createtask/{id}")]
         public ActionResult CreateTask(Guid id)
         {
+            var model = new GenTaskView_create(context, anyUserData, id);
 
-
-            //TaskUpdate model = new () {
-            //    OperTask = ETypeOperTask.create,
-            //    projectId = id.ToString(),
-            //    projectName = context.Set<Project>().Find(id).ProjectName,
-            //    Message = "",
-
-            //    dateCreate = "",
-            //    timeCreate = ""
-            //};
-
-            return View() ;
+            ViewBag.anyData = model.ViewBag_data;
+            
+            return View(model.Model);
         }
 
 
@@ -84,6 +77,7 @@ namespace TestJob.Controllers
             return Ok(model);
 
         }
+
 
         // ----------------------------------
 

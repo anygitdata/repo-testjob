@@ -1,39 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TestJob.Models.Interface;
 using TestJob.Models.UserAPI;
 
 namespace TestJob.Models.ModelViews.TaskView
 {
 
+    public class ViewBag_data
+    {
+        public Guid ProjectId { get; set; }                
+        public string ProjectName { get; set; }
+        public string Date { get; set; }
+        public string Time { get; set; }
+        public string Debug { get; set; }
+    }
+
+
     public class GenTaskView: IdentResult
     {
         public Guid ProjectId { get; set; }
         public string TaskId { get; set; }
         public string TaskName { get; set; }
-        public string date { get; set; }
-        public string time { get; set; }
+        public string Date { get; set; }
+        public string Time { get; set; }
 
         public string TypeOperTask { get; set; } // ETypeOperTask.ToString()
     }
 
-
-    public abstract class GenTaskView_templ: IdentResult
+    public class GenTaskViewExt: GenTaskView
     {
+        public string DateExt { get; set; }
+        public string TimeExt { get; set; }
+    }
+
+
+    public abstract class GenTaskView_templ<T> : IdentResult
+    {
+        protected enum TEmodel {gen, ext}
+
         protected readonly DataContext context;
         
         private bool _debug;
         protected bool Debug { get => _debug; }
         protected string mesError_default = "Cancel operation";
 
-        public GenTaskView_templ(DataContext cont, IAnyUserData userData, GenTaskView model)
+        public GenTaskView_templ(DataContext cont, IAnyUserData userData)
         {
             context = cont;
-
             _debug = userData.Debug;
-            _model = model;
         }
 
 
@@ -42,14 +55,12 @@ namespace TestJob.Models.ModelViews.TaskView
         {
             _debug = arg;
         }
+        
+        public T Model { get; set; }
 
-
-        readonly GenTaskView _model;
-        public GenTaskView Model { get => _model; }
-
-        protected abstract bool VerifyData();
-        protected abstract bool SaveData();
-        //protected abstract void InitResult(Guid id);
+        public abstract bool VerifyData();
+        public abstract bool SaveData();
+        public abstract ViewBag_data ViewBag_data { get; }
 
 
         protected string[] Get_compDateTime_fromModel(DateTime arg)
@@ -59,24 +70,7 @@ namespace TestJob.Models.ModelViews.TaskView
 
             return res;
         }
-        protected DateTime Get_DateTime_fromModel()
-        {
-            var res = Components_date.ConvStr_intoObj(Model.date, Model.time);
-            return res.resDate;
-
-        }
-        protected virtual bool VerifyDateTime() {
-            Components_date compDate = 
-                Components_date.ConvStr_intoObj(Model.date, Model.time);
-
-            if (compDate.Result == Error)            
-                return Return_withEROR(compDate.Message);
-            
-
-            return true;
-        }
-        
-        
+        //protected abstract DateTime Get_DateTime_fromModel();
 
         protected virtual bool Return_withOK()
         {
@@ -84,16 +78,6 @@ namespace TestJob.Models.ModelViews.TaskView
             Message = Ok;
 
             return true;
-        }
-        protected virtual bool Return_withEROR(string err)
-        {
-            Model.Result = Error;
-            Model.Message = err;
-
-            Result = Error;
-            Message = err;
-                
-            return false;
         }
         
         protected void SetResult_forStart()

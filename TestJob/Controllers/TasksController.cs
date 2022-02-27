@@ -3,9 +3,11 @@ using TestJob.Models;
 using TestJob.Models.Interface;
 using TestJob.Models.ModelViews;
 using TestJob.Models.ModelViews.TaskView;
+using TestJob.Models.UserAPI;
 
 namespace TestJob.Controllers
 {
+    [Route("api/[controller]")]
     public class TasksController : Controller
     {
 
@@ -21,29 +23,16 @@ namespace TestJob.Controllers
         // -----------------------------------------
 
 
-        [HttpPost("createtask")]
-        public ActionResult CreateTask([FromForm] GenTaskView model)
+        [HttpPost]
+        public ActionResult CreateTask([FromForm] GenTaskViewExt model)
         {
-            //switch (model.OperTask.ToString())
-            //{
-            //    case "create":
-            //        TaskCreate.VerifyData(context, model as TaskCreate);
-            //        break;
-            //    case "start":
-            //        TaskStart.VerifyData(context, model);
-            //        break;
-            //}
+            var data = new GenTaskView_create(context, anyUserData, model);
+            if (!data.VerifyData())
+            {
+                return Ok(model);
+            }
 
-
-            //if (model.Result == IdentResult.Error)
-            //    return Ok(model);
-
-            //if (!TaskCreate.Debug)
-            //{
-            //    context.Add(model.ObjTask);
-            //    context.SaveChanges();
-            //}
-
+            data.SaveData();
 
             return Ok(model);
         }

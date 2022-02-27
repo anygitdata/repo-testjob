@@ -6,14 +6,15 @@ using TestJob.Models.Interface;
 
 namespace TestJob.Models.ModelViews.TaskView
 {
-    public class GenTaskView_cancel : GenTaskView_templ
+    public class GenTaskView_cancel : GenTaskView_modf
+
     {
         public GenTaskView_cancel(DataContext cont, IAnyUserData userData, GenTaskView model) : base(cont, userData, model)
         { }
 
         Task task;
 
-        protected override bool VerifyData() 
+        public override bool VerifyData() 
         {
             if (string.IsNullOrEmpty(Model.TaskId))
                 return Return_withEROR("No ID task");
@@ -34,7 +35,7 @@ namespace TestJob.Models.ModelViews.TaskView
             return Return_withOK();
         }
 
-        protected override bool SaveData()
+        public override bool SaveData()
         {
             if (Result == Error)
                 return false;
