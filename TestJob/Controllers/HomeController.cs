@@ -81,6 +81,12 @@ namespace TestJob.Controllers
 
         // ----------------------------------
 
+        [HttpGet("detaildebug")]
+        public IActionResult DetailDebug()
+        {
+            return View();
+        }
+
         public IActionResult Index(int id=0)
         {
             List<ModelProjectMenu> lsDataServProc = 

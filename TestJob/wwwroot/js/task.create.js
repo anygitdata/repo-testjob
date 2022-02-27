@@ -86,7 +86,11 @@ const userInterf = (($, el, bv) => {
             data: getData(),
             type: 'POST',
             success: function (data) {
-                console.log('Result: ', data.result)
+
+                if (data.result == bv.ok && data.redirect != '')
+                    window.location.replace(data.redirect);
+                else                
+                    console.log('Result: ', data.result)
             }
         })
 

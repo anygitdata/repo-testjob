@@ -107,11 +107,13 @@
     @if (anyData.Debug == "on")
     {
         <div class="mt-n2 mb-2 u-textSmaller text-danger">
-            <b>Включен режим Debug</b>
+            <b>Включен режим Debug</b> 
+            <a class="card-link" asp-action="DetailDebug" 
+               asp-controller="Home">In detail</a>
         </div>
     }
     @*General header*@
-    <ul class="ul_compl_data">
+    <ul class="ul_compl_data border-top border-bottom border-dark py-1 px-2" style="background-color: #e7f5ea;">
         <li><b>Project</b>: @anyData.ProjectName</li>
         <li><b>Task</b>: @anyData.TaskName</li>
         <li><b>TaskStart:</b>: @anyData.Str_DateTime</li>

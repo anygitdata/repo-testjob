@@ -25,6 +25,7 @@
     <Folder Include="Models\ModelViews\ProjectView\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="wwwroot\anymessage\" />
+    <Folder Include="wwwroot\html\details\" />
   </ItemGroup>
 
 </Project>

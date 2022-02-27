@@ -22,6 +22,7 @@ namespace TestJob.Models.ModelViews.TaskView
         public string TaskName { get; set; }
         public string Date { get; set; }
         public string Time { get; set; }
+        public string Redirect { get; set; } = "";
 
         public string TypeOperTask { get; set; } // ETypeOperTask.ToString()
     }

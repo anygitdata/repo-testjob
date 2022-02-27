@@ -33,6 +33,11 @@ namespace TestJob.Controllers
             }
 
             data.SaveData();
+            if (data.Result == IdentResult.Ok && !anyUserData.Debug)
+            {
+                model.Redirect = $"/ins-comment/{model.TaskId}";
+                return Ok(model);
+            }
 
             return Ok(model);
         }

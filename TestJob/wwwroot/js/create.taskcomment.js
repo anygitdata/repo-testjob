@@ -513,6 +513,8 @@ const ProcBlock = (($, el, bf, bv) => {
 
             MessageErr(data.message)
 
+            
+
             return
         }
 
@@ -550,6 +552,7 @@ const ProcBlock = (($, el, bf, bv) => {
 
         btn.click()
 
+        el.AddClass_Disabled(false) // Reset button lock 
 
         if (el.Debug == 'on') {
             console.group('------- After_responseAdd -------')
@@ -588,7 +591,6 @@ const ProcBlock = (($, el, bf, bv) => {
         div.find('.div-comment').text(data.content)
 
         el.div_Modal.modal('hide')
-
 
         if (el.Debug == 'on') {
             console.group('------- After_responseUpd -------')

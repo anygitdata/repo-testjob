@@ -1,0 +1,144 @@
+﻿
+
+@section FontAwesome{
+    <link rel="stylesheet" href="~/css/font-awesome/css/fontawesome.min.css" />
+}
+
+
+
+<div class="container">
+    <h1 class="u-h1Smaller mb-4">
+        Режим Debug&nbsp;&nbsp;&nbsp;&nbsp;<img style="max-height:1.5rem" src="~/img/manual/btn_debug.png" alt="btn-debug" />
+    </h1>
+    
+
+    <!--Accordion wrapper-->
+    <div class="accordion md-accordion u-textSmaller" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+        <!-- Accordion card -->
+        <div class="card">
+
+            <!-- Card header -->
+            <div class="card-header py-1" role="tab" id="headingOne1">
+                <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
+                   aria-controls="collapseOne1">
+                    <h5 class="mb-0">
+                        Назначение
+                    </h5>
+                </a>
+            </div>
+
+            <!-- Card body -->
+            <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
+                 data-parent="#accordionEx">
+                <div class="card-body">
+                    <div>
+                        <div>
+                            Режим <b>Debug</b> предназначен для отладки и тестирования кода js в браузере
+                        </div>
+
+                        <div class="mt-2" >При включенном режиме <b>Debug</b> </div>
+                              <div class="pl-4">
+                                <ul>
+                                    <li>Появляется кнопочный навигатор</li>
+                                    <li>ВСЕ операции выполняются во <b>встроенном кэше</b></li>
+                                    <li>Доступ к файлам описаний <b>закрыт</b></li>
+                                    <li>Удаление файлов описаний <b>блокируется</b></li>
+                                    <li>Запуск тестирования/отладки через кнопочный навигатор</li>
+                                    <li>Результаты тестирования/отладки выводятся в консоль, а также в div Message </li>
+                                    <li>
+                                        Для отладки верификации на сервере используется сценарий <span class="text-danger"><b>"Server level verification"</b></span> <br />
+                                        В таком режиме верификация js отключена <br />
+                                        см. "Отображение результатов отладки"
+                                    </li>
+                                </ul>
+                                  
+                              </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Accordion card -->
+        <!-- Accordion card -->
+        <div class="card mt-1">
+
+            <!-- Card header -->
+            <div class="card-header py-1" role="tab" id="headingTwo2">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseTwo2"
+                   aria-expanded="false" aria-controls="collapseTwo2">
+                    <h5 class="mb-0">
+                        Настройка режима <b>Debug</b>
+                    </h5>
+                </a>
+            </div>
+
+            <!-- Card body -->
+            <div id="collapseTwo2" class="collapse" role="tabpanel" aria-labelledby="headingTwo2"
+                 data-parent="#accordionEx">
+                <div class="card-body">
+                    <div>Включение/отключение режима <b>Debug</b> <br />
+                        через конфигурационный файл: wwwroot/settings/settings.json 
+                    </div>
+
+
+                    <div>
+                        <div class="pt-2"><b>Структура settings.json</b></div>
+                        <div class="pl-4">
+                            <ul>
+                                <li><b>seedData</b>: off/on (Сценарий начальной загрДанных)</li>
+                                <li><b>maxSizeFile</b>: 400 (минимальный размер файлов описаний)</li>
+                                <li><b>debug</b>: off/on Debug </li>
+                            </ul>
+                        </div>
+                        <div>
+                            seedData=on  <b>сбрасывается в off</b> после первого считывания значения
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Accordion card -->
+        <div class="card mt-1">
+
+            <!-- Card header -->
+            <div class="card-header py-1" role="tab" id="headingThree3">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree3"
+                   aria-expanded="false" aria-controls="collapseThree3">
+                    <h5 class="mb-0">
+                        Отображение результатов отладки
+                    </h5>
+                </a>
+            </div>
+
+            <!-- Card body -->
+            <div id="collapseThree3" class="collapse" role="tabpanel" aria-labelledby="headingThree3"
+                 data-parent="#accordionEx">
+                <div class="card-body py-2">
+                    <b>Отключение верификации js</b>
+                    <div>
+                        <img src="~/img/manual/debug_block.png" alt="debug_block" />
+                    </div>
+                    <br />
+                    <b>Сообщения в консоли</b>
+                    <div>
+                        <img src="~/img/manual/debug_mes.png" alt="debug_mes" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Accordion card -->
+
+    </div>
+    <!-- Accordion wrapper -->
+
+</div>
+
+@section Scripts{
+    <script src="https://kit.fontawesome.com/dc59b46c4d.js" crossorigin="anonymous"></script>
+}

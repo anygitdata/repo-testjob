@@ -37,6 +37,15 @@
 
 <div class="container mt-2" style="max-width:25rem">
 
+    @if (anyData.Debug == "on")
+            {
+    <div class="text-danger">
+        Включен режим <b>Debug</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a class="card-link text-dark" asp-action="detaildebug">In detail</a>
+    </div>
+
+            }
+
     <h1 class="u-h1Smaller">Task creation form</h1>
     <h3 class="u-h3Smaller"><b>Project</b>: <span>@projectName</span></h3>
     <div class="mt-n2">@datePr  @timePr</div>
