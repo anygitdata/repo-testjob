@@ -78,7 +78,7 @@ namespace TestJob.Controllers
 
             string projectId = "";
             string projectName = "All projects";
-            string idUpdate = "false";
+            string idUpdate = "off";
 
             DateTime dDefault = default;
 
@@ -104,7 +104,7 @@ namespace TestJob.Controllers
                 projectName = prItem.ProjectName;
                 selProjId = selProject.id;
                 if (selProject.updateDate > dDefault)
-                    idUpdate = "true";
+                    idUpdate = "on";
 
                 string[] dtime = ComnTemplate.Get_compDateTime_fromModel(prItem.CreateDate);
                 projectView.ProjectId = prItem.Id;

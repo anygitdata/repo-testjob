@@ -3,16 +3,15 @@
 @{
     var content_TableModel = ViewBag.Content_TableModel as Content_TableTask;
 
-    ViewBag.productId = content_TableModel.projectId;
-        
+    string debug = content_TableModel.debug;
+    string projectId = content_TableModel.projectId;
+    string idUpdate = content_TableModel.idUpdate;
+
+    ViewBag.productId = content_TableModel.projectId;  // in _LayOut for addTask
+
 
     var projectView = ViewBag.projectView as BaseProjectView;
-
     var typeOperations = projectView.TypeOperations;
-
-    string Debug = content_TableModel.debug as string;
-    string projectId = content_TableModel.projectId as string;
-
     int numItem = content_TableModel.numItem;
 }
 
@@ -28,19 +27,20 @@
     <input type="hidden" asp-for="@projectId" />
     <input type="hidden" asp-for="@typeOperations" />
 
-    <input type="hidden" asp-for="@numItem" />    
+    <input type="hidden" asp-for="@numItem" />
+    <input type="hidden" asp-for="@debug" />
+    <input type="hidden" asp-for="@idUpdate" />
+    
 </div>
 
-@if (Debug == "on")
+
+@if (debug == "on")
 {
     <div class="ml-3 mb-2 u-textSmaller text-danger">
         <b>Включен режим Debug</b>
     </div>
    
 }
-
-
-@*<partial name="_modalDlg_project" />*@
 
 
 <partial name="_formDialog_add_upd_project" model="@projectView" />
@@ -51,7 +51,7 @@
 
     <div class="row">
 
-        @*Selector project*@
+        @*Selector projects *@
         <div class="btn-group dropright col-auto">
             <butmton type="button"
                      class="btn btn-secondary dropdown-toggle"
@@ -62,6 +62,7 @@
             </butmton>
             <div class="dropdown-menu">
 
+                @* Filling in the list of projectNames  *@
                 @foreach (ModelProjectMenu pr in content_TableModel.LsProjects)
                 {
                     <a class="dropdown-item @pr.disabled"
@@ -93,7 +94,7 @@
 
     <partial name="_tableContent_main_page" />
 
-    @if (content_TableModel.idUpdate == "true")
+    @if (content_TableModel.idUpdate == "on")
     {
         <div class="mt-2 ml-2">
             All tasks completed. The project is closed.

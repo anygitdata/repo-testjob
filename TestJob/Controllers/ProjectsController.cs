@@ -29,18 +29,13 @@ namespace TestJob.Controllers
         [HttpPost]
         public ActionResult AddProject([FromForm] BaseProjectView model)
         {
-            //Ajax_product.VerifyData(context, model);
-
-            //if (model.Result == IdentResult.Error)
-            //{
-            //    return Ok(model);
-            //}
-
-            //context.Add(model.objProduct);
-            //context.SaveChanges();
-
-            //Ajax_product.ReloadModel(context, model, ETypeOperations.insert);
-
+            var data = new GenProjectView_add(context, anyUserData, model);
+            if (!data.VerifyData())
+            {
+                return Ok(model);
+            }
+                        
+            data.SaveData();
 
             return Ok(model);
 

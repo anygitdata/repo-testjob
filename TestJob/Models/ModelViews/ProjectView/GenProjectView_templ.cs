@@ -24,6 +24,16 @@ namespace TestJob.Models.ModelViews.ProjectView
 
             return false;
         }
+        protected virtual bool Return_withOk()
+        {
+            base.Return_withOK();
+
+            Model.Result = Ok;
+            Model.Message = Ok;
+
+            return true; 
+        }
+
 
         protected bool VerifyDateTime(TEmodel typeModel)
         {
@@ -46,7 +56,6 @@ namespace TestJob.Models.ModelViews.ProjectView
 
             return true;
         }
-
         protected DateTime Get_DateTime_fromModel(TEmodel typeModel)
         {
             Components_date compDate = default;

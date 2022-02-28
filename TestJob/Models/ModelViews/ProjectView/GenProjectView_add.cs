@@ -5,7 +5,6 @@ namespace TestJob.Models.ModelViews.ProjectView
 {
     public class GenProjectView_add: GenProjectView_templ
     {
-
         public GenProjectView_add(DataContext cont, IAnyUserData userData, BaseProjectView model) : base(cont, userData, model)
         {  }
 
@@ -24,14 +23,10 @@ namespace TestJob.Models.ModelViews.ProjectView
                     ProjectName = Model.ProjectName
                 };
 
-                if (!Debug)
-                {
-                    context.Add(project);
-                    context.SaveChanges();
-                    Model.ProjectId = project.Id;
-                }
+                context.Add(project);
+                context.SaveChanges();
+                Model.ProjectId = project.Id;
             }
-
 
             return Return_withOK();
         }

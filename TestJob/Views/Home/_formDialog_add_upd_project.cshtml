@@ -1,13 +1,9 @@
 ﻿@model BaseProjectView
 
     <style>
-       /* label, .shortDataTask {
+        .info-element {
             font-weight: 500;
-        }*/
-
-        /*#div-details, #div-short-data-task {
-            background-color: #c5f0ce;
-        }*/
+        }
 
         .comp-dt {
             max-width: 7rem;
@@ -40,13 +36,13 @@
 
                         <div class="form-group">
                             <label asp-for="ProjectName"
-                                    class="form-check-label" />                                    
+                                    class="info-element">ProjectName</label>                                    
                             <input type="text" asp-for="ProjectName"
                                     class="form-control" />
                         </div>
 
                         <div class="form-group fm-add-proj">
-                            <label>Date and time create task</label> <br />
+                            <label class="info-element">Date and time create project</label> <br />
                             <input asp-for="Date" readonly type="text"
                                     class="comp-dt"
                                     placeholder="DateCreate">
@@ -58,7 +54,7 @@
 
 
                         <div class="form-group fm-upd-proj">
-                            <label>Date and time begin task</label> <br />
+                            <label class="info-element">Date and time end project</label> <br />
                             <input asp-for="DateUpd" readonly type="text"
                                     class="comp-dt" placeholder="DateUpd">
 
