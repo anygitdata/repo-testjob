@@ -22,5 +22,5 @@ namespace TestJob.Models.ModelViews
 
     }
 
-    
+
 }

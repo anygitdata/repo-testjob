@@ -6,6 +6,7 @@ using TestJob.Models;
 using TestJob.Models.Interface;
 using TestJob.Models.ModelViews;
 using TestJob.Models.ModelViews.ComnView;
+using TestJob.Models.ModelViews.ProjectView;
 using TestJob.Models.ModelViews.TaskView;
 using TestJob.Models.UserAPI;
 
@@ -58,27 +59,6 @@ namespace TestJob.Controllers
         }
 
 
-        [HttpPost("newproject")]
-        public ActionResult NewProject([FromForm] Ajax_product model)
-        {
-            Ajax_product.VerifyData(context, model);
-
-            if (model.Result == IdentResult.Error)
-            {
-                return Ok(model);
-            }
-
-            context.Add(model.objProduct);
-            context.SaveChanges();
-
-            Ajax_product.ReloadModel(context, model, ETypeOperations.insert);
-
-
-            return Ok(model);
-
-        }
-
-
         // ----------------------------------
 
         [HttpGet("detaildebug")]
@@ -86,6 +66,7 @@ namespace TestJob.Controllers
         {
             return View();
         }
+
 
         public IActionResult Index(int id=0)
         {
@@ -104,26 +85,38 @@ namespace TestJob.Controllers
             ModelProjectMenu selProject = null;
             Guid selProjId = default;
 
+            BaseProjectView projectView = new BaseProjectView            
+            {                
+                TypeOperations = ETypeOperations.insert.ToString()
+            };
+            IQueryable<Task> tasks = default;
 
             if (id > 0)
             {
+                lsDataServProc.Insert(0, new ModelProjectMenu { key = 0, projectName = "All projects" });
+
                 selProject = 
                     lsDataServProc.FirstOrDefault(p => !string.IsNullOrEmpty(p.disabled));
 
-                projectId = selProject.id.ToString();
-                projectName = selProject.projectName;
+                var prItem = context.Set<Project>().Find(selProject.id);
+
+                projectId = prItem.Id.ToString();
+                projectName = prItem.ProjectName;
                 selProjId = selProject.id;
                 if (selProject.updateDate > dDefault)
                     idUpdate = "true";
+
+                string[] dtime = ComnTemplate.Get_compDateTime_fromModel(prItem.CreateDate);
+                projectView.ProjectId = prItem.Id;
+                projectView.ProjectName = prItem.ProjectName;
+
+                tasks = context.Set<Task>().Where(p => p.ProjectId == selProjId);
             }
+            else
+                tasks = context.Set<Task>();
 
             // Filling content by tasks 
             List<ModelTask> lsTask = new();
-            IQueryable<Task> tasks; context.Set<Task>();
-            if (id > 0)
-                tasks = context.Set<Task>().Where(p => p.ProjectId == selProjId);
-            else
-                tasks = context.Set<Task>();
 
             foreach (Task ts in tasks)
             {
@@ -160,9 +153,11 @@ namespace TestJob.Controllers
                 projectName = projectName,      // for selected project
                 projectId = projectId,          // for selected project
                 idUpdate = idUpdate,            // project Completion ID 
-                debug = anyUserData.GetSettingsExt.StrDebug
-
+                debug = anyUserData.GetSettingsExt.StrDebug,
+                numItem = id
             };
+
+            ViewBag.projectView = projectView;
 
             ViewBag.Content_TableModel = content_TableModel;     // model for view
             InsProjectView insProjecView = new (); // for modulDialot

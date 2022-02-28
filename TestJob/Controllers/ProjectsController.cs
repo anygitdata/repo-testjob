@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using TestJob.Models;
 using TestJob.Models.Interface;
 using TestJob.Models.ModelViews;
+using TestJob.Models.ModelViews.ProjectView;
 using TestJob.Models.UserAPI;
 
 namespace TestJob.Controllers
@@ -24,6 +25,26 @@ namespace TestJob.Controllers
         }
 
         // ----------------------------------------
+
+        [HttpPost]
+        public ActionResult AddProject([FromForm] BaseProjectView model)
+        {
+            //Ajax_product.VerifyData(context, model);
+
+            //if (model.Result == IdentResult.Error)
+            //{
+            //    return Ok(model);
+            //}
+
+            //context.Add(model.objProduct);
+            //context.SaveChanges();
+
+            //Ajax_product.ReloadModel(context, model, ETypeOperations.insert);
+
+
+            return Ok(model);
+
+        }
 
 
         [HttpPut]

@@ -2,29 +2,35 @@
  * Initializing HTML Elements 
  */
 
-const EventHandl = (($) => {
+const EventHandl = (($, bv) => {
 
-    const projectName = $("[name='projectName']")
+    const btn_deleteProject = $('#btn-deleteProject')
+    const btn_modfProject = $('#btn-modfProject')
+    const btn_modalDlgSave = $('#btn-modalDlgSave')
+
+    const contentTableJob = $('.contentTableJob')   // Main Content 
+
+    const projectName = $("[name='projectName']")   // selector project
+
+    const div_dataError = $('.dataError')
+
+    const span_modal_delete = $('#span-modal-delete') // close dialog delete project
+
+
     const createDate = $("[name='createDate']")
     const createTime = $("[name='createTime']")
     const updateDate = $("[name='updateDate']")
     const updateTime = $("[name='updateTime']")
-    const contentTableJob = $('.contentTableJob')
-    
 
-    const projectId = $("#content_TableModel_projectId")
+    //const projectId = $("#content_TableModel_projectId")
     const exampleModalLabel = $('#exampleModalLabel')
-    const span_modal_delete = $('#span-modal-delete')
-    const div_dataError = $('.dataError')
 
     const formDialog = $('#formDialog')
     const btn_closeFormDialog = $('#closeFormDialog')
 
     const resultDelete_project = $('#resultDelete-project')
 
-    const btn_deleteProject = $('#btn-deleteProject')
-    const btn_modfProject = $('#btn-modfProject')
-    const btn_modalDlgSave = $('#btn-modalDlgSave')
+    
 
     const button_Close = $('button.close')
     const btn_AddProject = $('#btn-AddProject')
@@ -32,6 +38,33 @@ const EventHandl = (($) => {
     const modal_delProject =  $('#modal-delProject')
 
     let ajaxRoute = $('body').data('ajaxRoute')
+
+
+    formDialog.hide()
+       
+
+    //updateTime.timePicker()
+    //createTime.timePicker()
+
+    //updateDate.datetimepicker({
+    //    timepicker: false,
+    //    format: 'Y-m-d',
+    //})
+
+    //createDate.datetimepicker({
+    //    timepicker: false,
+    //    format: 'Y-m-d',
+    //})
+
+    //set_idModf('false', true)
+
+    //if (evObj.Get_projectId() == ''
+    //    || evObj.Get_idUpdate() == 'true') {
+
+    //    evObj.addDisabled(evObj.btn_modfProject)
+    //    evObj.addDisabled(evObj.btn_deleteProject)
+
+    //}
 
 
     //---------- function block 
@@ -81,4 +114,4 @@ const EventHandl = (($) => {
 
     };
 
-})(jQuery);
+})(jQuery, baseValues);

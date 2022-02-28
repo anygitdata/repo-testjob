@@ -104,7 +104,6 @@ namespace TestJob.Models.ModelViews
         }
 
 
-
         public static Ajax_product InitData(DataContext context, Guid Id)
         {
             Ajax_product res = new Ajax_product { projectId = Guid.Empty.ToString() };

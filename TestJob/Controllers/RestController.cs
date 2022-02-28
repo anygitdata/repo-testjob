@@ -33,57 +33,10 @@ namespace TestJob.Controllers
         }
 
 
-        //[HttpPost("deldescr/{id}")]
-        //public IActionResult DelDescr(string id)
-        //{
-        //    var model = new TaskComment_ModelView(id)
-        //    {
-        //        TypeOperations = ETypeOperations.delete
-        //    };
-
-        //    var res = new GenModelViewComn(context, anyUserData, model);
-
-        //    if (!res.VerifyData())
-        //    {
-        //        return Ok(res.BasicData);
-        //    }
-
-        //    res.SaveDataModel();
-
-        //    return Ok(res.BasicData);
-        //}
+        
 
 
-        //[HttpPut("upddescr")]
-        //public IActionResult UpdDescr([FromBody] TaskComment_ModelView model)
-        //{
-        //    model.TypeOperations = ETypeOperations.update;
-
-        //    try
-        //    {
-        //        var res = new GenModelViewComn(context, anyUserData, model);
-
-        //        if (!res.VerifyData())
-        //        {
-        //            return Ok(res.BasicData);
-        //        }
-
-        //        res.SaveDataModel();
-
-        //        return Ok(model);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        model.Result = IdentResult.Error;
-        //        model.Message = "Cancel operation update TaskComment";
-
-        //        UserMix.File_Message_intoLog(PathDir_txt, "Cancel operation update TaskComment");
-        //        UserMix.File_Message_intoLog(PathDir_txt, $"{ex.Message}");
-
-        //        return Ok(model);
-        //    }
-        //}
+        
 
 
         [HttpGet("checkNameproject")]

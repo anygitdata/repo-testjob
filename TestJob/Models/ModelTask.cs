@@ -34,6 +34,8 @@ namespace TestJob.Models
 
         public string debug { get; set; }
 
+        public int numItem { get; set; }
+
     }
 
 }

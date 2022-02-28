@@ -12,6 +12,11 @@ namespace TestJob.Models
                 create = 1, start = 2,
                 detail = 3, update = 4, cancel = 5 };
 
+
+    // Use for dateTime
+    [Flags]
+    public enum TEmodel { gen=1, ext=2 }
+
     public class ConvEnum {
         public static Enum ConvStrEnum_intoEnum(string typeEnum, string strTypeOper)
         {

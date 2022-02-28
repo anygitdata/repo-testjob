@@ -4,13 +4,17 @@
     var content_TableModel = ViewBag.Content_TableModel as Content_TableTask;
 
     ViewBag.productId = content_TableModel.projectId;
+        
 
-    ViewBag.Debug = content_TableModel.debug as string;
+    var projectView = ViewBag.projectView as BaseProjectView;
+
+    var typeOperations = projectView.TypeOperations;
+
+    string Debug = content_TableModel.debug as string;
+    string projectId = content_TableModel.projectId as string;
+
+    int numItem = content_TableModel.numItem;
 }
-
-
-
-
 
 <style>
     .lineThrough {
@@ -18,39 +22,36 @@
     }
 </style>
 
-@*<partial name="_testing_dlg_project" />*@
 
+@* hiden elements *@
 <div>
-    <input type="hidden" asp-for="@content_TableModel.projectId" />
-    <input type="hidden" asp-for="@content_TableModel.idUpdate" />
+    <input type="hidden" asp-for="@projectId" />
+    <input type="hidden" asp-for="@typeOperations" />
+
+    <input type="hidden" asp-for="@numItem" />    
 </div>
 
-@if (content_TableModel.debug == "on")
+@if (Debug == "on")
 {
-
     <div class="ml-3 mb-2 u-textSmaller text-danger">
         <b>Включен режим Debug</b>
     </div>
-
-    <div class="container border-top border-bottom border-danger py-2">
-        <button id="btnLoad-panelTesting" class="btn btn-light btn-sm px-3 ml-3">Download test panel</button>
-        <div class="container" id="div_panelTest">
-        </div>
-    </div>
+   
 }
 
 
-<partial name="_modalDlg_project" />
+@*<partial name="_modalDlg_project" />*@
 
 
-<partial name="_formDialog_add_upd_project" model="@Model" />
-
+<partial name="_formDialog_add_upd_project" model="@projectView" />
 
 <div class="container-fluid contentTableJob">
 
     <h1 class="text-center">Test Job</h1>
 
     <div class="row">
+
+        @*Selector project*@
         <div class="btn-group dropright col-auto">
             <butmton type="button"
                      class="btn btn-secondary dropdown-toggle"
@@ -74,20 +75,15 @@
 
         <div class="col"></div>
 
+        @* panel button add, upd, del *@
         <div class="col-auto">
 
             <button id="btn-AddProject" class="btn btn-light p-0">
                 <img style="max-width:32px" src="~/img/adds.png" alt="ModifyProject" />
             </button>
 
-            <button id="btn-modfProject" class="btn btn-light p-0 ml-1">
+            <button id="btn-updProject" class="btn btn-light p-0 ml-1">
                 <img style="max-width:32px" src="~/img/penc.png" alt="ModifyProject" />
-            </button>
-
-            <button data-toggle="modal" id="btn-deleteProject"
-                    data-target="#modal-delProject"
-                    class="btn btn-light p-0 ml-1">
-                <img style="max-width:32px" src="~/img/del.png" alt="ModifyProject" />
             </button>
 
         </div>
@@ -119,13 +115,19 @@
 }
 
 
-@section scriptCreateProject{
-    <script src="~/js/CreateProject.el.js" asp-append-version="true"></script>
-    <script src="~/js/CreateProject.func.js" asp-append-version="true"></script>
-    <script src="~/js/CreateProject.js" asp-append-version="true"></script>
-    @if (content_TableModel.debug == "on")
-    {
-        <script src="~/js/CreateProject.test.js" asp-append-version="true"></script>
-
-    }
+@section Scripts{
+    <script src="~/js/modf.project.js" asp-append-version="true"></script>
 }
+
+
+@*@section scriptCreateProject{
+
+        <script src="~/js/CreateProject.el.js" asp-append-version="true"></script>
+        <script src="~/js/CreateProject.func.js" asp-append-version="true"></script>
+        <script src="~/js/CreateProject.js" asp-append-version="true"></script>
+        @if (content_TableModel.debug == "on")
+        {
+            <script src="~/js/CreateProject.test.js" asp-append-version="true"></script>
+
+        }
+    }*@

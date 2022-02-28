@@ -45,82 +45,82 @@ namespace TestJob.Tests.ControllerTests
 
         // -------------------------
 
-        [Fact]
-        public void Home_NewProject_with_idEMPTY_test()
-        {
-            // arrange
-            Ajax_product model = new ()
-            {
-                projectId = Guid.Empty.ToString(),
-                projectName = "Project name for testing",
-                date = "2022-02-03",
-                time = "12:00"
-            };
+        //[Fact]
+        //public void Home_NewProject_with_idEMPTY_test()
+        //{
+        //    // arrange
+        //    Ajax_product model = new ()
+        //    {
+        //        projectId = Guid.Empty.ToString(),
+        //        projectName = "Project name for testing",
+        //        date = "2022-02-03",
+        //        time = "12:00"
+        //    };
 
-            // act
-            var resOk = contrHome.NewProject(model) as OkObjectResult;
-
-
-            // assert
-            Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
-
-            var item = Assert.IsType<Ajax_product>(resOk.Value);
-
-            Assert.Equal(IdentResult.Ok, item.Result);
-
-            RemoveProject(model);
-        }
-
-        [Fact]
-        public void Home_NewProject_with_idEMPTY_and_notData_test()
-        {
-            // arrange
-            Ajax_product model = new ()
-            {
-                projectId = Guid.Empty.ToString(),
-                projectName = "Project name for test",
-                time = "12:00"
-            };
-
-            // act
-            var resOk = contrHome.NewProject(model) as OkObjectResult;
+        //    // act
+        //    var resOk = contrHome.NewProject(model) as OkObjectResult;
 
 
-            // assert
-            Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
+        //    // assert
+        //    Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
 
-            var item = Assert.IsType<Ajax_product>(resOk.Value);
+        //    var item = Assert.IsType<Ajax_product>(resOk.Value);
 
-            Assert.Equal(IdentResult.Error, item.Result);
-            Assert.Equal("Fill fields date, time", item.Message);
+        //    Assert.Equal(IdentResult.Ok, item.Result);
 
-        }
+        //    RemoveProject(model);
+        //}
+
+        //[Fact]
+        //public void Home_NewProject_with_idEMPTY_and_notData_test()
+        //{
+        //    // arrange
+        //    Ajax_product model = new ()
+        //    {
+        //        projectId = Guid.Empty.ToString(),
+        //        projectName = "Project name for test",
+        //        time = "12:00"
+        //    };
+
+        //    // act
+        //    var resOk = contrHome.NewProject(model) as OkObjectResult;
 
 
-        [Fact]
-        public void Home_NewProject_insertNew_project_test()
-        {
-            // arrange
-            Ajax_product model = new ()
-            {
-                projectId = Guid.Empty.ToString(),
-                projectName = "New Project for test",
-                date = "2022-02-01",
-                time = "12:00"
-            };
+        //    // assert
+        //    Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
 
-            // act
-            var resOk = contrHome.NewProject(model) as OkObjectResult;
+        //    var item = Assert.IsType<Ajax_product>(resOk.Value);
 
-            // assert
-            Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
+        //    Assert.Equal(IdentResult.Error, item.Result);
+        //    Assert.Equal("Fill fields date, time", item.Message);
 
-            var item = Assert.IsType<Ajax_product>(resOk.Value);
+        //}
 
-            Assert.Equal(IdentResult.Ok, item.Result);
 
-            RemoveProject(model);
-        }
+        //[Fact]
+        //public void Home_NewProject_insertNew_project_test()
+        //{
+        //    // arrange
+        //    Ajax_product model = new ()
+        //    {
+        //        projectId = Guid.Empty.ToString(),
+        //        projectName = "New Project for test",
+        //        date = "2022-02-01",
+        //        time = "12:00"
+        //    };
+
+        //    // act
+        //    var resOk = contrHome.NewProject(model) as OkObjectResult;
+
+        //    // assert
+        //    Assert.IsType<OkObjectResult>(resOk as OkObjectResult);
+
+        //    var item = Assert.IsType<Ajax_product>(resOk.Value);
+
+        //    Assert.Equal(IdentResult.Ok, item.Result);
+
+        //    RemoveProject(model);
+        //}
 
 
         //[Fact]

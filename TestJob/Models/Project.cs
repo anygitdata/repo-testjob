@@ -23,11 +23,4 @@ namespace TestJob.Models
 
     }
 
-    public class ProjectView
-    {
-        public Project Project { get; set; }
-        public int key { get; set; }
-        public string disabled { get; set; }
-    }
-
 }

@@ -44,23 +44,6 @@ namespace TestJob.Models.ModelViews.TaskView
         private ViewBag_data _viewBag_data;
         public override ViewBag_data ViewBag_data { get => _viewBag_data; }
 
-        //private string[] Get_CompDateTime_fromModel(TEmodel typeModel)
-        //{
-        //    Components_date compDate = default;
-        //    switch (typeModel)
-        //    {
-        //        case TEmodel.gen:
-        //            compDate = Components_date.ConvStr_intoObj(Model.Date, Model.Time);
-        //            break;
-        //        case TEmodel.ext:
-        //            compDate = Components_date.ConvStr_intoObj(Model.DateExt, Model.TimeExt);
-        //            break;
-        //    }
-
-        //    string[] res = { compDate.date, compDate.time };
-        //    return res;
-        //}
-
         protected DateTime Get_DateTime_fromModel(TEmodel typeModel)
         {
             Components_date compDate = default;

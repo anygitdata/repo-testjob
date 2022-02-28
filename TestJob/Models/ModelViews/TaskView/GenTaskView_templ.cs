@@ -14,7 +14,6 @@ namespace TestJob.Models.ModelViews.TaskView
         public string Debug { get; set; }
     }
 
-
     public class GenTaskView: IdentResult
     {
         public Guid ProjectId { get; set; }
@@ -34,28 +33,11 @@ namespace TestJob.Models.ModelViews.TaskView
     }
 
 
-    public abstract class GenTaskView_templ<T> : IdentResult
+    public abstract class GenTaskView_templ<T> : ComnTemplate
     {
-        protected enum TEmodel {gen, ext}
-
-        protected readonly DataContext context;
+        public GenTaskView_templ(DataContext cont, IAnyUserData userData):base(cont, userData)
+        { }
         
-        private bool _debug;
-        protected bool Debug { get => _debug; }
-        protected string mesError_default = "Cancel operation";
-
-        public GenTaskView_templ(DataContext cont, IAnyUserData userData)
-        {
-            context = cont;
-            _debug = userData.Debug;
-        }
-
-
-        // only for testing
-        public void SetDebug(bool arg)
-        {
-            _debug = arg;
-        }
         
         public T Model { get; set; }
 
@@ -63,29 +45,6 @@ namespace TestJob.Models.ModelViews.TaskView
         public abstract bool SaveData();
         public abstract ViewBag_data ViewBag_data { get; }
 
-
-        protected string[] Get_compDateTime_fromModel(DateTime arg)
-        {
-            var comp = Components_date.ConvDate_intoObj(arg);
-            string[] res = { comp.date, comp.time };
-
-            return res;
-        }
-        //protected abstract DateTime Get_DateTime_fromModel();
-
-        protected virtual bool Return_withOK()
-        {
-            Result = Ok;
-            Message = Ok;
-
-            return true;
-        }
-        
-        protected void SetResult_forStart()
-        {
-            Result = Error;
-            Message = mesError_default;
-        }
 
     }
 }
