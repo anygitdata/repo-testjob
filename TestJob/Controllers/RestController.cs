@@ -32,13 +32,6 @@ namespace TestJob.Controllers
             //BaseModel_view.Set_IAnyUserData(context, userData);
         }
 
-
-        
-
-
-        
-
-
         [HttpGet("checkNameproject")]
         public ActionResult CheckNameProject(Ajax_request model)
         {
