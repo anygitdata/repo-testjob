@@ -9,6 +9,7 @@ namespace TestJob.Models.ModelViews.TaskView
         public GenTaskView_create(DataContext cont, IAnyUserData userData) : base(cont, userData)
         { }
 
+
         public GenTaskView_create(DataContext cont, IAnyUserData userData, Guid id ): this(cont, userData)
         {
             Model = new GenTaskViewExt { ProjectId = id };

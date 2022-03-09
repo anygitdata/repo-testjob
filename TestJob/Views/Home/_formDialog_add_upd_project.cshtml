@@ -1,20 +1,20 @@
 ﻿@model BaseProjectView
 
-    <style>
-        .info-element {
-            font-weight: 500;
-        }
+<style>
+    .info-element {
+        font-weight: 500;
+    }
 
-        .comp-dt {
-            max-width: 7rem;
-            background-color: #e9ecef;
-            border: none;
-        }
+    .comp-dt {
+        max-width: 7rem;
+        background-color: #e9ecef;
+        border: none;
+    }
 
-        .comp-time {
-            max-width: 6rem;
-        }
-    </style>
+    .comp-time {
+        max-width: 6rem;
+    }
+</style>
 
 <div class="container" id="formDialog" role="dialog" style="display: none;"
      aria-labelledby="exampleModalLabel"
@@ -36,30 +36,30 @@
 
                         <div class="form-group">
                             <label asp-for="ProjectName"
-                                    class="info-element">ProjectName</label>                                    
+                                   class="info-element">ProjectName</label>
                             <input type="text" asp-for="ProjectName"
-                                    class="form-control" />
+                                   class="form-control" />
                         </div>
 
                         <div class="form-group fm-add-proj">
                             <label class="info-element">Date and time create project</label> <br />
                             <input asp-for="Date" readonly type="text"
-                                    class="comp-dt"
-                                    placeholder="DateCreate">
+                                   class="comp-dt"
+                                   placeholder="DateCreate">
 
                             <input asp-for="Time" readonly type="text"
-                                    class="ml-2 comp-dt comp-time"
-                                    placeholder="TimeCreate">
+                                   class="ml-2 comp-dt comp-time"
+                                   placeholder="TimeCreate">
                         </div>
 
 
                         <div class="form-group fm-upd-proj">
                             <label class="info-element">Date and time end project</label> <br />
                             <input asp-for="DateUpd" readonly type="text"
-                                    class="comp-dt" placeholder="DateUpd">
+                                   class="comp-dt" placeholder="DateUpd">
 
                             <input asp-for="TimeUpd" readonly type="text"
-                                    class="ml-2 comp-dt comp-time" placeholder="TimeUpd">
+                                   class="ml-2 comp-dt comp-time" placeholder="TimeUpd">
                         </div>
 
                     </form>
@@ -67,9 +67,11 @@
                 </div>
             </div>
             <div class="modal-footer pt-0">
-                <button type="button" 
+                <button type="button"
                         id="btn-closeDialog"
-                        class="btn btn-secondary">Close </button>
+                        class="btn btn-secondary">
+                    Close
+                </button>
 
                 <button type="button" class="btn btn-primary" id="btn-save-changes">Save changes</button>
             </div>

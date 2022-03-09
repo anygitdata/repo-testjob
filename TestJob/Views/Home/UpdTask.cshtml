@@ -1,0 +1,78 @@
+﻿@model GenTaskView
+
+@{
+    var dataProject = ViewBag.dataProject as ViewBag_data;
+
+    string debug = (string)ViewBag.debug;
+}
+
+<style>
+
+    .comp-dt {
+        max-width: 7rem;
+        background-color: #e9ecef;
+        border: none;
+    }
+
+    .comp-time {
+        max-width: 6rem;
+    }
+</style>
+
+<div>
+    <input type="hidden" id="projectId" />
+    <input type="hidden" asp-for="@debug" />
+</div>
+
+
+<div class="container mt-2" style="max-width:25rem">
+    @if (debug == "on")
+    {
+        <div class="text-danger">
+            Включен режим <b>Debug</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a class="card-link text-dark" asp-action="detaildebug">In detail</a>
+        </div>
+
+    }
+
+
+    <h1 class="u-h1Smaller">Task creation form</h1>
+    <h3 class="u-h3Smaller"><b>Project</b>: @dataProject.ProjectName </h3>
+    <div class="mt-n2">
+        <span id="spn-date-time-pr">@dataProject.Date @dataProject.Time</span>
+    </div>
+
+
+    <form>
+
+        <div class="form-group">
+            <label for="TaskName">TaskName</label>
+            <input type="text" class="form-control" asp-for="TaskName">
+        </div>
+
+
+        <div class="form-group">
+            <label>Date and time cancel task</label> <br />
+            <input asp-for="Date" readonly type="text"
+                   class="comp-dt" placeholder="DateCancel">
+
+            <input asp-for="Time" readonly type="text"
+                   class="ml-2 comp-dt comp-time" placeholder="TimeCancel">
+        </div>
+
+    </form>
+
+</div>
+
+
+@section Picker {
+    <link rel="stylesheet" type="text/css" href="~/Plagin/jquery.datetimepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Plagin/timepicker-ui.min.css" />
+}
+
+@section Scripts{
+    <script src="~/Plagin/jquery.datetimepicker.full.min.js"></script>
+    <script src="~/Plagin/timepicker-ui.min.js"></script>
+
+    <script type="module" asp-append-version="true" src="~/js/task.upd.js"></script>
+}

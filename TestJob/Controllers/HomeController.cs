@@ -54,10 +54,37 @@ namespace TestJob.Controllers
             var model = new GenTaskView_create(context, anyUserData, id);
 
             ViewBag.anyData = model.ViewBag_data;
-            
+
             return View(model.Model);
         }
 
+
+        [HttpGet("newtask")]
+        public ActionResult NewTask()
+        {
+            //var model = new GenTaskView_create(context, anyUserData, Guid.);
+
+            var lsProj = context.Set<Project>().Where(p => p.UpdateDate == null)
+                .Select(p => new Project { Id = p.Id, ProjectName = p.ProjectName }).ToList() ;
+
+            ViewBag.debug = anyUserData.GetSettingsExt.StrDebug;
+            ViewBag.lsProj = lsProj;
+
+            return View("CreateTask02", new GenTaskViewExt());
+        }
+
+
+        [HttpGet("updtask/{id}")]
+        public ActionResult UpdTask(Guid id)
+        {
+            ViewBag.debug = anyUserData.GetSettingsExt.StrDebug;
+
+            var data = new GenTaskView_update(context, anyUserData, id);
+
+            ViewBag.dataProject = data.ViewBag_data;
+
+            return View(data.Model);
+        }
 
         // ----------------------------------
 
@@ -68,9 +95,9 @@ namespace TestJob.Controllers
         }
 
 
-        public IActionResult Index(int id=0)
+        public IActionResult Index(int id = 0)
         {
-            List<ModelProjectMenu> lsDataServProc = 
+            List<ModelProjectMenu> lsDataServProc =
                 Load_fromServProc.Get_DataServProc(context, id);
 
             if (lsDataServProc.Count < id)
@@ -85,8 +112,8 @@ namespace TestJob.Controllers
             ModelProjectMenu selProject = null;
             Guid selProjId = default;
 
-            BaseProjectView projectView = new BaseProjectView            
-            {                
+            BaseProjectView projectView = new BaseProjectView
+            {
                 TypeOperations = ETypeOperations.insert.ToString()
             };
             IQueryable<Task> tasks = default;
@@ -95,7 +122,7 @@ namespace TestJob.Controllers
             {
                 lsDataServProc.Insert(0, new ModelProjectMenu { key = 0, projectName = "All projects" });
 
-                selProject = 
+                selProject =
                     lsDataServProc.FirstOrDefault(p => !string.IsNullOrEmpty(p.disabled));
 
                 var prItem = context.Set<Project>().Find(selProject.id);
@@ -129,7 +156,7 @@ namespace TestJob.Controllers
 
                 Components_date compCreate = Components_date.ConvDate_intoObj(ts.CreateDate);
                 Components_date compStart = Components_date.ConvDate_intoObj(ts.StartDate);
-                Components_date compUpdate = Components_date.ConvDate_intoObj(argDate:ts.UpdateDate);
+                Components_date compUpdate = Components_date.ConvDate_intoObj(argDate: ts.UpdateDate);
 
                 lsTask.Add(
                     new ModelTask
@@ -138,7 +165,7 @@ namespace TestJob.Controllers
                         // Time for table columns 
                         Times = compCreate.time, // UserMix.ConvHour_into_str(ts.CreateDate),
                         Start = compStart.time,  // UserMix.ConvHour_into_str(ts.StartDate),
-                        End = ts.UpdateDate == null ? "" 
+                        End = ts.UpdateDate == null ? ""
                             : compUpdate.time,   // UserMix.ConvHour_into_str((DateTime)ts.UpdateDate),
 
                         Description = descr,    //link
@@ -147,7 +174,8 @@ namespace TestJob.Controllers
                     });
             }
 
-            Content_TableTask content_TableModel = new () { 
+            Content_TableTask content_TableModel = new()
+            {
                 LsProjects = lsDataServProc,    // list for projectMenu
                 LsTaskCont = lsTask,            // list for content table task
                 projectName = projectName,      // for selected project
@@ -160,9 +188,15 @@ namespace TestJob.Controllers
             ViewBag.projectView = projectView;
 
             ViewBag.Content_TableModel = content_TableModel;     // model for view
-            InsProjectView insProjecView = new (); // for modulDialot
+            InsProjectView insProjecView = new(); // for modulDialot
 
             return View(insProjecView);
+        }
+
+        [HttpGet("testjs")]
+        public IActionResult TestJS()
+        {
+            return View();
         }
 
     }

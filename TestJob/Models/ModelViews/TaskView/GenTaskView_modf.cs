@@ -5,11 +5,27 @@ namespace TestJob.Models.ModelViews.TaskView
 {
     public abstract class GenTaskView_modf: GenTaskView_templ<GenTaskView>
     {
+
+        public GenTaskView_modf(DataContext cont, IAnyUserData userData, Guid id) : base(cont, userData)
+        {
+            var task = context.Set<Task>().Find(id);
+
+            Model = new GenTaskView { TaskName = task.TaskName };
+
+            InitProjData(task.ProjectId);
+        }
+
         public GenTaskView_modf(DataContext cont, IAnyUserData userData, GenTaskView model) : base(cont, userData)
         {
             Model = model;
 
-            var pr = context.Set<Project>().Find(Model.ProjectId);
+            InitProjData(Model.ProjectId);
+        }
+
+
+        private void InitProjData(Guid id)
+        {
+            var pr = context.Set<Project>().Find(id);
 
             var compDateTime = Components_date.ConvDate_intoObj(pr.CreateDate);
             _viewBag_data = new ViewBag_data
@@ -20,7 +36,6 @@ namespace TestJob.Models.ModelViews.TaskView
                 Time = compDateTime.time
             };
         }
-
 
         protected virtual bool Return_withEROR(string err)
         {

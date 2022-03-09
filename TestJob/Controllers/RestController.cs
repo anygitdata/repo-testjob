@@ -11,7 +11,7 @@ using TestJob.Models.UserAPI;
 
 namespace TestJob.Controllers
 {
-    [Route("api/controller")]
+    [Route("api/[controller]")]
     public partial class RestController : Controller
     {
 

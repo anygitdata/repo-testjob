@@ -1,6 +1,6 @@
 ﻿const elHtml = (($, bv) => {
 
-    const projectId = $('#projectId').val()
+    const projectId = $('#projectId')
     const projectName = $("#projectName").val()
     const debug = $("#debug").val()
 
@@ -15,6 +15,8 @@
     const divMessage = $('.divMessage')
 
     const btn_save = $('#btn-save')
+    const btn_dropdownProj = $('.dropdown-toggle')
+    const btn_dropdownItem  = $('.dropdown-item')
 
 
     bv.initDatePicker(date)
@@ -23,6 +25,13 @@
     bv.initDatePicker(dateExt)
     bv.initTimePicker(timeExt)
 
+    btn_dropdownItem.click((e) => {
+        const el = e.currentTarget
+
+        $('#spanSelProject').text(el.innerText)
+        projectId.val(el.id)
+    })
+
 
     // -------------------------
 
@@ -30,13 +39,13 @@
         projectId, projectName, debug,
         dateExt, date, timeExt, time, 
         divMessage,
-        TaskName, btn_save,
+        TaskName, btn_save, btn_dropdownProj,
     }
 
 })(jQuery, baseValues);
 
 
-const userInterf = (($, el, bv) => {
+const userInterf = ((el, bv) => {
 
     function Message(mes) {
         const div = el.divMessage.empty()
@@ -45,17 +54,25 @@ const userInterf = (($, el, bv) => {
     }
 
     function VerData() {
-        if (el.TaskName.val() == '') {
-            Message('Fill in the task field ')
+
+        const data = getData()
+
+        if (data.projectId == '') {
+            Message('Choose a project')
             return bv.error
         }
 
-        if (el.date.val() == '' || el.time.val() == '') {
+        if (data.TaskName == '') {
+            Message('Fill in the task field')
+            return bv.error
+        }
+
+        if (data.Date == '' || data.Time == '') {
             Message('Date or time fields not filled')
             return bv.error
         }
 
-        if (el.dateExt.val() == '' || el.timeExt.val() == '') {
+        if (data.DateExt == '' || data.TimeExt == '') {
             Message('DateTime fields begin task not filled')
             return bv.error
         }
@@ -71,7 +88,7 @@ const userInterf = (($, el, bv) => {
             Time: el.time.val(),
             DateExt: el.dateExt.val(),
             TimeExt: el.timeExt.val(),
-            projectId: el.projectId,
+            projectId: el.projectId.val(),
             TaskName: el.TaskName.val()
         }
 
@@ -81,6 +98,10 @@ const userInterf = (($, el, bv) => {
 
     el.btn_save.click((e) => {
         e.preventDefault();
+
+        if (VerData() == bv.error)
+            return
+
 
         $.ajax('/api/tasks', {
             data: getData(),
@@ -97,4 +118,5 @@ const userInterf = (($, el, bv) => {
     })
 
 
-})(jQuery, elHtml, baseValues);
+
+})(elHtml, baseValues);

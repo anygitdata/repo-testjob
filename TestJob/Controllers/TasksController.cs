@@ -24,7 +24,7 @@ namespace TestJob.Controllers
 
 
         [HttpPost]
-        public ActionResult CreateTask([FromForm] GenTaskViewExt model)
+        public ActionResult CreateTask(GenTaskViewExt model)
         {
             var data = new GenTaskView_create(context, anyUserData, model);
             if (!data.VerifyData())
