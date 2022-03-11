@@ -27,37 +27,33 @@ namespace TestJob.Controllers
         // ----------------------------------------
 
         [HttpPost]
-        public ActionResult AddProject([FromForm] BaseProjectView model)
+        public ActionResult AddProject(BaseProjectView model)
         {
             var data = new GenProjectView_add(context, anyUserData, model);
             if (!data.VerifyData())
             {
                 return Ok(model);
             }
-                        
+
             data.SaveData();
 
             return Ok(model);
-
         }
 
 
         [HttpPut]
-        public ActionResult UpdProject(Ajax_product model)
+        public ActionResult UpdProject(BaseProjectView model)
         {
-            Ajax_product.VerifyData(context, model);
-
-            if (model.Result == IdentResult.Error)
+            var data = new GenProjectView_upd(context, anyUserData, model);
+            if (!data.VerifyData())
             {
                 return Ok(model);
             }
 
-            context.SaveChanges();
-
-            Ajax_product.ReloadModel(context, model, ETypeOperations.update);
-
+            data.SaveData();
 
             return Ok(model);
+            
         }
 
 

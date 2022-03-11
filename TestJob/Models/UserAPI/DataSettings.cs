@@ -14,7 +14,8 @@ namespace TestJob.Models.UserAPI
     {
         public string seedData;
         public int maxSizeFile;
-        public string debug;        
+        public string debug;
+        public string test;
     }
 
 
@@ -31,6 +32,8 @@ namespace TestJob.Models.UserAPI
 
             _base_debug = settings.debug;
             _base_seedData = settings.seedData;
+
+            _test = settings.test;
         }
 
         public DataSettingsExt(DataSettings arg)
@@ -49,10 +52,11 @@ namespace TestJob.Models.UserAPI
 
         readonly string _base_seedData;
         readonly string _base_debug;
-        
+        readonly string _test;
+
         public string StrSeedData { get => _base_seedData; }
         public string StrDebug { get => _base_debug; }
-
+        public string Test { get => _test; }
 
         public bool SeedData { get => _seedData; }
         public bool Debug { get => _debug; }

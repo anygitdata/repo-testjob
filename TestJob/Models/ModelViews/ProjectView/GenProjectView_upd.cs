@@ -12,40 +12,40 @@ namespace TestJob.Models.ModelViews.ProjectView
         {  }
 
 
+        private Project project;
+
         public override bool SaveData()
         {
             if (Result == Error)
                 return false;
 
             if (!Debug)
-            {
-                var project = new Project
-                {
-                    Id = Guid.NewGuid(),
-                    CreateDate = Get_DateTime_fromModel(TEmodel.ext),
-                    UpdateDate = default,
-                    ProjectName = Model.ProjectName
-                };
+            {               
+                project.UpdateDate = Get_DateTime_fromModel(TEmodel.ext);
+                //project.ProjectName = Model.ProjectName;
 
                 if (!Debug)
-                {
-                    context.Add(project);
-                    context.SaveChanges();
-                    Model.ProjectId = project.Id;
+                {                    
+                    context.SaveChanges();                    
                 }
             }
-
 
             return Return_withOK();
         }
 
         public override bool VerifyData()
         {
+            project = context.Set<Project>().Find(Model.ProjectId);
+
+            if (project == null)
+            {
+                return Return_withEROR("Project not found");
+            }
+
             if (!VerifyDateTime(TEmodel.gen))
             {
                 return Return_withEROR("Date or time component errors");
             }
-
 
             return Return_withOK();
         }

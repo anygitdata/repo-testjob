@@ -1,0 +1,64 @@
+﻿@*@model IEnumerable<ModelProjectMenu>
+
+
+<div>
+    <input type="hidden" id="dlgTsk-projectId" />
+</div>
+
+<h2 class="u-h2Smaller">Task creation form</h2>
+<h4 class="u-h4Smaller"><b>Project</b>: <span id="dlgTsk-title-pr"></span></h4>
+<div class="mt-n2"> <span id="dlgTsk-dateTime-pr"></span></div>-->*@
+
+
+@*Selector projects *@
+<!--<div class="btn-group dropright col-auto pl-0 pt-2">
+    <button type="button"
+            class="btn btn-secondary dropdown-toggle"
+            data-toggle="dropdown">
+        <span id="dlgTsk-selPr">Select project</span>
+    </button>
+
+    <div class="dropdown-menu">-->
+
+        @* Filling in the list of projectNames  *@
+        <!--@foreach (ModelProjectMenu pr in Model)
+        {
+            <button class="dropdown-item" id="@pr.id">@pr.projectName</button>
+        }
+
+    </div>
+
+</div>
+
+
+<div class="form-group">
+    <label for="dlgTsk-taskName">TaskName</label>
+    <input id="dlgTsk-taskName" type="text"
+           class="form-control mt-n2" placeholder="TaskName">
+</div>
+
+<div class="form-group">
+    <label>Date and time create task</label> <br />
+    <input id="dlgTsk-date" readonly type="text"
+           class="comp-dt" placeholder="DateCreate">
+
+    <input id="dlgTsk-time" readonly type="text"
+           class="ml-2 comp-dt comp-time" placeholder="TimeCreate">
+</div>
+
+
+<div class="form-group">
+    <label>Date and time begin task</label> <br />
+    <input id="dlgTsk-dateExt" readonly type="text"
+           class="comp-dt" placeholder="DateStart">
+
+    <input id="dlgTsk-timeExt" readonly type="text"
+           class="ml-2 comp-dt comp-time" placeholder="TimeStart">
+</div>
+
+
+<button type="submit" class="btn btn-primary btn-sm px-5 mt-3"
+        id="btn-save">
+    Save
+</button>-->
+

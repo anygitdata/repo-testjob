@@ -1,6 +1,4 @@
-﻿@model InsProjectView
-
-@{
+﻿@{
     var content_TableModel = ViewBag.Content_TableModel as Content_TableTask;
 
     string debug = content_TableModel.debug;
@@ -24,13 +22,14 @@
 
 @* hiden elements *@
 <div>
-    <input type="hidden" asp-for="@projectId" />
-    <input type="hidden" asp-for="@typeOperations" />
-
+    <input type="hidden" id="selProjectId" value="@projectId" />
+    <input type="hidden" id="selProjectName" 
+           value="@content_TableModel.projectName" />
+    
     <input type="hidden" asp-for="@numItem" />
     <input type="hidden" asp-for="@debug" />
     <input type="hidden" asp-for="@idUpdate" />
-    
+
 </div>
 
 
@@ -39,19 +38,20 @@
     <div class="ml-3 mb-2 u-textSmaller text-danger">
         <b>Включен режим Debug</b>
     </div>
-   
+
 }
 
 
-<partial name="_formDialog_add_upd_project" model="@projectView" />
+<partial name="_formDialog_add_upd_project" model="@content_TableModel.LsProjects" />
+
 
 <div class="container-fluid contentTableJob">
 
     <h1 class="text-center">Test Job</h1>
 
-    <div class="row">
 
-        @*Selector projects *@
+    @*Selector projects *@
+    <div class="row">
         <div class="btn-group dropright col-auto">
             <butmton type="button"
                      class="btn btn-secondary dropdown-toggle"
@@ -77,18 +77,19 @@
         <div class="col"></div>
 
         @* panel button add, upd, del *@
-        <div class="col-auto">
+    <div class="col-auto">
 
-            <button id="btn-AddProject" class="btn btn-light p-0">
-                <img style="max-width:32px" src="~/img/adds.png" alt="ModifyProject" />
-            </button>
+        <a asp-action="NewTask" asp-controller="Home" ><img style="max-width:32px" src="~/img/addTask.png" alt="NewProject" /></a>
 
-            <button id="btn-updProject" class="btn btn-light p-0 ml-1">
-                <img style="max-width:32px" src="~/img/penc.png" alt="ModifyProject" />
-            </button>
+        <button id="btn-AddProject" class="btn btn-light p-0 ml-3">
+            <img style="max-width:32px" src="~/img/adds.png" alt="ModifyProject" />
+        </button>
 
-        </div>
+        <button id="btn-updProject" class="btn btn-light p-0 ml-1">
+            <img style="max-width:32px" src="~/img/penc.png" alt="ModifyProject" />
+        </button>
 
+    </div>
     </div>
 
 
@@ -109,26 +110,9 @@
     <link rel="stylesheet" type="text/css" href="~/Plagin/timepicker-ui.min.css" />
 }
 
-
-@section ScriptsPicker{
+@section Scripts{
     <script src="~/Plagin/jquery.datetimepicker.full.min.js"></script>
     <script src="~/Plagin/timepicker-ui.min.js"></script>
+
+    <script type="module" asp-append-version="true" src="~/js/modf.project.js"></script>
 }
-
-
-@section Scripts{
-    <script src="~/js/modf.project.js" asp-append-version="true"></script>
-}
-
-
-@*@section scriptCreateProject{
-
-        <script src="~/js/CreateProject.el.js" asp-append-version="true"></script>
-        <script src="~/js/CreateProject.func.js" asp-append-version="true"></script>
-        <script src="~/js/CreateProject.js" asp-append-version="true"></script>
-        @if (content_TableModel.debug == "on")
-        {
-            <script src="~/js/CreateProject.test.js" asp-append-version="true"></script>
-
-        }
-    }*@

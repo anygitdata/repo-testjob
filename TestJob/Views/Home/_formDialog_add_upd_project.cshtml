@@ -1,4 +1,9 @@
-﻿@model BaseProjectView
+﻿@model IEnumerable<ModelProjectMenu>
+
+@{ 
+    string test = ViewBag.test as string;
+}
+
 
 <style>
     .info-element {
@@ -16,8 +21,14 @@
     }
 </style>
 
+<div>
+    <input type="hidden" id="projectId" value="" />
+    <input type="hidden" id="typeOperations" />
+    <input type="hidden" id="test" value="@test" />
+</div>
+
 <div class="container" id="formDialog" role="dialog" style="display: none;"
-     aria-labelledby="exampleModalLabel"
+     aria-labelledby="formDialog"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -27,45 +38,42 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body">
-                <div class="container">
+                <div class="container" data-typedlg="empty">
 
                     <div class="dataError text-danger"></div>
 
-                    <form>
+                    <div class="form-group">
+                        <label for="dlgPr-projectName"
+                               class="info-element">ProjectName</label>
+                        <input type="text" id="dlgPr-projectName"
+                               class="form-control" />
+                    </div>
 
-                        <div class="form-group">
-                            <label asp-for="ProjectName"
-                                   class="info-element">ProjectName</label>
-                            <input type="text" asp-for="ProjectName"
-                                   class="form-control" />
-                        </div>
+                    <div class="form-group fm-add-proj">
+                        <label class="info-element">Date and time create project</label> <br />
+                        <input id="dlgPr-date" readonly type="text"
+                               class="comp-dt"
+                               placeholder="DateCreate">
 
-                        <div class="form-group fm-add-proj">
-                            <label class="info-element">Date and time create project</label> <br />
-                            <input asp-for="Date" readonly type="text"
-                                   class="comp-dt"
-                                   placeholder="DateCreate">
+                        <input id="dlgPr-time" readonly type="text"
+                               class="ml-2 comp-dt comp-time"
+                               placeholder="TimeCreate">
+                    </div>
 
-                            <input asp-for="Time" readonly type="text"
-                                   class="ml-2 comp-dt comp-time"
-                                   placeholder="TimeCreate">
-                        </div>
+                    <div class="form-group fm-upd-proj">
+                        <label class="info-element">Date and time update project</label> <br />
+                        <input id="dlgPr-dateUpd" readonly type="text"
+                               class="comp-dt" placeholder="DateUpd">
 
-
-                        <div class="form-group fm-upd-proj">
-                            <label class="info-element">Date and time end project</label> <br />
-                            <input asp-for="DateUpd" readonly type="text"
-                                   class="comp-dt" placeholder="DateUpd">
-
-                            <input asp-for="TimeUpd" readonly type="text"
-                                   class="ml-2 comp-dt comp-time" placeholder="TimeUpd">
-                        </div>
-
-                    </form>
+                        <input id="dlgPr-timeUpd" readonly type="text"
+                               class="ml-2 comp-dt comp-time" placeholder="TimeUpd">
+                    </div>
 
                 </div>
             </div>
+
             <div class="modal-footer pt-0">
                 <button type="button"
                         id="btn-closeDialog"
@@ -73,8 +81,11 @@
                     Close
                 </button>
 
-                <button type="button" class="btn btn-primary" id="btn-save-changes">Save changes</button>
+                <button type="button" class="btn btn-primary" 
+                        id="btn-save-changes">Save changes</button>
             </div>
         </div>
     </div>
 </div>
+
+

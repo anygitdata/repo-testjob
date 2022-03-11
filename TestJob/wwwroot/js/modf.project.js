@@ -1,40 +1,49 @@
 ﻿const elHtml = (($, bv) => {
 
-    const projName_selected = $('#spanSelProject').text()
-    const projId = $('#projectId').val()
+    // dislocation index.cshtml 
+    // as hidden
     const numItem = $('#numItem').val()
     const debug = $('#debug').val()
     const idUpdate = $('#idUpdate').val()
 
-    const strTypeOperAdd = 'insert'
-    const strTypeOperUpd = 'update'
+    const selProjectId = $('#selProjectId').val()
+    const selProjectName = $('#selProjectName').val()
 
-    const projName = $('#ProjectName')
-
-    const date = $('#Date')
-    const time = $('#Time')
-    const dateUpd = $('#DateUpd')
-    const timeUpd = $('#TimeUpd')
-
-    const typeOperation = $('#typeOperations')
-
+    // user interface
     const btn_AddProject = $('#btn-AddProject')
     const btn_UpdProject = $('#btn-updProject')
 
     const btn_closeDialog = $('#btn-closeDialog')
     const btn_iconClose = $('button.close')
-
     const btn_saveData = $('#btn-save-changes')
 
-    const formDialog = $('#formDialog')
-
-    const div_contentTable = $('.contentTableJob')
-    const div_dateTime_addProj = $('.fm-add-proj')
-    const div_dateTime_updProj = $('.fm-upd-proj')
-    const div_mesError = $('.dataError')
+    const div_contentTable = $('.contentTableJob')  // <div class="div_contentTable" 
 
 
-    const Dlg_titleLabel = $('#dlg_titleLabel')
+    // dislocation _formDialog_add_upd_project.cshtml
+    const test = $('#test').val()
+
+    const typeOperation = $('#typeOperations')  // hidden change in TrigFormDialog(...)
+    const projId = $('#projectId').val()        // hidden
+
+    const projName = $('#dlgPr-projectName')
+
+    const date = $('#dlgPr-date')
+    const time = $('#dlgPr-time')
+    const dateUpd = $('#dlgPr-dateUpd')
+    const timeUpd = $('#dlgPr-timeUpd')
+
+    const formDialog = $('#formDialog') // Main container  <div class="container"
+
+    const div_dateTime_addProj = $('.fm-add-proj')  // div for addProject
+    const div_dateTime_updProj = $('.fm-upd-proj')  // div for updProject
+    const div_mesError = $('.dataError')            // div for messageError
+    const Dlg_titleLabel = $('#dlg_titleLabel')     // modal-title
+
+
+    // ------------ Switching constants -----------
+    const strTypeOperAdd = 'insert'     // settings btn_AddProject.click
+    const strTypeOperUpd = 'update'     // settings btn_UpdProject.click
 
 
     function MesError(arg) {
@@ -82,27 +91,49 @@
     }
 
 
-    // Initial settings 
-    if (numItem > 0) {
-        bv.initDatePicker(date)
-        bv.initDatePicker(dateUpd)
+    bv.initDatePicker(date)
+    bv.initTimePicker(time)
 
-        bv.initTimePicker(time)
+    // Initial settings
+    if (idUpdate == 'on' || numItem == 0) {
+        btn_UpdProject.addClass('disabled')
+    }
+    else {        
+        bv.initDatePicker(dateUpd)
         bv.initTimePicker(timeUpd)
     }
 
-    if (idUpdate == 'on' || numItem == 0)
-    {
-        btn_AddProject.addClass('disabled')
-        btn_UpdProject.addClass('disabled')
-    }
 
+    btn_iconClose.click(() => {
+        btn_closeDialog.click()
+    })
 
+    btn_closeDialog.click(() => {
+        TrigFormDialog(false, '')
+    })
+
+    btn_UpdProject.click((e) => {
+        TrigFormDialog(true, strTypeOperUpd)
+        typeOperation.val()
+
+        projName.val(selProjectName)
+
+        date.val('')
+        time.val('')
+    })
+
+    btn_AddProject.click((e) => {
+        projName.val('')
+        date.val('')
+        time.val('')
+        TrigFormDialog(true, strTypeOperAdd)
+    })
+   
     // --------------------------
 
     return {
-        MesError, 
-        projName_selected, projId, projName, 
+        MesError,
+        projId, projName,
         date, time, dateUpd, timeUpd,
         typeOperation, strTypeOperAdd, strTypeOperUpd,
         TrigFormDialog,
@@ -110,33 +141,10 @@
         btn_AddProject, btn_UpdProject, btn_closeDialog,
         btn_iconClose, btn_saveData,
 
-        formDialog,
+        formDialog, test, selProjectId, selProjectName
     }
 
-})(jQuery, baseValues)
-
-
-// Button Handlers 
-;(($, el) => {
-    el.btn_iconClose.click(() => {
-        el.btn_closeDialog.click()
-    })
-
-    el.btn_closeDialog.click(() => {
-        el.TrigFormDialog(false, '')
-    })
-
-
-    el.btn_UpdProject.click((e) => {
-        el.TrigFormDialog(true, el.strTypeOperUpd)
-        el.typeOperation.val()
-    })
-
-    el.btn_AddProject.click((e) => {
-        el.TrigFormDialog(true, el.strTypeOperAdd)
-    })
-
-})(jQuery, elHtml)
+})(jQuery, baseValues);
 
 
 const addUpdProj = (($, el, bv) => {
@@ -149,18 +157,9 @@ const addUpdProj = (($, el, bv) => {
             return bv.error
         }
 
-        if (el.typeOperation.val() == el.strTypeOperAdd) {
-            if (el.date.val() == '' || el.time.val() == '') {
-                el.MesError('Date or time fields not filled')
-                return bv.error
-            }
-
-        }
-        else {
-            if (el.dateUpd.val() == '' || el.timeUpd.val() == '') {
-                el.MesError('Date or time fields not filled')
-                return bv.error
-            }
+        if (data.Date == '' || data.Time == '') {
+            el.MesError('Date or time fields not filled')
+            return bv.error
         }
 
         return bv.ok
@@ -190,9 +189,28 @@ const addUpdProj = (($, el, bv) => {
 
     // ----------------------------
 
+    function TestData() {
+        const data = GetData()
+        let keys = Object.keys(data), k = 0
+
+        console.group('------ getData -------')
+        for (k; k < keys.length; k++) {
+            console.log(keys[k] + ': ', data[keys[k]])
+        }
+        console.groupEnd()
+
+        console.log('VerifyData: ', VerifyData())
+    }
+
+
     el.btn_saveData.click((e) => {
 
         e.preventDefault()
+
+        if (el.test == 'on') {
+            TestData()
+            return;
+        }
 
         if (VerifyData() == bv.error)
             return
@@ -216,13 +234,27 @@ const addUpdProj = (($, el, bv) => {
                     return
                 }
 
-                el.MesError(data.message)
+                el.btn_closeDialog.click()
             }
         })
     }
 
     function UpdProject() {
-        console.log(GetData())
+
+        $.ajax('/api/projects', {
+            type: 'PUT',
+            data: GetData(),
+            success: function (data) {
+                if (data.result == bv.error) {
+                    el.MesError(data.message)
+
+                    return
+                }
+
+                el.btn_closeDialog.click()
+            }
+        })
+
     }
 
 

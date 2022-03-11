@@ -15,7 +15,8 @@ namespace TestJob.Models
         public string Start { get; set; }
         public string End { get; set; }
 
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
+        public Guid ProjectId { get; set; }
 
         public string lineThrough { get; set; }
     }
