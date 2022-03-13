@@ -63,17 +63,17 @@ namespace TestJob.Controllers
         }
 
 
-        [HttpGet("updtask/{id}")]
-        public ActionResult UpdTask(Guid id)
-        {
-            ViewBag.debug = anyUserData.GetSettingsExt.StrDebug;
+        //[HttpGet("updtask/{id}")]
+        //public ActionResult UpdTask(Guid id)
+        //{
+        //    ViewBag.debug = anyUserData.GetSettingsExt.StrDebug;
 
-            var data = new GenTaskView_update(context, anyUserData, id);
+        //    var data = new GenTaskView_update(context, anyUserData, id);
 
-            ViewBag.dataProject = data.ViewBag_data;
+        //    ViewBag.dataProject = data.ViewBag_data;
 
-            return View(data.Model);
-        }
+        //    return View(data.Model);
+        //}
 
         // ----------------------------------
 

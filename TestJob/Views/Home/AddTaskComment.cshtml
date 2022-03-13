@@ -28,22 +28,40 @@
     .btn-not-sel {
         background: #dcded9;
     }
+
+    .img-task-upd {
+        height: 20px;
+    }
+
+    .comp-dt {
+        max-width: 7rem;
+        background-color: #e9ecef;
+        border: none;
+    }
+
+    .comp-time {
+        max-width: 6rem;
+    }
 </style>
 
 
 @*hidden input*@
 <div>
-    <input type="hidden" asp-for="@anyData.TaskId" />
+    <input type="hidden" id="taskName" value="@anyData.TaskName" />
+    <input type="hidden" id="taskId"  value="@anyData.TaskId" />
+        
     <input type="hidden" asp-for="@anyData.Debug" />
     <input type="hidden" asp-for="@anyData.maxSizeFile" />
 </div>
+
+
+
 
 
 @* block modelDlg *@
 <div class="modal fade" id="div-Modal"
      tabindex="-1"
      role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
 
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -54,6 +72,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body">
 
                 @if (anyData.Debug == "on")
@@ -61,9 +80,9 @@
                     <partial name="_AddTaskComment_test" />
                 }
 
-                <div class="message-err text-danger"></div>
+                <div class="mb-2 message-err text-danger"></div>
 
-                <form class="mt-2">
+                <div class="form-comment">
 
                     <div class="form-group form-check div-content-type">
                         <input class="form-check-input"
@@ -85,9 +104,12 @@
                         <label for="exampleFormControlTextarea1">Comment</label>
                         <textarea class="form-control" asp-for="Content" rows="3"></textarea>
                     </div>
-                </form>
+                </div>
 
             </div>
+
+
+            @*button close and save*@
             <div class="modal-footer">
                 <button id="btn-dlg-close" type="button"
                         class="btn btn-secondary btn-close btn-sm" data-dismiss="modal">
@@ -100,22 +122,71 @@
 </div>
 
 
+<div class="container form-task" data-idclick="" style="max-width:20rem; display:none;">
 
-<div class="container">
+    <div class="text-danger fm-task-mes"></div>
+
+    <div class="form-group fm-task-name">
+        <label for="form-taskId"></label>
+        <input type="text" class="form-control"
+               id="form-taskId" value="" />
+    </div>
+
+
+    <div class="form-group fm-task-datetime">
+
+        <label>Date and time update task</label> <br />
+        <input id="Date" readonly type="text"
+               class="comp-dt" placeholder="Date">
+
+        <input id="Time" readonly type="text"
+               class="ml-2 comp-dt comp-time" placeholder="Time">
+    </div>
+
+
+    <div>
+        <button id="btn-close-task" type="button"
+                class="btn btn-secondary btn-sm" data-dismiss="modal">
+            Close
+        </button>
+
+        <button id="btn-save-task" type="button" class="btn btn-primary btn-sm"><span>Save</span></button>
+    </div>
+</div>
+
+
+<div class="container content-comment">
 
     <h1 class="u-h1Smaller">Editor comment</h1>
     @if (anyData.Debug == "on")
     {
         <div class="mt-n2 mb-2 u-textSmaller text-danger">
-            <b>Включен режим Debug</b> 
-            <a class="card-link" asp-action="DetailDebug" 
+            <b>Включен режим Debug</b>
+            <a class="card-link" asp-action="DetailDebug"
                asp-controller="Home">In detail</a>
         </div>
     }
     @*General header*@
     <ul class="ul_compl_data border-top border-bottom border-dark py-1 px-2" style="background-color: #e7f5ea;">
         <li><b>Project</b>: @anyData.ProjectName</li>
-        <li><b>Task</b>: @anyData.TaskName</li>
+        <li class="mt-2">
+            <b>Task</b>: @anyData.TaskName
+
+            <button id="btn-taskname-name" class="border-0 ml-3 btn-editor-task"
+                    style="background-color:none;">
+                <img class="img-task-upd" src="~/img/penc.png" alt="Upd" />
+            </button>
+
+            <button id="btn-taskname-upd" class="border-0 ml-2 btn-editor-task"
+                    style="background-color:none;">
+                <img class="img-task-upd" src="~/img/date.png" alt="Upd" />
+            </button>
+
+            <button id="btn-task-cancel" class="border-0 btn-editor-task"
+                    style="background-color:none;">
+                <img class="img-task-upd" src="~/img/del.png" alt="Del" />
+            </button>
+        </li>
         <li><b>TaskStart:</b>: @anyData.Str_DateTime</li>
     </ul>
 
@@ -189,7 +260,17 @@
 </div>
 
 
+@section Picker {
+    <link rel="stylesheet" type="text/css" href="~/Plagin/jquery.datetimepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Plagin/timepicker-ui.min.css" />
+}
+
+
 @section Scripts {
+
+    <script src="~/Plagin/jquery.datetimepicker.full.min.js"></script>
+    <script src="~/Plagin/timepicker-ui.min.js"></script>
+
     <script asp-append-version="true" src="~/js/create.taskcomment.js"></script>
     @if (anyData.Debug == "on")
     {

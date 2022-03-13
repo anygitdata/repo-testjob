@@ -10,6 +10,14 @@ namespace TestJob.Models.ModelViews.TaskView
         {
             var task = context.Set<Task>().Find(id);
 
+            if (task == null)
+            {
+                Result = Error;
+                Message = "No task data";
+
+                return; 
+            }
+
             Model = new GenTaskView { TaskName = task.TaskName };
 
             InitProjData(task.ProjectId);

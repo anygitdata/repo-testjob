@@ -8,7 +8,7 @@ namespace TestJob.Models.ModelViews.TaskView
 {
     public class GenTaskView_update : GenTaskView_modf
     {
-        public GenTaskView_update(DataContext cont, IAnyUserData userData, Guid id) : base(cont, userData, id)
+        public GenTaskView_update(DataContext cont, IAnyUserData userData, GenTaskView model) : base(cont, userData, model)
         {  }
 
         Task task;

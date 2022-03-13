@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TestJob.Models.Interface;
 
 namespace TestJob.Models.ModelViews.TaskView
@@ -9,23 +6,15 @@ namespace TestJob.Models.ModelViews.TaskView
     public class GenTaskView_cancel : GenTaskView_modf
 
     {
-        public GenTaskView_cancel(DataContext cont, IAnyUserData userData, GenTaskView model) : base(cont, userData, model)
+        public GenTaskView_cancel(DataContext cont, IAnyUserData userData, Guid id) : base(cont, userData, id)
         { }
 
         Task task;
 
         public override bool VerifyData() 
         {
-            if (string.IsNullOrEmpty(Model.TaskId))
-                return Return_withEROR("No ID task");
-
-
-            task = context.Set<Task>().Find(Guid.Parse(Model.TaskId));
-
-            if (task == null)
-            {
-                return Return_withEROR("Task object not found");
-            }
+            if (Result == Error)  // Verification in the GenTaskView_modf.constructor 
+                return false;
 
 
             if (Get_DateTime_fromModel() < task.StartDate)

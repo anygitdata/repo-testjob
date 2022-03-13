@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using TestJob.Models;
 using TestJob.Models.Interface;
 using TestJob.Models.ModelViews;
@@ -20,7 +21,26 @@ namespace TestJob.Controllers
             context = cont;
         }
 
+
+
         // -----------------------------------------
+
+        [HttpPut("/{id}")]
+        public ActionResult CancelTask(Guid id)
+        {
+            var data = new GenTaskView_cancel(context, anyUserData, id);
+
+            return Ok(id);
+        }
+
+
+        [HttpPut]
+        public ActionResult UpdTask(GenTaskView model)
+        {
+            var data = new GenTaskView_update(context, anyUserData, model);
+
+            return Ok(model);
+        }
 
 
         [HttpPost]
@@ -41,7 +61,6 @@ namespace TestJob.Controllers
 
             return Ok(model);
         }
-
 
     }
 }

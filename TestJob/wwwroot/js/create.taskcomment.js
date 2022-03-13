@@ -1,4 +1,4 @@
-﻿const elHtml = (($) => {
+﻿const elHtml = (($, bv) => {
 
     /*
      * Attributes:
@@ -45,11 +45,32 @@
     const div_dlg_strFile = $('.div-dlg-strFile')
     const div_comment = $('.div-comment')
     const div_content_type = $('.div-content-type')
-    const div_Modal = $('#div-Modal')    
+    const div_Modal = $('#div-Modal')
     const div_modal_footer = $('.modal-footer')
     const div_main_comments = $('.main-comments')
     const div_btn_navig = $('.div-btn-navig')
 
+    // --------------- 
+    let fm_selected_click = ''
+    const fm_mes_upd = 'Closing a task'
+    const fm_mes_change = 'Change the taskName'
+
+    const fm_task_name = $('.fm-task-name')
+    const fm_task_datetime = $('.fm-task-datetime')
+    const fm_task_mes = $('.fm-task-mes')
+
+    const fm_id_change = 'btn-taskname-name'
+    const fm_id_upd = 'btn-taskname-upd'
+    const fm_id_cancel = 'btn-task-cancel'
+
+    const fm_btn_editor_task = $('.btn-editor-task')
+    const fm_btn_save = $('#btn-save-task')
+
+    const fm_form_taskId = $('#taskId')
+    const fm_form_task = $('.form-task') // div.container
+    const fm_taskName = $('#form-taskId')
+
+    // ---------- end fm_* 
 
     const span_dlg_strFile = $('.span-dlg-strFile')
 
@@ -65,11 +86,67 @@
             btn_userIntf_del.removeClass('disabled')
         }
     }
-    
+
+
+    // Basic settings 
+    bv.initTimePicker($('#Time'))
+    bv.initDatePicker($('#Date'))
+
+    fm_taskName.val($('#taskName').val())
+
+
+    fm_btn_editor_task.click((e) => {
+        const el = e.currentTarget.id
+        fm_task_datetime.hide()
+        fm_taskName.removeClass('disabled')
+        let mes = ''
+
+        switch (el) {
+            case fm_id_change:
+                fm_selected_click = fm_id_change
+                mes = fm_mes_change
+                break
+
+            case fm_id_upd:
+                fm_selected_click = fm_id_upd
+                fm_taskName.addClass('disabled')
+                fm_task_datetime.show()
+                mes = fm_mes_upd
+                break
+
+            case fm_id_cancel:
+                fm_selected_click = fm_id_cancel
+                mes = 'Cancel a created task'
+                fm_taskName.addClass('disabled')
+                break
+        }
+
+        fm_task_mes.empty().html(mes)
+
+        fm_form_task.data('data-idclick', fm_selected_click)
+
+    })
+
+
+    $('#btn-close-task').click(() => {
+        fm_form_task.hide()
+        $('.content-comment').show()
+    })
+
+    $('.btn-editor-task').click(() => {
+        $('.content-comment').hide()
+        fm_form_task.show()
+    })
 
     // -----------------------------
+
     return {
-        use_VerfData, 
+        fm_selected_click, fm_id_upd, fm_id_cancel, fm_id_change,
+
+        fm_taskName, fm_task_datetime, fm_task_mes, fm_btn_save,
+        fm_form_task, fm_form_taskId, 
+
+        use_VerfData,
 
         AddClass_Disabled,
 
@@ -91,14 +168,122 @@
 
         div_testarea, div_postedFile,
         div_message_err, div_dlg_strFile,
-        div_comment, div_content_type,        
+        div_comment, div_content_type,
         div_modal_footer,
 
         Debug
     }
 
-})(jQuery); 
-// elHtml
+})(jQuery, baseValues);
+
+
+// Task Editor 
+(($, el, bv) => {
+
+    function Message(mes) {
+        el.fm_task_mes.empty().html(mes)
+
+        if (el.Debug == 'on')
+            console.log(mes)
+    }
+
+    function Get_selected_click() {
+        return el.fm_form_task.data('data-idclick')
+    }
+
+
+    function GetData() {
+        const fm_selected_click = Get_selected_click()
+        const res = {
+            Id : el.fm_form_taskId.val()
+        }
+
+        switch (fm_selected_click) {
+            case el.fm_id_change:
+                res.TaskName = el.fm_taskName.val()
+                break
+            case el.fm_id_upd:
+                res.Date = $('#Date').val()
+                res.Time = $('#Time').val()
+                break
+            case el.fm_id_cancel:                
+                break
+        }
+
+        return res;
+    }
+
+    function VerifyData() {
+        const data = GetData()
+
+        const fm_selected_click = Get_selected_click()
+
+        switch (fm_selected_click) {
+            case el.fm_id_change:
+                if (data.TaskName == '') {
+                    Message('The taskName field is not filled')
+                    return bv.error
+                }                                
+                break
+
+            case el.fm_id_upd:
+
+                if (data.Date == '' || data.Time == '') {
+                    Message('Date or time fields not filled')
+                    return bv.error
+                }
+                break
+
+            case el.fm_id_cancel:
+                if (data.Id = undefined || data.Id == '') {
+                    Message('No issue ID')
+                    return bv.error
+                }                
+                break
+        }
+
+        return bv.ok
+    }
+
+    function Task_updName() {
+        console.log('Task_updName')
+    }
+
+    function Task_dateTime() {
+        console.log('Task_dateTime')
+    }
+
+    function Task_cancel() {
+        console.log('Task_cancel')
+    }
+
+
+    el.fm_btn_save.click((e) => {
+
+        if (el.Debug == 'on')
+            bv.ObjStruct_intoConsole(GetData())
+
+        if (VerifyData() == bv.error)
+            return
+
+
+        const fm_selected_click = Get_selected_click()
+
+        switch (fm_selected_click) {
+            case el.fm_id_change:
+                Task_updName()
+                break
+            case el.fm_id_upd:
+                Task_dateTime()
+                break
+            case el.fm_id_cancel:
+                Task_cancel()
+                break
+        }
+
+    })
+
+})(jQuery, elHtml, baseValues);
 
 
 const buttonFunctions = (($, el) => {
@@ -248,7 +433,6 @@ const buttonFunctions = (($, el) => {
 
     // initBase state  
     el.ContentType.click()
-
 
 
     // ----------------------------
@@ -436,9 +620,6 @@ const ProcBlock = (($, el, bf, bv) => {
             return
 
         const data = GetData()
-        //const form = $('form')[0]
-        //const fd = new FormData(form)
-        //fd.append('TaskId', el.TaskId)
         
         const url = '/api/descr'
 
@@ -512,8 +693,6 @@ const ProcBlock = (($, el, bf, bv) => {
             }
 
             MessageErr(data.message)
-
-            
 
             return
         }
@@ -657,7 +836,6 @@ const ProcBlock = (($, el, bf, bv) => {
 })(jQuery, elHtml, buttonFunctions, baseValues);
 
 
-
 // settings for start
 ((el, bf) => {
 
@@ -673,4 +851,3 @@ const ProcBlock = (($, el, bf, bv) => {
     
 
 })(elHtml, buttonFunctions);
-
