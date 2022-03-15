@@ -2,11 +2,13 @@
 
 @{
     var anyData = ViewBag.anyData as AnyData_Comment;
+    var taskCompl = anyData.TaskCompl;
 
     var LstModelView = ViewBag.LstModelView as List<TaskComment_ModelView>;
 
     int index = 1;
 
+    string test = ViewBag.test as string;
 }
 
 
@@ -48,13 +50,13 @@
 @*hidden input*@
 <div>
     <input type="hidden" id="taskName" value="@anyData.TaskName" />
-    <input type="hidden" id="taskId"  value="@anyData.TaskId" />
-        
+    <input type="hidden" id="taskId" value="@anyData.TaskId" />
+
     <input type="hidden" asp-for="@anyData.Debug" />
     <input type="hidden" asp-for="@anyData.maxSizeFile" />
+    <input type="hidden" id="test" value="@test" />
+    <input type="hidden" id="taskCompl" value="@taskCompl" />    
 </div>
-
-
 
 
 
@@ -169,23 +171,25 @@
     @*General header*@
     <ul class="ul_compl_data border-top border-bottom border-dark py-1 px-2" style="background-color: #e7f5ea;">
         <li><b>Project</b>: @anyData.ProjectName</li>
-        <li class="mt-2">
-            <b>Task</b>: @anyData.TaskName
+        <li>
+            <span class="text-danger mes-task-compl"></span> <br />
+            <b>Task</b>: <span class="title-taskName">@anyData.TaskName</span>
+            
+                <button id="btn-taskname-name" class="border-0 ml-3 btn-editor-task"
+                        style="background-color:none;">
+                    <img class="img-task-upd" src="~/img/penc.png" alt="Upd" />
+                </button>
 
-            <button id="btn-taskname-name" class="border-0 ml-3 btn-editor-task"
-                    style="background-color:none;">
-                <img class="img-task-upd" src="~/img/penc.png" alt="Upd" />
-            </button>
+                <button id="btn-taskname-upd" class="border-0 ml-2 btn-editor-task"
+                        style="background-color:none;">
+                    <img class="img-task-upd" src="~/img/date.png" alt="Upd" />
+                </button>
 
-            <button id="btn-taskname-upd" class="border-0 ml-2 btn-editor-task"
-                    style="background-color:none;">
-                <img class="img-task-upd" src="~/img/date.png" alt="Upd" />
-            </button>
-
-            <button id="btn-task-cancel" class="border-0 btn-editor-task"
-                    style="background-color:none;">
-                <img class="img-task-upd" src="~/img/del.png" alt="Del" />
-            </button>
+                <button id="btn-task-cancel" class="border-0 btn-editor-task"
+                        style="background-color:none;">
+                    <img class="img-task-upd" src="~/img/del.png" alt="Del" />
+                </button>
+            
         </li>
         <li><b>TaskStart:</b>: @anyData.Str_DateTime</li>
     </ul>
@@ -231,13 +235,13 @@
     <div class="row mt-4">
         <div class="col-auto rounded-circle px-1">
             <button id="btn-userIntf-add"
-                    class="border-0"
+                    class="border-0 btn-editor-comn"
                     style="background-color:none">
                 <img src="~/img/adds.png" alt="Add" />
             </button>
         </div>
 
-        <div class="col-auto rounded-circle px-1">
+        <div class="col-auto rounded-circle btn-editor-comn px-1">
             <button id="btn-userIntf-upd" class="border-0"
                     style="background-color:none">
                 <img src="~/img/penc.png" alt="Upd" />
@@ -245,7 +249,7 @@
         </div>
 
 
-        <div class="col-auto rounded-circle px-1">
+        <div class="col-auto rounded-circle btn-editor-comn px-1">
             <button id="btn-userIntf-del" class="border-0"
                     style="background-color:none">
                 <img src="~/img/del.png" alt="Del" />

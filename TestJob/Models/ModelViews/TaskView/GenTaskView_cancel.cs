@@ -17,10 +17,6 @@ namespace TestJob.Models.ModelViews.TaskView
                 return false;
 
 
-            if (Get_DateTime_fromModel() < task.StartDate)
-                return Return_withEROR("cancel date is less than dateStart ");
-
-
             return Return_withOK();
         }
 
@@ -32,9 +28,14 @@ namespace TestJob.Models.ModelViews.TaskView
 
             if (!Debug)
             {
-                task.CancelDate = Get_DateTime_fromModel();                
+                task.CancelDate = DateTime.Now;
                 context.SaveChanges();
             }
+
+
+            Model.Redirect = "/";
+            Model.Result = Ok;
+            Model.Message = Ok;
 
             return Return_withOK();
         }

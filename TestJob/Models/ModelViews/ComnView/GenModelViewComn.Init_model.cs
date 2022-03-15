@@ -31,9 +31,9 @@ namespace TestJob.Models.ModelViews.ComnView
                             pr.ProjectName,
                             tsk.Id,
                             tsk.TaskName,
-                            tsk.StartDate
-                        }).ToList()
-                          .FirstOrDefault();
+                            tsk.StartDate,
+                            tsk.UpdateDate
+                        }).ToList().FirstOrDefault();
 
 
             ModelView = new AnyData_Comment
@@ -43,7 +43,8 @@ namespace TestJob.Models.ModelViews.ComnView
                 TaskName = data.TaskName,
                 Str_DateTime = Components_date.Get_str_DateTime(data.StartDate),
                 maxSizeFile = maxSizeFile,
-                Debug = Debug ? "on": "off"
+                Debug = Debug ? "on": "off",
+                TaskCompl = data.UpdateDate != default ? "on": "off"
             };
 
             return Return_withOK(); 

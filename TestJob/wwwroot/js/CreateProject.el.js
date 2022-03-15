@@ -41,30 +41,6 @@ const EventHandl = (($, bv) => {
 
 
     formDialog.hide()
-       
-
-    //updateTime.timePicker()
-    //createTime.timePicker()
-
-    //updateDate.datetimepicker({
-    //    timepicker: false,
-    //    format: 'Y-m-d',
-    //})
-
-    //createDate.datetimepicker({
-    //    timepicker: false,
-    //    format: 'Y-m-d',
-    //})
-
-    //set_idModf('false', true)
-
-    //if (evObj.Get_projectId() == ''
-    //    || evObj.Get_idUpdate() == 'true') {
-
-    //    evObj.addDisabled(evObj.btn_modfProject)
-    //    evObj.addDisabled(evObj.btn_deleteProject)
-
-    //}
 
 
     //---------- function block 

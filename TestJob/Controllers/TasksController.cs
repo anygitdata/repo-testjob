@@ -25,19 +25,30 @@ namespace TestJob.Controllers
 
         // -----------------------------------------
 
-        [HttpPut("/{id}")]
+
+        [HttpPut("{id}")]
         public ActionResult CancelTask(Guid id)
         {
             var data = new GenTaskView_cancel(context, anyUserData, id);
+            if (!data.VerifyData())
+                return Ok(data.Model);
 
-            return Ok(id);
+            data.SaveData();
+
+            return Ok(data.Model);
         }
+
 
 
         [HttpPut]
         public ActionResult UpdTask(GenTaskView model)
         {
             var data = new GenTaskView_update(context, anyUserData, model);
+            
+            if (!data.VerifyData())
+                return Ok(model);
+
+            data.SaveData();
 
             return Ok(model);
         }

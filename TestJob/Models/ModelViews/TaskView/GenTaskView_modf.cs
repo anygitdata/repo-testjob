@@ -18,7 +18,7 @@ namespace TestJob.Models.ModelViews.TaskView
                 return; 
             }
 
-            Model = new GenTaskView { TaskName = task.TaskName };
+            Model = new GenTaskView { TaskName = task.TaskName, TaskId = id.ToString() };
 
             InitProjData(task.ProjectId);
         }
@@ -27,7 +27,9 @@ namespace TestJob.Models.ModelViews.TaskView
         {
             Model = model;
 
-            InitProjData(Model.ProjectId);
+
+            if (Model.ProjectId != default)
+                InitProjData(Model.ProjectId);
         }
 
 

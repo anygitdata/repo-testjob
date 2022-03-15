@@ -43,6 +43,7 @@ namespace TestJob.Controllers
 
             ViewBag.anyData = anyData;
             ViewBag.LstModelView = res.LstModelView;
+            ViewBag.test = anyUserData.GetSettingsExt.Test;
 
             return View(model);
         }
@@ -51,7 +52,7 @@ namespace TestJob.Controllers
         [HttpGet("newtask")]
         public ActionResult NewTask()
         {
-            //var model = new GenTaskView_create(context, anyUserData, Guid.);
+            // POST TasksController.CreateTask 
 
             var lsProj = context.Set<Project>().Where(p => p.UpdateDate == null)
                 .Select(p => new Project { Id = p.Id, ProjectName = p.ProjectName }).ToList() ;
@@ -62,18 +63,7 @@ namespace TestJob.Controllers
             return View("CreateTask02", new GenTaskViewExt());
         }
 
-
-        //[HttpGet("updtask/{id}")]
-        //public ActionResult UpdTask(Guid id)
-        //{
-        //    ViewBag.debug = anyUserData.GetSettingsExt.StrDebug;
-
-        //    var data = new GenTaskView_update(context, anyUserData, id);
-
-        //    ViewBag.dataProject = data.ViewBag_data;
-
-        //    return View(data.Model);
-        //}
+        
 
         // ----------------------------------
 

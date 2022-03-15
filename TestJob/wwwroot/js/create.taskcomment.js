@@ -13,8 +13,14 @@
      * id = "Guid"
      */
 
+
     let use_VerfData = 'on'  // on -> frondEnd verify data else backEnd
     const Debug = $('#anyData_Debug').val()
+    const test = $('#test').val()
+
+    const title_task_name = $('.title-taskName')
+    const taskCompl = $('#taskCompl').val()
+    
 
     const TaskId = $('#anyData_TaskId').val()
     const maxSizeFile = $('#anyData_maxSizeFile').val()
@@ -54,8 +60,7 @@
     let fm_selected_click = ''
     const fm_mes_upd = 'Closing a task'
     const fm_mes_change = 'Change the taskName'
-
-    const fm_task_name = $('.fm-task-name')
+        
     const fm_task_datetime = $('.fm-task-datetime')
     const fm_task_mes = $('.fm-task-mes')
 
@@ -65,11 +70,12 @@
 
     const fm_btn_editor_task = $('.btn-editor-task')
     const fm_btn_save = $('#btn-save-task')
+    const fm_btn_close = $('#btn-close-task')
 
     const fm_form_taskId = $('#taskId')
     const fm_form_task = $('.form-task') // div.container
     const fm_taskName = $('#form-taskId')
-
+        
     // ---------- end fm_* 
 
     const span_dlg_strFile = $('.span-dlg-strFile')
@@ -128,7 +134,7 @@
     })
 
 
-    $('#btn-close-task').click(() => {
+    fm_btn_close.click(() => {
         fm_form_task.hide()
         $('.content-comment').show()
     })
@@ -138,12 +144,22 @@
         fm_form_task.show()
     })
 
+    function OnComplTask() {
+        $('.btn-editor-task').addClass('disabled')
+        $('.btn-editor-comn').addClass('disabled')
+
+        $('.mes-task-compl').text('Task completed')
+    }
+
+
     // -----------------------------
 
     return {
+        OnComplTask, 
+        test, title_task_name, taskCompl, 
         fm_selected_click, fm_id_upd, fm_id_cancel, fm_id_change,
 
-        fm_taskName, fm_task_datetime, fm_task_mes, fm_btn_save,
+        fm_taskName, fm_task_datetime, fm_task_mes, fm_btn_save, fm_btn_close,
         fm_form_task, fm_form_taskId, 
 
         use_VerfData,
@@ -180,6 +196,9 @@
 // Task Editor 
 (($, el, bv) => {
 
+    let typeOperation = ''
+
+
     function Message(mes) {
         el.fm_task_mes.empty().html(mes)
 
@@ -194,21 +213,27 @@
 
     function GetData() {
         const fm_selected_click = Get_selected_click()
+
         const res = {
-            Id : el.fm_form_taskId.val()
+            TaskId : el.fm_form_taskId.val()
         }
 
         switch (fm_selected_click) {
             case el.fm_id_change:
                 res.TaskName = el.fm_taskName.val()
+                typeOperation = 'renameTask'
                 break
             case el.fm_id_upd:
                 res.Date = $('#Date').val()
                 res.Time = $('#Time').val()
+                typeOperation = 'complTask'
                 break
-            case el.fm_id_cancel:                
+            case el.fm_id_cancel:
+                typeOperation = 'cancelTask'
                 break
         }
+
+        res.TypeOperModfTask = typeOperation
 
         return res;
     }
@@ -245,17 +270,81 @@
         return bv.ok
     }
 
+
     function Task_updName() {
-        console.log('Task_updName')
+
+        const data = GetData()
+
+        $.ajax('/api/tasks', {
+            data: data,
+            type:'PUT',
+            success: function (data) {
+                if (data.result == bv.ok) {
+                    Message('The change is written to the database')
+                    el.fm_taskName.val(data.taskName)
+                    el.title_task_name.text(data.taskName)
+
+                    el.fm_btn_close.click()
+                }
+                else {
+                    Message(data.message)                    
+                }
+
+                if (el.Debug == 'on')
+                    console.log('result from serv: ', data.message)
+            }
+        })
+
     }
 
-    function Task_dateTime() {
-        console.log('Task_dateTime')
-    }
 
     function Task_cancel() {
-        console.log('Task_cancel')
+        const data = GetData()
+
+        const url = '/api/tasks/' + data.TaskId
+
+        $.ajax(url, {
+            data: data,
+            type: 'PUT',
+            success: function (data) {
+                if (data.result == bv.ok) {
+                    if (data.redirect.length > 0)
+                        window.location.replace(data.redirect);
+                }
+                else {
+                    Message(data.message)
+                }
+
+                if (el.Debug == 'on')
+                    console.log('result from serv: ', data.message)
+            }
+        })
     }
+
+
+    function Task_dateTime() {
+        const data = GetData()
+
+        $.ajax('/api/tasks', {
+            data: data,
+            type: 'PUT',
+            success: function (data) {
+                if (data.result == bv.ok) {
+                    Message('The change is written to the database')
+
+                    el.fm_btn_close.click()
+                    el.OnComplTask()  // addClass disabled
+                }
+                else {
+                    Message(data.message)
+                }
+
+                if (el.Debug == 'on')
+                    console.log('result from serv: ', data.message)
+            }
+        })
+    }
+
 
 
     el.fm_btn_save.click((e) => {
@@ -263,7 +352,8 @@
         if (el.Debug == 'on')
             bv.ObjStruct_intoConsole(GetData())
 
-        if (VerifyData() == bv.error)
+        // включенная опция для тестирования на уровне сервера
+        if (el.test != 'on' && VerifyData() == bv.error)
             return
 
 
@@ -838,16 +928,17 @@ const ProcBlock = (($, el, bf, bv) => {
 
 // settings for start
 ((el, bf) => {
-
     $('.div-btn-navig').on('click', '.btn-sel-default', bf.Click_default);
-
-    // base settings
-    $('#div-Modal').modal('hide')
-
 
     const btnNav = bf.Get_firstButtonNavigator()
     if (btnNav != null)
         btnNav.click()
+
+    // base settings
+    $('#div-Modal').modal('hide')
     
+    if (el.taskCompl == 'on')
+        el.OnComplTask()
+
 
 })(elHtml, buttonFunctions);
