@@ -13,56 +13,51 @@ namespace TestJob.Models.ModelViews
 
         public readonly Content_TableTask content_TableModel;
 
-        public readonly BaseProjectView projectView;
+        public readonly BaseProjectView projectView = 
+            new BaseProjectView { TypeOperations = ETypeOperations.insert.ToString() };
 
 
-        public InitModelView_homeIndex(DataContext context, IAnyUserData anyUserData, int id)
+        private readonly DataContext context;
+        private List<ModelProjectMenu> lsDataServProc;
+        
+        private void LsDataProject(int id)
         {
-            string projectId = "";
-            string projectName = "All projects";
-            string idUpdate = "off";
-            DateTime dDefault = default;
+            int key = 1;
+            var res = (from pr in context.Set<Project>()
+                        let upDate = pr.UpdateDate
+                       select new ModelProjectMenu
+                         {
+                             Id = pr.Id,
+                             ProjectName = pr.ProjectName,
+                             CreateDate = pr.CreateDate,
+                             UpdateDate = upDate,
+                             LineThrough = upDate != null ? "lineThrough" : ""
+                       }).ToList();
 
-            IQueryable<Task> tasks = default;
 
-            ModelProjectMenu selectedProjectMenu = default;
-
-            projectView = new BaseProjectView { TypeOperations = ETypeOperations.insert.ToString() };
-
-            List<ModelProjectMenu> lsDataServProc = Load_fromServProc.Get_DataServProc(context, id);
-
-
-            if (id > 0)
+            foreach (var item in res)
             {
-                if (lsDataServProc.Count < id)
+                item.Key = key++;
+
+                if (id > 0 && key == id)
                 {
-                    redirect = "/";
-                    return;
+                    projectView.ProjectId = item.Id;
+                    projectView.ProjectName = item.ProjectName;
+
+                    if (item.UpdateDate != null)
+                        projectView.idUpdate = "on";
+
+                    item.Disabled = "disabled";
                 }
-
-
-                lsDataServProc.Insert(0, new ModelProjectMenu { key = 0, projectName = "All projects" });
-
-                selectedProjectMenu =
-                    lsDataServProc.FirstOrDefault(p => !string.IsNullOrEmpty(p.disabled));
-
-                var selectedProj = context.Set<Project>().Find(selectedProjectMenu.id);
-
-                projectId = selectedProj.Id.ToString();
-                projectName = selectedProj.ProjectName;
-                if (selectedProj.UpdateDate > dDefault)
-                    idUpdate = "on";
-
-                string[] dtime = ComnTemplate.Get_compDateTime_fromModel(selectedProj.CreateDate);
-                projectView.ProjectId = selectedProj.Id;
-                projectView.ProjectName = selectedProj.ProjectName;
-                tasks = context.Set<Task>().Where(p => p.ProjectId == selectedProj.Id);
             }
-            else
-                tasks = context.Set<Task>();
 
 
-            IEnumerable<ModelTask> lsTasks = (from ts in tasks
+            lsDataServProc = res;
+        }
+
+        private List<ModelTask> LsModelTasks(List<Task> tasks)
+        {
+            var lsTasks = (from ts in tasks
                         join pr in context.Set<Project>() on ts.ProjectId equals pr.Id
 
                         let dtCreate = Components_date.ConvDate_intoObj(ts.CreateDate)
@@ -80,13 +75,12 @@ namespace TestJob.Models.ModelViews
                             Start = dtStart.time,
                             End = dtUpdate.time
                         }).ToList();
-            
 
             var comn = context.Set<TaskComment>();
             foreach (ModelTask par in lsTasks)
             {
                 var selComn = comn.Where(p => p.TaskId == par.Id).FirstOrDefault();
-                par.lineThrough = lsDataServProc.FirstOrDefault(p => p.id == par.ProjectId).lineThrough;
+                par.lineThrough = lsDataServProc.FirstOrDefault(p => p.Id == par.ProjectId).LineThrough;
 
                 if (selComn == null) continue;
 
@@ -96,14 +90,47 @@ namespace TestJob.Models.ModelViews
             }
 
 
+            return lsTasks;
+        }
+
+        public InitModelView_homeIndex(DataContext cont, IAnyUserData anyUserData, int id)
+        {
+            context = cont;
+
+            List<Task> tasks = null;
+
+            LsDataProject(id);  // init lsDataServProc
+
+            if (id > 0)
+            {
+                if (lsDataServProc.Count < id)
+                {
+                    redirect = "/";
+                    return;
+                }
+
+
+                lsDataServProc.Insert(0, new ModelProjectMenu { Key = 0, ProjectName = "All projects" });
+
+                tasks = cont.Set<Task>().Where(p => p.ProjectId == projectView.ProjectId).ToList() ;
+            }
+            else
+                tasks = cont.Set<Task>().ToList();
+
+
+            List<ModelTask> lsTasks = LsModelTasks(tasks.ToList());
+
             content_TableModel = new Content_TableTask
             {
                 LsProjects = lsDataServProc,    // list for projectMenu
                 LsTaskCont = lsTasks,           // list for content table task
-                projectName = projectName,      // for selected project
-                projectId = projectId,          // for selected project
-                idUpdate = idUpdate,            // project Completion ID 
+
+                projectName = projectView.ProjectName ?? "All projects",    // for selected project
+                projectId = projectView.ProjectId.ToString(),               // for selected project
+                
+                idUpdate = projectView.idUpdate,            // project Completion ID 
                 debug = anyUserData.GetSettingsExt.StrDebug,
+                
                 numItem = id
             };
 

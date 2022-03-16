@@ -42,7 +42,7 @@ namespace TestJob.Tests
             // assert
             Assert.Equal(num, res.Count);
 
-            string projectName = res.FirstOrDefault(p => !string.IsNullOrEmpty(p.disabled)).projectName;
+            string projectName = res.FirstOrDefault(p => !string.IsNullOrEmpty(p.Disabled)).ProjectName;
 
             Assert.Equal(project.ProjectName, projectName);
         }

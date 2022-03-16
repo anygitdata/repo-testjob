@@ -7,14 +7,14 @@ namespace TestJob.Models.ModelViews
 {
 	public class ModelProjectMenu
 	{
-		public int key {get; set;}
-		public Guid id { get; set; }
-		public string projectName { get; set; }
+		public int Key {get; set;}
+		public Guid Id { get; set; }
+		public string ProjectName { get; set; }
 
-		public DateTime createDate { get; set; }
-		public DateTime updateDate { get; set; }
-		public string disabled { get; set; }
+		public DateTime CreateDate { get; set; }
+		public DateTime? UpdateDate { get; set; }
 
-		public string lineThrough { get; set; }
+		public string Disabled { get; set; }	// css style
+		public string LineThrough { get; set; }	// css style
 	}
 }

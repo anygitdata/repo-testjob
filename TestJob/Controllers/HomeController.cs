@@ -1,28 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using TestJob.Models;
 using TestJob.Models.Interface;
 using TestJob.Models.ModelViews;
 using TestJob.Models.ModelViews.ComnView;
-using TestJob.Models.ModelViews.ProjectView;
 using TestJob.Models.ModelViews.TaskView;
-using TestJob.Models.UserAPI;
 
 namespace TestJob.Controllers
 {
     public partial class HomeController : Controller
     {
-        readonly string _PathDir_txt;
-        public string PathDir_txt { get { return _PathDir_txt; } }
+        readonly string _pathDir_txt;
+        public string PathDir_txt { get => _pathDir_txt; }
 
         readonly DataContext context;
         readonly IAnyUserData anyUserData;
 
         public HomeController(DataContext cont, IAnyUserData userData)
         {
-            _PathDir_txt = userData.PathDir_txt;
+            _pathDir_txt = userData.PathDir_txt;
             context = cont;
 
             anyUserData = userData;
@@ -90,12 +87,6 @@ namespace TestJob.Controllers
             return View();
         }
 
-
-        [HttpGet("testjs")]
-        public IActionResult TestJS()
-        {
-            return View();
-        }
 
     }
 }

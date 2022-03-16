@@ -6,9 +6,9 @@
 
     var LstModelView = ViewBag.LstModelView as List<TaskComment_ModelView>;
 
-    int index = 1;
+    int index = 1;  // Comment buttons index 
 
-    string test = ViewBag.test as string;
+    string test = ViewBag.test as string;   // blocking js checks 
 }
 
 
@@ -49,11 +49,13 @@
 
 @*hidden input*@
 <div>
-    <input type="hidden" id="taskName" value="@anyData.TaskName" />
-    <input type="hidden" id="taskId" value="@anyData.TaskId" />
 
     <input type="hidden" asp-for="@anyData.Debug" />
     <input type="hidden" asp-for="@anyData.maxSizeFile" />
+
+    <input type="hidden" id="taskName" value="@anyData.TaskName" />
+    <input type="hidden" id="taskId" value="@anyData.TaskId" />
+
     <input type="hidden" id="test" value="@test" />
     <input type="hidden" id="taskCompl" value="@taskCompl" />    
 </div>

@@ -15,7 +15,8 @@ namespace TestJob.Models.ModelViews.ProjectView
         public string TimeUpd { get; set; }
 
         public string TypeOperations { get; set; }
-               
+
+        public string idUpdate { get; set; } = "off";   // Project completion indicator 
 
     }
 }

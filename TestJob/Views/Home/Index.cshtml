@@ -65,9 +65,9 @@
                 @* Filling in the list of projectNames  *@
                 @foreach (ModelProjectMenu pr in content_TableModel.LsProjects)
                 {
-                    <a class="dropdown-item @pr.disabled"
+                    <a class="dropdown-item @pr.Disabled"
                        asp-action="index"
-                       asp-route-id="@pr.key">@pr.projectName</a>
+                       asp-route-id="@pr.Key">@pr.ProjectName</a>
                 }
 
             </div>
