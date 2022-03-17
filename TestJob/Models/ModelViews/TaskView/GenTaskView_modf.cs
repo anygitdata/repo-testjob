@@ -6,26 +6,37 @@ namespace TestJob.Models.ModelViews.TaskView
     public abstract class GenTaskView_modf: GenTaskView_templ<GenTaskView>
     {
 
+        private void InitError()
+        {
+            Result = Error;
+            Message = "No task data";
+        }
+
         public GenTaskView_modf(DataContext cont, IAnyUserData userData, Guid id) : base(cont, userData)
         {
-            var task = context.Set<Task>().Find(id);
+            _task = context.Set<Task>().Find(id);
 
-            if (task == null)
+            if (_task == null)
             {
-                Result = Error;
-                Message = "No task data";
-
+                InitError();
                 return; 
             }
 
-            Model = new GenTaskView { TaskName = task.TaskName, TaskId = id.ToString() };
+            Model = new GenTaskView { TaskName = _task.TaskName, TaskId = _task.Id.ToString() };
 
-            InitProjData(task.ProjectId);
+            InitProjData(_task.ProjectId);
         }
 
         public GenTaskView_modf(DataContext cont, IAnyUserData userData, GenTaskView model) : base(cont, userData)
         {
             Model = model;
+            _task = context.Set<Task>().Find(Guid.Parse(Model.TaskId));
+
+            if (_task == null)
+            {
+                InitError();
+                return;
+            }
 
 
             if (Model.ProjectId != default)
@@ -61,6 +72,10 @@ namespace TestJob.Models.ModelViews.TaskView
 
         private ViewBag_data _viewBag_data;
         public override ViewBag_data ViewBag_data { get => _viewBag_data; }
+
+
+        private readonly Task _task;
+        protected Task Task { get => _task; }
 
         protected DateTime Get_DateTime_fromModel()
         {

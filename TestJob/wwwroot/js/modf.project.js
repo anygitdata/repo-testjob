@@ -8,6 +8,8 @@
 
     const selProjectId = $('#selProjectId').val()
     const selProjectName = $('#selProjectName').val()
+    const spanSelProject = $('#spanSelProject')
+
 
     // user interface
     const btn_AddProject = $('#btn-AddProject')
@@ -128,7 +130,43 @@
         time.val('')
         TrigFormDialog(true, strTypeOperAdd)
     })
-   
+
+
+    function Update_afterModfProj(data) {
+
+        if (debug == 'on') {
+            bv.ObjStruct_intoConsole(data) //
+        }
+
+        const tr = $('<tr></tr>')
+        const th = $('<th colspan="6" class="text-center">')
+
+        th.append('There is no data')
+        tr.append(th)
+
+        $('tbody').empty().append(tr)
+        $('#spanSelProject').text(data.projectName)
+
+
+        $('.dropdown-menu a.disabled').removeClass('disabled')
+
+        const lastKey = Number($('.dropdown-menu a:last').data('key')) + 1
+
+
+        const link = $('<a href="#">' + data.projectName + '</a>')
+        const href = debug == 'on' ? "#" : '/Home/index/' + lastKey.toString()
+
+
+        link.addClass('dropdown-item disabled')
+            .attr('data-key', lastKey)
+            .prop('href', href)
+
+
+        $('.dropdown-menu').append(link)
+
+        $('.cont-fulltime').empty().append('Total time for all tasks: No data')
+    }
+
     // --------------------------
 
     return {
@@ -141,7 +179,7 @@
         btn_AddProject, btn_UpdProject, btn_closeDialog,
         btn_iconClose, btn_saveData,
 
-        formDialog, test, selProjectId, selProjectName
+        formDialog, test, selProjectId, selProjectName, Update_afterModfProj,
     }
 
 })(jQuery, baseValues);
@@ -193,11 +231,7 @@ const addUpdProj = (($, el, bv) => {
         const data = GetData()
         let keys = Object.keys(data), k = 0
 
-        console.group('------ getData -------')
-        for (k; k < keys.length; k++) {
-            console.log(keys[k] + ': ', data[keys[k]])
-        }
-        console.groupEnd()
+        bv.ObjStruct_intoConsole(data)
 
         console.log('VerifyData: ', VerifyData())
     }
@@ -234,6 +268,7 @@ const addUpdProj = (($, el, bv) => {
                     return
                 }
 
+                el.Update_afterModfProj(data)
                 el.btn_closeDialog.click()
             }
         })

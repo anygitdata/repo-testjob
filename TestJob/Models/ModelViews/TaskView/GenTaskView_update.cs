@@ -8,7 +8,7 @@ namespace TestJob.Models.ModelViews.TaskView
         public GenTaskView_update(DataContext cont, IAnyUserData userData, GenTaskView model) : base(cont, userData, model)
         { }
 
-        Task task;
+        //Task Task;
 
 
         private readonly string rename = "renameTask";
@@ -22,16 +22,18 @@ namespace TestJob.Models.ModelViews.TaskView
         /// <returns></returns>
         public override bool VerifyData()
         {
+            if (Result == Error)  // Ошибка на этапе GenTaskView_modf
+                return false; 
+
+
             if (string.IsNullOrEmpty(Model.TaskId))
             {
                 return Return_withEROR("No ID task");
             }
 
-            task = context.Set<Task>().Find(Guid.Parse(Model.TaskId));
+            //Task = context.Set<Task>().Find(Guid.Parse(Model.TaskId));
 
-            
-
-            if (task == null)
+            if (Task == null)
             {
                 return Return_withEROR("Task object not found");
             }
@@ -42,7 +44,7 @@ namespace TestJob.Models.ModelViews.TaskView
                 if (string.IsNullOrEmpty(Model.TaskName))
                     return Return_withEROR("No data taskName");
 
-                if (Model.TaskName.Trim() == task.TaskName.Trim() )
+                if (Model.TaskName.Trim() == Task.TaskName.Trim() )
                     return Return_withEROR("Data has not changed ");
 
                 
@@ -53,7 +55,7 @@ namespace TestJob.Models.ModelViews.TaskView
             {
                 dateTimeFromModel = Get_DateTime_fromModel();
 
-                if (dateTimeFromModel <= task.StartDate)
+                if (dateTimeFromModel <= Task.StartDate)
                     return Return_withEROR("Closing date is less than start date");
                     
 
@@ -72,10 +74,10 @@ namespace TestJob.Models.ModelViews.TaskView
 
 
             if (Model.TypeOperModfTask == rename && !Debug)
-                task.TaskName = Model.TaskName;
+                Task.TaskName = Model.TaskName;
 
             if (Model.TypeOperModfTask == compl && !Debug)
-                task.UpdateDate = dateTimeFromModel;
+                Task.UpdateDate = dateTimeFromModel;
 
 
             if (!Debug)

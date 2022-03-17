@@ -17,6 +17,8 @@ namespace TestJob.Models
 
         public Guid Id { get; set; }
         public Guid ProjectId { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public string lineThrough { get; set; }
     }
@@ -36,6 +38,8 @@ namespace TestJob.Models
         public string debug { get; set; }
 
         public int numItem { get; set; }
+
+        public string FullTime { get; set; }
 
     }
 

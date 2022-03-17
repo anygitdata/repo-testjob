@@ -10,7 +10,7 @@
 
     var projectView = ViewBag.projectView as BaseProjectView;
     var typeOperations = projectView.TypeOperations;
-    int numItem = content_TableModel.numItem;
+    int numItem = content_TableModel.numItem;    
 }
 
 <style>
@@ -66,6 +66,7 @@
                 @foreach (ModelProjectMenu pr in content_TableModel.LsProjects)
                 {
                     <a class="dropdown-item @pr.Disabled"
+                       data-key ="@pr.Key"
                        asp-action="index"
                        asp-route-id="@pr.Key">@pr.ProjectName</a>
                 }
@@ -101,6 +102,10 @@
             All tasks completed. The project is closed.
         </div>
     }
+
+<div class="cont-fulltime">
+    Total time for all tasks: @content_TableModel.FullTime
+</div>
 
 </div>
 

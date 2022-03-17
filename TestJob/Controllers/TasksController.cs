@@ -2,7 +2,6 @@
 using System;
 using TestJob.Models;
 using TestJob.Models.Interface;
-using TestJob.Models.ModelViews;
 using TestJob.Models.ModelViews.TaskView;
 using TestJob.Models.UserAPI;
 
@@ -26,7 +25,7 @@ namespace TestJob.Controllers
         // -----------------------------------------
 
 
-        [HttpPut("{id}")]
+        [HttpDelete("{id}")]
         public ActionResult CancelTask(Guid id)
         {
             var data = new GenTaskView_cancel(context, anyUserData, id);
@@ -37,7 +36,6 @@ namespace TestJob.Controllers
 
             return Ok(data.Model);
         }
-
 
 
         [HttpPut]

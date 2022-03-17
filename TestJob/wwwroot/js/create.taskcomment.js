@@ -21,8 +21,7 @@
     const title_task_name = $('.title-taskName')
     const taskCompl = $('#taskCompl').val()
     
-
-    const TaskId = $('#anyData_TaskId').val()
+    const TaskId = $('#taskId').val()
     const maxSizeFile = $('#anyData_maxSizeFile').val()
 
     const btn_dlg_save = $('#btn-dlg-save')
@@ -303,9 +302,8 @@
 
         const url = '/api/tasks/' + data.TaskId
 
-        $.ajax(url, {
-            data: data,
-            type: 'PUT',
+        $.ajax(url, {            
+            type: 'DELETE',
             success: function (data) {
                 if (data.result == bv.ok) {
                     if (data.redirect.length > 0)

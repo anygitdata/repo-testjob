@@ -9,8 +9,6 @@ namespace TestJob.Models.ModelViews.TaskView
         public GenTaskView_cancel(DataContext cont, IAnyUserData userData, Guid id) : base(cont, userData, id)
         { }
 
-        Task task;
-
         public override bool VerifyData() 
         {
             if (Result == Error)  // Verification in the GenTaskView_modf.constructor 
@@ -28,7 +26,7 @@ namespace TestJob.Models.ModelViews.TaskView
 
             if (!Debug)
             {
-                task.CancelDate = DateTime.Now;
+                Task.CancelDate = DateTime.Now;
                 context.SaveChanges();
             }
 
