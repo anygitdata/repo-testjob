@@ -42,7 +42,7 @@ namespace TestJob.Models.ModelViews.ComnView
                 TaskId = id,
                 TaskName = data.TaskName,
                 Str_DateTime = Components_date.Get_str_DateTime(data.StartDate),
-                maxSizeFile = maxSizeFile,
+                MaxSizeFile = maxSizeFile,
                 Debug = Debug ? "on": "off",
                 TaskCompl = data.UpdateDate != default ? "on": "off"
             };

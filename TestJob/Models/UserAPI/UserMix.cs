@@ -5,6 +5,7 @@ using System.Text;
 
 namespace TestJob.Models.UserAPI
 {
+
     public class BaseResult: IdentResult
     {        
         public string FileName { get; set; }

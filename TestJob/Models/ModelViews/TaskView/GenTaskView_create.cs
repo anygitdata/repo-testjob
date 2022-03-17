@@ -59,7 +59,7 @@ namespace TestJob.Models.ModelViews.TaskView
                     break;
             }
             
-            return compDate.resDate;
+            return compDate.ResDate;
         }
 
         private bool VerifyDateTime(TEmodel typeModel)

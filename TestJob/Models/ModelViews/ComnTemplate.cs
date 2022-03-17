@@ -13,7 +13,7 @@ namespace TestJob.Models.ModelViews
     /// </summary>
     public class ComnTemplate: IdentResult
     {
-        private string mesError_default = "Cancel operation";
+        private readonly string mesError_default = "Cancel operation";
         protected void SetResult_forStart()
         {
             Result = Error;

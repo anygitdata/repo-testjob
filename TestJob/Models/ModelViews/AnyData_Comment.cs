@@ -18,7 +18,7 @@ namespace TestJob.Models.ModelViews
 
         public string TaskCompl { get; set; } = "off";
 
-        public int maxSizeFile { get; set; }
+        public int MaxSizeFile { get; set; }
     }
 
 }

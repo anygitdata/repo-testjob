@@ -24,7 +24,7 @@ namespace TestJob.Tests
             var mock = new Mock<IAnyUserData>();
             mock.Setup(env => env.PathDir_txt).Returns(_pathDir_txt);
 
-            contrRest = new RestController(context, mock.Object);
+            contrRest = new RestController(mock.Object);
         }
 
 
@@ -80,38 +80,7 @@ namespace TestJob.Tests
             Assert.Equal(item.FileName, fileName);
             Assert.Equal(item.FileName, fileName);
         }
-
-        [Fact]
-        public void Load_data()
-        {
-            // arrange
-            string FileName = "VerifyData.txt";
-            string filePath = Path.Combine(contrRest.PathDir_txt, FileName);
-
-            if (File.Exists(filePath))
-                File.Delete(filePath);
-
-            var model = new BodyRequest
-            {
-                FileName = FileName,
-                Data = @"Начальная строка       использование произвФормата
-Это продолжение начальной строки
-Заключительная строка"
-            };
-
-            // act
-            var resREST = contrRest.Load_data(model) as OkObjectResult;
-
-            // Assert
-            Assert.IsType<OkObjectResult>(resREST as OkObjectResult);
-
-            var items = Assert.IsType<BodyRequest>(resREST.Value);
-
-            Assert.Equal(items.Result, BaseResult.Ok);
-            Assert.Equal(items.FileName, FileName);
-            Assert.Equal(items.Data, model.Data);
-
-        }
+                
 
         [Fact]
         public void Delete_File_test()
@@ -132,63 +101,7 @@ namespace TestJob.Tests
             Assert.Equal(item.FileName, fileName);
             Assert.Equal(fileExits, item.Result);
         }
-
-        [Fact]
-        public void Update_File__exists_text()
-        {
-            // arrange
-
-            string fileName = "CreateProject.txt";
-
-            CreateFile(fileName);
-
-            var model = new BaseResult
-            {
-                FileName = fileName,
-                Data = @"Измененная строка
-помещенная в файл
-Это следующее описание
-Сохранение форматирования"
-            };
-
-            // act
-            var resREST = contrRest.update_File(model) as OkObjectResult;
-
-            //assert
-            Assert.IsType<OkObjectResult>(resREST as OkObjectResult);
-
-            BaseResult item = Assert.IsType<BaseResult>(resREST.Value);
-
-            Assert.Equal(item.FileName, fileName);
-            Assert.Equal(item.Result, BaseResult.Ok);
-            Assert.Equal(model.Data, item.Data);
-
-        }
-
-        [Fact]
-        public void Update_File__not_exists_text()
-        {
-            // arrange
-
-            string fileName = "CreateProject_notExists.txt";
-            var model = new BaseResult
-            {
-                FileName = fileName,
-            };
-
-            // act
-            var resREST = contrRest.update_File(model) as OkObjectResult;
-
-            //assert
-            Assert.IsType<OkObjectResult>(resREST as OkObjectResult);
-
-            BaseResult item = Assert.IsType<BaseResult>(resREST.Value);
-
-            Assert.Equal(item.FileName, fileName);
-            Assert.Equal(item.Result, BaseResult.Error);
-            Assert.Equal("File not exists", model.Message);
-
-        }
+               
 
     }
 }

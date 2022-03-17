@@ -34,7 +34,7 @@ namespace TestJob.Tests
             Components_date res = Components_date.ConvDate_intoObj(dt);
 
             // assert
-            Assert.Equal(dt, res.resDate);
+            Assert.Equal(dt, res.ResDate);
             Assert.Equal(date, res.date);
             Assert.Equal(time, res.time);
 
@@ -76,7 +76,7 @@ namespace TestJob.Tests
             // assert
             Assert.Equal("ok", res.Result);
 
-            Assert.Equal(dt, res.resDate);
+            Assert.Equal(dt, res.ResDate);
             Assert.Equal(date, res.date);
             Assert.Equal(time, res.time);
         }
@@ -110,7 +110,7 @@ namespace TestJob.Tests
             var res = Components_date.ConvStr_intoObj(date, time);
 
             // assert
-            Assert.Equal(dt, res.resDate);
+            Assert.Equal(dt, res.ResDate);
             Assert.Equal(date, res.date);
             Assert.Equal(time, res.time);
         }

@@ -27,4 +27,8 @@
     <ProjectReference Include="..\TestJob\TestJob.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ContrHome\" />
+  </ItemGroup>
+
 </Project>

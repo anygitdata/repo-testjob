@@ -80,7 +80,7 @@ namespace TestJob.Models.ModelViews.TaskView
         protected DateTime Get_DateTime_fromModel()
         {
             var res = Components_date.ConvStr_intoObj(Model.Date, Model.Time);
-            return res.resDate;
+            return res.ResDate;
         }
 
         public override bool SaveData()

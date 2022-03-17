@@ -70,7 +70,7 @@ namespace TestJob.Models.ModelViews.ProjectView
                     break;
             }
 
-            return compDate.resDate;
+            return compDate.ResDate;
         }
 
 

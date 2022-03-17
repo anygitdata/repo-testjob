@@ -42,12 +42,21 @@
 ------------------------------------------
 
 # ООП (объектно ориентированное программирование)
-Models.ModelViews/* отдельная директория для объекта
 
-Модель наследования:
-baseClass-> abstractClass->abstractClass(если необходимо)->classImplementation
+Models.ModelViews/* отдельные директории для объектов
+## Models.ModelViews.ComnView
+	Модуль наследования: GeneralModelView_templ->GenModelViewComn
+	TaskComment_ModelView модель для View
+	
+## Models.ModelViews.ProjectView
+	Модель наследования: GenProjectView_templ базовый класс для
+		GenProjectView_add   and   GenProjectView_upd
 
-abstract and virtual functions
+## Models.ModelViews.TaskView
+	Модель наследования: GenTaskView_templ базовый класс для
+		GenTaskView_create при создании новой задачи
+		GenTaskView_modf базовый класс для
+			GenTaskView_update  and GenTaskView_cancel
 
 ------------------------------------------
 
@@ -56,13 +65,16 @@ abstract and virtual functions
 
 ## Debug
 Режим debug используется для отладки и тестирования на уровне браузера и xUnit tests
+
 ## Settings
 Настройка через файл wwwroot/Settings/settings.json
 ```
-{"seedData":"off","maxSizeFile":400,"debug":"off"}
+{"seedData":"on/off","maxSizeFile":400,"debug":"on/off", "test":"on/off"}
 ```
 
 key:seedData для загрузки начальных данных
 считывание параметра ОДНОРАЗОВОЕ.
 Если изначально значение "on" после считывания "off"
+
+test: on -> блокирует верификацию на уровне браузера. Верификация на сервере
 

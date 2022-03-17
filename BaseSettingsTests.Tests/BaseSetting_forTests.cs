@@ -36,7 +36,7 @@ namespace TestBaseSettings
 
         public HomeController HomeContr { get => new (dataContext, anyUserData); }
 
-        public RestController RestContr { get => new (dataContext, anyUserData);}
+        public RestController RestContr { get => new ( anyUserData);}
 
     }
 }

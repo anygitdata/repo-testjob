@@ -4,7 +4,6 @@ using System.IO;
 using TestBaseSettings;
 using TestJob.Models;
 using TestJob.Models.Interface;
-using TestJob.Models.ModelViews;
 using Xunit;
 
 namespace BaseSettingsTests.Tests
@@ -20,7 +19,7 @@ namespace BaseSettingsTests.Tests
 
         public BaseModel_view_Set_IAnyUserData__Tests(SharedDatabaseFixture fixture)
         {
-            BaseSetting_forTests baseSetting = new BaseSetting_forTests(fixture);
+            var baseSetting = new BaseSetting_forTests(fixture);
 
             context = baseSetting.dataContext;
 
@@ -29,27 +28,13 @@ namespace BaseSettingsTests.Tests
                 @"..\..\..\..\", "TestJob", "wwwroot"));
 
 
-            Mock<IWebHostEnvironment> environment = new Mock<IWebHostEnvironment>();
+            var environment = new Mock<IWebHostEnvironment>();
             environment.Setup(id => id.WebRootPath).Returns(wwwroot);
 
             anyUserData = new AnyUserData(environment.Object);
             
         }
-
-
-        [Fact]
-        public void Set_IAnyUserData__test()
-        {
-            string path = Path.Combine(wwwroot, "txt");
-            // arrange 
-            BaseModel_view.Set_IAnyUserData(context, anyUserData);
-
-            // Assert
-            Assert.Equal(path, BaseModel_view.BaseModel_GetPathTxt);
-
-            Assert.Equal(anyUserData.Debug, BaseModel_view.Debug);
-
-        }
+       
 
     }
 }

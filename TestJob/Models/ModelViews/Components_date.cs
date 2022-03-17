@@ -8,13 +8,12 @@ namespace TestJob.Models.ModelViews
         public string date { get; set; }
         public string time { get; set; }
 
-        public DateTime resDate { get; set; }
+        public DateTime ResDate { get; set; }
 
 
         public static Components_date ConvDate_intoObj(string dt)
         {
-            DateTime val;
-            if (DateTime.TryParse(dt, out val))
+            if (DateTime.TryParse(dt, out DateTime val))
             {
                 return ConvDate_intoObj(val);
             }
@@ -60,7 +59,7 @@ namespace TestJob.Models.ModelViews
                     Result = Ok,
                     date = dt.ToString("yyyy-MM-dd"),
                     time = dt.ToString("hh:mm"),
-                    resDate = dt
+                    ResDate = dt
                 };
 
                 return res; 
@@ -78,14 +77,14 @@ namespace TestJob.Models.ModelViews
 
         public static Components_date ConvStr_intoObj(string date, string time)
         {
-            Components_date res = new Components_date {Result = Ok };
+            var res = new Components_date {Result = Ok };
 
             try
             {
                 DateTime resConv = DateTime.Parse(date);
-                resConv = resConv + TimeSpan.Parse(time);
+                resConv += TimeSpan.Parse(time);
 
-                res.resDate = resConv;
+                res.ResDate = resConv;
                 res.date = date;
                 res.time = time;
 

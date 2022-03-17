@@ -13,9 +13,7 @@ namespace TestJob.Models.ModelViews
 
         public readonly Content_TableTask content_TableModel;
 
-        public readonly BaseProjectView projectView =
-            new BaseProjectView { TypeOperations = ETypeOperations.insert.ToString() };
-
+        public readonly BaseProjectView projectView = null;
 
         private readonly DataContext context;
         private List<ModelProjectMenu> lsModelProjects;
@@ -46,7 +44,7 @@ namespace TestJob.Models.ModelViews
                     projectView.ProjectName = item.ProjectName;
 
                     if (item.UpdateDate != null)
-                        projectView.idUpdate = "on";
+                        projectView.IdUpdate = "on";
 
                     item.Disabled = "disabled";  // use style disabled
                 }
@@ -117,6 +115,8 @@ namespace TestJob.Models.ModelViews
 
         public InitModelView_homeIndex(DataContext cont, IAnyUserData anyUserData, int id)
         {
+            projectView = new BaseProjectView { TypeOperations = ETypeOperations.insert.ToString() };
+
             context = cont;
 
             List<Task> tasks = null;
@@ -150,7 +150,7 @@ namespace TestJob.Models.ModelViews
                 projectName = projectView.ProjectName ?? "All projects",    // for selected project
                 projectId = projectView.ProjectId.ToString(),               // for selected project
 
-                idUpdate = projectView.idUpdate,            // project Completion ID 
+                idUpdate = projectView.IdUpdate,            // project Completion ID 
                 debug = anyUserData.GetSettingsExt.StrDebug,
 
                 numItem = id,
