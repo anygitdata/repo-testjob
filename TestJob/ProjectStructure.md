@@ -13,15 +13,22 @@
 ------------------------------------------
 
 # Структура решения:
+Решение построено с учетом удобства сопровождения и модульного тестирования
+
+
 ## TestJob основной проект
+
 ## BaseSettingsTests.Tests
-	Проект xUnit для тестирования базовых моделей, классов, методов
+	Проект xUnit модульные тесты базовых моделей, классов, методов 
+	и API настроек модульных тестов
+## TestController.Test
+	Проект xUnit модульные тесты Controllers
 ## TestJob.Tests
-	Проект xUnit для тестирования объектов User API
+	Проект xUnit модульные тесты User API
 
 ------------------------------------------
 
-# Buisness
+# Controllers
 ## Controllers.HomeController 
 
 ## Rest API
@@ -37,44 +44,84 @@
 ## Model.Project модель проекта
 ## Model.Task	 модель задача
 ## Model.TaskComments модель описаниеЗадачи 
-Может быть в виде файла или текстового поля
+	Может быть в виде файла или текстового поля
 
 ------------------------------------------
 
-# ООП (объектно ориентированное программирование)
+# Модели входящих/исходящих запросов (View model)
 
-Models.ModelViews/* отдельные директории для объектов
-## Models.ModelViews.ComnView
-	Модуль наследования: GeneralModelView_templ->GenModelViewComn
-	TaskComment_ModelView модель для View
+Models.ModelViews/* отдельные директории объектов
+
+## Models.ModelViews.ComnView	(Модель описаний задач)
+	GeneralModelView_templ<TModel, TResult, TView> Базовый шаблон
+		GenModelViewComn: GeneralModelView_templ
 	
-## Models.ModelViews.ProjectView
-	Модель наследования: GenProjectView_templ базовый класс для
-		GenProjectView_add   and   GenProjectView_upd
 
-## Models.ModelViews.TaskView
-	Модель наследования: GenTaskView_templ базовый класс для
-		GenTaskView_create при создании новой задачи
-		GenTaskView_modf базовый класс для
-			GenTaskView_update  and GenTaskView_cancel
+## Models.ModelViews.ProjectView	(модель проекта)
+	(Шаблон по аналогии с GeneralModelView_templ)
+	Модель наследования: GenProjectView_templ базовый класс:
+		GenProjectView_add: GenProjectView_templ
+		GenProjectView_upd: GenProjectView_templ
+
+
+## Models.ModelViews.TaskView		(модель задач)
+	Модель наследования: GenTaskView_templ базовый шаблон
+		новая задача
+		GenTaskView_create : GenTaskView_templ 
+
+
+		GenTaskView_modf: GenTaskView_templ
+			GenTaskView_update : GenTaskView_modf
+			GenTaskView_cancel : GenTaskView_modf
 
 ------------------------------------------
 
 # User API
 ## Models.UserAPI/**    софт для программирования
 
-## Debug
-Режим debug используется для отладки и тестирования на уровне браузера и xUnit tests
+------------------------------------------
 
-## Settings
-Настройка через файл wwwroot/Settings/settings.json
+# Settings
+
+Настройки через файл wwwroot/Settings/settings.json
 ```
 {"seedData":"on/off","maxSizeFile":400,"debug":"on/off", "test":"on/off"}
 ```
 
-key:seedData для загрузки начальных данных
+## seedData
+при значении "on" -> загрузка начальных данных
 считывание параметра ОДНОРАЗОВОЕ.
 Если изначально значение "on" после считывания "off"
 
-test: on -> блокирует верификацию на уровне браузера. Верификация на сервере
 
+## Debug
+Режим используется для отладки и тестирования на уровне браузера и модульных тестов xUnit
+
+При включаенном Debug ВСЕ ОПЕРАЦИИ по БД блокируются.
+Используется также для отладки ajax request
+
+
+## test
+test: on -> переключает верификацию на сервер
+
+-----------------------------------------------------
+
+# js (jQuery) wwwroot/js/**
+ВСЕ скрипты используют 'шаблон модуль'
+
+base.values.js  базовый скрипт, содержит общие переменные/константы, методы
+
+
+скрипты пользовательского интерфейса:
+
+modf.project.js создание/изм проекта  
+task.create.js  создание задачи
+create.taskcomment.js создание/изм/удаление описаний задач
+	плюс редактор изм/удаления задачи
+
+ВСЕ скрпты осуществляют верификацию введенных данных
+(При включенном Debug результаты выводятся на консоль браузера)
+
+
+# SASS -> CSS
+wwwroot/SASS/**

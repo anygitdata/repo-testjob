@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TestJob.Models;
 using TestJob.Models.Interface;
-using TestJob.Models.ModelViews;
 using TestJob.Models.ModelViews.ProjectView;
-using TestJob.Models.UserAPI;
 
 namespace TestJob.Controllers
 {

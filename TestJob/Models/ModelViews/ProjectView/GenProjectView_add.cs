@@ -39,7 +39,7 @@ namespace TestJob.Models.ModelViews.ProjectView
             }
 
             if (string.IsNullOrEmpty(Model.ProjectName))
-                return Return_withEROR("The projectName field is not filled ");
+                return Return_withEROR("The projectName field is not filled");
 
 
             return Return_withOK();
